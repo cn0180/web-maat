@@ -1,0 +1,255 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Professional Design System - White Theme with Navy Blue Accents */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 12%;
+
+    --primary: 220 65% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 96%;
+    --secondary-foreground: 220 25% 15%;
+
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 220 70% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 220 65% 35%;
+
+    --radius: 0.5rem;
+
+    /* Professional accent colors */
+    --navy: 220 65% 30%;
+    --navy-light: 220 50% 50%;
+    --navy-dark: 220 70% 20%;
+    --slate: 220 15% 96%;
+    --pearl: 220 10% 99%;
+    --soft-gray: 220 15% 97%;
+    --soft-blue: 216 100% 96%;
+
+    --success: 150 50% 40%;
+    --success-foreground: 0 0% 100%;
+    --warning: 40 90% 50%;
+    --warning-foreground: 220 30% 10%;
+
+    --sidebar-background: 0 0% 99%;
+    --sidebar-foreground: 220 25% 12%;
+    --sidebar-primary: 220 65% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 96%;
+    --sidebar-accent-foreground: 220 25% 12%;
+    --sidebar-border: 220 15% 90%;
+    --sidebar-ring: 220 65% 35%;
+    --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  }
+  .dark {
+    --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+  }
+
+  .text-gradient-navy {
+    background: linear-gradient(135deg, hsl(var(--navy-dark)), hsl(var(--navy)), hsl(var(--navy-light)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-luxury {
+    background: linear-gradient(180deg, hsl(var(--slate)) 0%, hsl(var(--background)) 100%);
+  }
+
+  .bg-gradient-navy {
+    background: linear-gradient(135deg, hsl(var(--navy-dark)), hsl(var(--navy)), hsl(var(--navy-light)));
+  }
+
+  .bg-soft {
+    background-color: hsl(var(--soft-gray));
+  }
+
+  .bg-soft-blue {
+    background-color: hsl(var(--soft-blue));
+  }
+
+  .bg-alternate {
+    background: linear-gradient(180deg, hsl(var(--soft-gray)) 0%, hsl(var(--background)) 100%);
+  }
+
+  .border-navy {
+    border-color: hsl(var(--navy) / 0.3);
+  }
+
+  .glow-navy {
+    box-shadow: 0 0 40px hsl(var(--navy) / 0.1), 0 0 80px hsl(var(--navy) / 0.05);
+  }
+
+  .glass-dark {
+    background-color: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-light {
+    @apply bg-card/80 backdrop-blur-xl border border-border/50;
+  }
+
+  /* Backward-compatible alias */
+  .glass {
+    background-color: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .section-padding {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .luxury-card {
+    @apply bg-card border border-border/50 shadow-lg;
+  }
+
+  .luxury-border {
+    @apply border border-primary/20 hover:border-primary/40 transition-colors;
+  }
+
+  .shine-effect {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--navy) / 0.1),
+      transparent
+    );
+    animation: shine 3s infinite;
+  }
+
+  .section-header {
+    @apply text-center max-w-2xl mx-auto mb-10 md:mb-12;
+  }
+
+  .section-title {
+    @apply font-sans text-xl md:text-2xl font-bold text-foreground mb-3;
+  }
+
+  .section-subtitle {
+    @apply text-base text-muted-foreground;
+  }
+
+  /* Section divider */
+  .section-divider {
+    @apply w-full;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.12) 18%,
+      hsl(var(--foreground) / 0.22) 50%,
+      hsl(var(--foreground) / 0.12) 82%,
+      transparent 100%
+    );
+  }
+
+  .home-dark .section-divider {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.12) 18%,
+      hsl(var(--foreground) / 0.22) 50%,
+      hsl(var(--foreground) / 0.12) 82%,
+      transparent 100%
+    );
+  }
+
+  .services-dark .section-divider {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.12) 18%,
+      hsl(var(--foreground) / 0.22) 50%,
+      hsl(var(--foreground) / 0.12) 82%,
+      transparent 100%
+    );
+  }
+
+  .portfolio-dark .section-divider {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.12) 18%,
+      hsl(var(--foreground) / 0.22) 50%,
+      hsl(var(--foreground) / 0.12) 82%,
+      transparent 100%
+    );
+  }
+
+  .section-divider-strong {
+    @apply w-full;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.16) 18%,
+      hsl(var(--foreground) / 0.3) 50%,
+      hsl(var(--foreground) / 0.16) 82%,
+      transparent 100%
+    );
+  }
+
+  /* Hide scrollbar for horizontal scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
