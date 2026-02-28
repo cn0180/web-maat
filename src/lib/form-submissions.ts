@@ -1,4 +1,4 @@
-import { supabase } from '@/integrations/supabase/client';
+import { getSupabaseClient, isSupabaseConfigured } from '@/integrations/supabase/client';
 
 export interface ContactSubmissionInput {
   name: string;
@@ -38,13 +38,14 @@ export interface QuoteSubmissionInput {
 }
 
 const assertSupabaseConfiguration = () => {
-  if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) {
+  if (!isSupabaseConfigured) {
     throw new Error('Supabase is niet geconfigureerd.');
   }
 };
 
 export const submitContactSubmission = async (input: ContactSubmissionInput) => {
   assertSupabaseConfiguration();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from('contact_submissions').insert({
     name: input.name.trim(),
@@ -61,6 +62,7 @@ export const submitContactSubmission = async (input: ContactSubmissionInput) => 
 
 export const submitQuoteSubmission = async (input: QuoteSubmissionInput) => {
   assertSupabaseConfiguration();
+  const supabase = getSupabaseClient();
 
   const { error } = await supabase.from('quote_submissions').insert({
     name: input.name.trim(),
