@@ -28,13 +28,13 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-light border-x-0 border-t-0 shadow-[0_8px_24px_hsl(var(--foreground)/0.06)]">
       <div className="w-full px-3 sm:px-5 lg:px-6">
-        <div className="h-14 md:h-16 flex items-center justify-between lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-10">
+        <div className="h-14 md:h-16 flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6">
           {/* Logo */}
-          <Link to="/" className="flex items-center group lg:justify-self-start lg:-ml-1">
+          <Link to="/" className="flex items-center group lg:justify-self-start lg:-ml-1 lg:-translate-y-0.5">
             <img 
               src={logo} 
               alt="Web-Maat Creations" 
-              className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover"
+              className="w-[4.25rem] h-[4.25rem] md:w-[5rem] md:h-[5rem] rounded-full object-cover"
             />
           </Link>
 
@@ -45,7 +45,7 @@ const Header = () => {
                 key={link.href}
                 to={link.href}
                 className={cn(
-                  'relative text-sm font-medium transition-colors py-2',
+                  'relative text-base font-medium transition-colors py-2',
                   isActive(link.href)
                     ? 'text-primary'
                     : 'text-muted-foreground hover:text-foreground'
@@ -110,7 +110,7 @@ const Header = () => {
                   key={link.href}
                   to={link.href}
                   className={cn(
-                    'px-4 py-3 rounded-lg font-medium transition-colors',
+                    'px-4 py-3 rounded-lg text-base font-medium transition-colors',
                     isActive(link.href)
                       ? 'bg-primary/10 text-primary'
                       : 'text-muted-foreground hover:bg-muted hover:text-foreground'

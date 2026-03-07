@@ -89,32 +89,6 @@ const PortfolioPage = () => {
       label: language === 'nl' ? 'Gem. responstijd' : 'Avg. response time',
     },
   ];
-  const demoSites = [
-    {
-      type: language === 'nl' ? 'Webshop demo' : 'Webshop demo',
-      title: language === 'nl' ? 'Fashion & lifestyle shop' : 'Fashion & lifestyle shop',
-      description: language === 'nl' ? 'Complete webshop met conversiegerichte productpagina\'s en snelle checkout.' : 'Complete webshop with conversion-focused product pages and fast checkout.',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=80',
-    },
-    {
-      type: language === 'nl' ? 'Informatie website' : 'Information website',
-      title: language === 'nl' ? 'Zakelijke corporate site' : 'Business corporate site',
-      description: language === 'nl' ? 'Heldere dienstenstructuur met vertrouwen, reviews en leadformulieren.' : 'Clear service structure with trust elements, reviews, and lead forms.',
-      image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1200&q=80',
-    },
-    {
-      type: language === 'nl' ? 'Portfolio website' : 'Portfolio website',
-      title: language === 'nl' ? 'Creatief portfolio' : 'Creative portfolio',
-      description: language === 'nl' ? 'Visueel sterke portfolio-opzet met cases, resultaten en duidelijke CTA\'s.' : 'Visually strong portfolio structure with cases, results, and clear CTAs.',
-      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1200&q=80',
-    },
-    {
-      type: language === 'nl' ? 'Boekingswebsite' : 'Booking website',
-      title: language === 'nl' ? 'Afspraak & reservering' : 'Appointments & booking',
-      description: language === 'nl' ? 'Slimme reserveringsflow met directe bevestiging en beheer in dashboard.' : 'Smart booking flow with instant confirmation and dashboard management.',
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80',
-    },
-  ];
 
   return (
     <div className="portfolio-dark min-h-screen bg-slate-900">
@@ -166,7 +140,7 @@ const PortfolioPage = () => {
               </p>
             </motion.div>
 
-            <motion.div className="grid lg:grid-cols-2 gap-6 mb-12" variants={fadeInUp}>
+            <motion.div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5 mb-12" variants={fadeInUp}>
               {caseStudyProjects.map((project) => (
                 <Link 
                   key={project.id} 
@@ -174,7 +148,7 @@ const PortfolioPage = () => {
                   className="group block"
                 >
                   <div className="overflow-hidden bg-card border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl h-full rounded-xl">
-                    <div className="relative overflow-hidden aspect-[16/10]">
+                    <div className="relative overflow-hidden aspect-[4/3]">
                       <img 
                         src={project.screenshot || project.image}
                         alt={`${project.title} screenshot`}
@@ -193,17 +167,17 @@ const PortfolioPage = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="p-5">
-                      <span className="text-primary text-sm font-semibold">{project.category[language]}</span>
-                      <h3 className="font-sans text-lg font-bold text-foreground mt-1 mb-3 group-hover:text-primary transition-colors">
+                    <div className="p-4 md:p-5">
+                      <span className="text-primary text-xs md:text-sm font-semibold">{project.category[language]}</span>
+                      <h3 className="font-sans text-base md:text-lg font-bold text-foreground mt-1 mb-2 group-hover:text-primary transition-colors">
                         {project.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.description[language]}</p>
+                      <p className="text-muted-foreground text-xs md:text-sm mb-3 line-clamp-2">{project.description[language]}</p>
                       <div className="grid grid-cols-3 gap-2">
                         {project.kpis?.slice(0, 3).map((kpi) => (
                           <div key={`${project.id}-${kpi.value}`} className="rounded-lg bg-primary/5 border border-primary/10 px-2 py-2 text-center">
-                            <p className="font-display text-base font-bold text-primary leading-tight">{kpi.value}</p>
-                            <p className="text-[11px] text-muted-foreground leading-tight">{kpi.label[language]}</p>
+                            <p className="font-display text-sm md:text-base font-bold text-primary leading-tight">{kpi.value}</p>
+                            <p className="text-[10px] md:text-[11px] text-muted-foreground leading-tight">{kpi.label[language]}</p>
                           </div>
                         ))}
                       </div>
@@ -248,46 +222,6 @@ const PortfolioPage = () => {
               </motion.div>
             </motion.div>
 
-            {/* Demo Layouts */}
-            <motion.div className="mb-6 text-center" variants={fadeInUp}>
-              <h2 className="section-title text-white">
-                {language === 'nl' ? 'Demo versies van websites' : 'Website demo versions'}
-              </h2>
-              <p className="text-slate-300 max-w-2xl mx-auto">
-                {language === 'nl'
-                  ? 'Kies een richting: webshop, informatie, portfolio of boeking.'
-                  : 'Choose a direction: webshop, information, portfolio, or booking.'}
-              </p>
-            </motion.div>
-
-            <motion.div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" variants={fadeInUp}>
-              {demoSites.map((site, index) => (
-                <Link key={`${site.title}-${index}`} to="/quote" className="group block">
-                  <div className="overflow-hidden bg-card border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl h-full rounded-xl">
-                    <div className="relative overflow-hidden aspect-[4/3]">
-                      <img
-                        src={site.image}
-                        alt={site.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                        <span className="flex items-center gap-2 text-white font-medium">
-                          {t.portfolio.viewProject}
-                          <ArrowUpRight className="w-5 h-5" />
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <span className="text-primary text-sm font-semibold">{site.type}</span>
-                      <h3 className="font-sans text-lg font-bold text-foreground mt-1 mb-3 group-hover:text-primary transition-colors">
-                        {site.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">{site.description}</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </motion.div>
           </motion.div>
         </section>
 

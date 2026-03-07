@@ -129,10 +129,12 @@ const AboutPage = () => {
                 <div className="space-y-5">
                   <div>
                     <h3 className="font-display text-base md:text-lg font-semibold text-foreground mb-1.5">
-                      Onze aanpak
+                      Plan van aanpak
                     </h3>
                     <p className="text-muted-foreground">
                       We starten strategisch: doelgroep, aanbod en conversiedoelen bepalen het ontwerp.
+                      Daarna sturen we eerst een demo van uw site, zodat u alles kunt testen en feedback kunt geven
+                      voordat we definitief live gaan.
                     </p>
                   </div>
                   <div>

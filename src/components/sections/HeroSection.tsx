@@ -4,16 +4,18 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
-import heroHomeBg from '@/assets/hero-new.png';
-import heroMacbookMockup from '@/assets/hero-macbook-mockup.png';
+import heroMacbookMockup from '@/assets/mockup1.0.png';
 import webmaatBg from '@/assets/Webmaat.png';
+
+const heroHomeBg =
+  'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1920&q=80';
 
 const HeroSection = () => {
   const { language } = useLanguage();
   const heroContent = {
     title:
       language === 'nl'
-        ? 'Digitale Oplossingen Op Maat'
+        ? 'Websites & Digitale Oplossingen Op Maat'
         : 'Digital solutions for businesses that want to move forward.',
     subtitle:
       language === 'nl'
@@ -25,7 +27,7 @@ const HeroSection = () => {
 
   return (
     <section
-      className="relative isolate min-h-[42vh] sm:min-h-[46vh] md:min-h-[56vh] lg:min-h-[58vh] overflow-hidden bg-slate-900 pt-16 pb-6 sm:pt-18 sm:pb-7 md:pt-20 md:pb-8 lg:pt-24 lg:pb-10"
+      className="relative isolate min-h-[36vh] sm:min-h-[40vh] md:min-h-[48vh] lg:min-h-[50vh] overflow-hidden bg-slate-900 pt-12 pb-4 sm:pt-14 sm:pb-5 md:pt-16 md:pb-6 lg:pt-20 lg:pb-8"
       style={{ backgroundColor: '#0f172a' }}
       data-hero-version="dark-v5-sync"
     >
@@ -53,25 +55,32 @@ const HeroSection = () => {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
         style={{
           background:
-            'linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.14) 42%, hsl(var(--soft-gray)) 100%)',
+            'linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.16) 52%, rgba(15,23,42,0.82) 100%)',
         }}
       />
 
-      <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 lg:px-8 relative z-10">
+      <div className="mx-auto w-full px-3 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_440px]"
+          className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_560px]"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
         >
-          <div className="max-w-4xl flex flex-col min-h-[calc(42vh-5.5rem)] sm:min-h-[calc(46vh-6.25rem)] md:min-h-0">
+          <div className="max-w-4xl flex flex-col">
             <div className="flex-1 flex items-center md:flex-none md:block">
-              <div className="md:max-w-2xl w-full">
+              <div className="w-full md:pt-5 lg:pt-8">
             <motion.h1
-              className="font-display text-[clamp(1.25rem,6.4vw,3.75rem)] sm:text-[2.2rem] md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.02] mb-4 text-center md:text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
+              className="font-display text-[clamp(1.25rem,6.4vw,3.75rem)] sm:text-[2.2rem] md:text-[2.3rem] lg:text-[2.7rem] font-extrabold tracking-tight text-white leading-[1.02] mb-4 text-center md:text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
               variants={fadeInUp}
             >
-              {heroContent.title}
+              {language === 'nl' ? (
+                <>
+                  Websites & Digitale Oplossingen
+                  <span className="block">Op Maat</span>
+                </>
+              ) : (
+                heroContent.title
+              )}
             </motion.h1>
 
             <motion.p
@@ -83,11 +92,11 @@ const HeroSection = () => {
               </div>
             </div>
 
-            <motion.div className="pt-6 md:mt-10 lg:mt-12 grid grid-cols-2 gap-3 w-full max-w-md mx-auto md:mx-0" variants={fadeInUp}>
+            <motion.div className="pt-6 md:mt-16 lg:mt-20 grid grid-cols-2 gap-3 w-full max-w-md mx-auto md:mx-0" variants={fadeInUp}>
               <Button
                 size="default"
                 asChild
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg group h-10 px-4"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg group h-10 md:h-14 px-4 md:px-6 text-sm md:text-base"
               >
                 <Link to="/quote">
                   {heroContent.cta}
@@ -98,18 +107,18 @@ const HeroSection = () => {
                 size="default"
                 variant="outline"
                 asChild
-                className="w-full h-10 px-4 border-primary/60 text-white bg-primary/25 hover:bg-primary/35 hover:text-white"
+                className="w-full h-10 md:h-14 px-4 md:px-6 text-sm md:text-base border-primary/60 text-white bg-primary/25 hover:bg-primary/35 hover:text-white"
               >
                 <Link to="/portfolio">{heroContent.ctaSecondary}</Link>
               </Button>
             </motion.div>
           </div>
 
-          <motion.div className="hidden lg:block" variants={fadeInUp}>
+          <motion.div className="hidden lg:flex items-end justify-end bg-transparent" variants={fadeInUp}>
             <img
               src={heroMacbookMockup}
-              alt="MacBook mockup met Web-Maat preview"
-              className="w-full max-w-[440px] ml-auto drop-shadow-[0_18px_38px_rgba(0,0,0,0.48)]"
+              alt="Mockup met Web-Maat preview"
+              className="w-full max-w-[600px] ml-auto bg-transparent object-contain drop-shadow-[0_18px_38px_rgba(0,0,0,0.48)]"
             />
           </motion.div>
         </motion.div>

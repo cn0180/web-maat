@@ -64,8 +64,8 @@ const ServiceSectionItem = ({ service }: { service: ServiceItem }) => {
 
   return (
     <article className="py-8 md:py-10">
-      <div className="mb-4 md:mb-6 text-center">
-        <h3 className="font-display text-xl md:text-2xl font-extrabold text-primary leading-tight">
+      <div className="-mt-1 md:-mt-2 mb-6 md:mb-8 text-center">
+        <h3 className="font-display text-2xl md:text-4xl font-extrabold text-primary leading-tight tracking-tight drop-shadow-[0_8px_20px_rgba(30,64,175,0.28)]">
           {shortTitle}
         </h3>
       </div>

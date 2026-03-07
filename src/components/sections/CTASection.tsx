@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import ctaBg from '@/assets/waarom.png';
+import ctaBg from '@/assets/cta-ready-2026.jpg';
 import fallbackBg from '@/assets/Webmaat.png';
 
 interface CTASectionProps {

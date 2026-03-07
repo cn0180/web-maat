@@ -36,11 +36,7 @@ const ServicesSection = () => {
             title: 'Webdesign & ontwikkeling',
             subtitle: 'Websites die indruk maken én daadwerkelijk converteren',
             image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
-            bullets: [
-              'Uniek maatwerk design -> jouw merk direct herkenbaar',
-              'Responsive design -> perfect op desktop, tablet en mobiel',
-              'Doorontwikkeling -> updates en verbeteringen op basis van echte data',
-            ],
+            bullets: [],
             ctas: [
               { href: '/quote', label: 'Vraag offerte', variant: 'primary' },
             ],
@@ -51,12 +47,7 @@ const ServicesSection = () => {
             title: 'E-commerce & Webshops',
             subtitle: 'Online verkopen zonder grenzen',
             image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=80',
-            bullets: [
-              'Custom webshop design -> uniek en merkgebonden',
-              'Veilige betalingsintegratie -> vertrouwen bij je klanten',
-              'Performance snelheid -> snelst bewezen laadtijd',
-              'Analytics & conversie -> krijg inzicht op klantgedrag',
-            ],
+            bullets: [],
             ctas: [{ href: '/services/webshop', label: 'Bekijk webshop oplossingen', variant: 'primary' }],
           },
           {
@@ -65,12 +56,7 @@ const ServicesSection = () => {
             title: 'AI Oplossing',
             subtitle: 'Onderscheid je met slimme AI-oplossingen',
             image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80',
-            bullets: [
-              'AI Chatbot op website -> direct antwoord voor klanten',
-              'AI Klantenservice -> automatisering van support',
-              'E-mail automatisering → automatisch opvolgberichten of nieuwsbrieven sturen',
-              
-            ],
+            bullets: [],
             ctas: [{ href: '/services/ai-implementatie', label: 'Ontdek AI mogelijkheden', variant: 'primary' }],
           },
         ]
@@ -146,17 +132,19 @@ const ServicesSection = () => {
             </h3>
             <p className="text-[9px] sm:text-[10px] md:text-[15px] text-slate-700 mb-2 md:mb-4 leading-tight line-clamp-2">{card.subtitle}</p>
 
-            <ul className="space-y-1 md:space-y-2.5 mb-2 md:mb-6">
-              {card.bullets.map((bullet, bulletIndex) => (
-                <li
-                  key={bullet}
-                  className={`items-start gap-1.5 md:gap-2.5 text-[9px] sm:text-[10px] md:text-sm leading-tight md:leading-relaxed text-slate-800 ${bulletIndex > 0 ? 'hidden md:flex' : 'flex'}`}
-                >
-                  <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span>{bullet}</span>
-                </li>
-              ))}
-            </ul>
+            {card.bullets.length > 0 && (
+              <ul className="space-y-1 md:space-y-2.5 mb-2 md:mb-6">
+                {card.bullets.map((bullet, bulletIndex) => (
+                  <li
+                    key={bullet}
+                    className={`items-start gap-1.5 md:gap-2.5 text-[9px] sm:text-[10px] md:text-sm leading-tight md:leading-relaxed text-slate-800 ${bulletIndex > 0 ? 'hidden md:flex' : 'flex'}`}
+                  >
+                    <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div className="mt-auto grid gap-1.5 md:gap-2">
               {card.ctas.map((cta, ctaIndex) => (
@@ -199,6 +187,11 @@ const ServicesSection = () => {
           <h2 className="section-title !text-primary !font-extrabold">{language === 'nl' ? 'Diensten' : 'Services'}</h2>
           <p className="section-subtitle text-slate-600">
             {language === 'nl' ? 'Online zichtbaarheid en groei' : 'Online visibility and growth'}
+          </p>
+          <p className="mt-2 text-xs md:text-sm text-slate-700 max-w-2xl mx-auto">
+            {language === 'nl'
+              ? 'Wij helpen ook met branding: logo design, een passende naam en een uitstraling die bij uw doelgroep past.'
+              : 'We also help with branding: logo design, a fitting name, and a visual style tailored to your audience.'}
           </p>
         </motion.div>
 

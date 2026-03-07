@@ -105,14 +105,28 @@ const PremiumPositioningSection = () => {
         </motion.div>
 
         <motion.div className="mt-8 rounded-2xl border border-border/70 bg-card/65 p-3 md:p-5" variants={fadeInUp}>
-          <div className="grid grid-cols-2 gap-2 md:gap-3 mb-3 md:mb-4">
-            <p className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary/80 bg-primary px-3 py-2.5 md:py-3 text-xs md:text-base font-extrabold tracking-[0.08em] text-white text-center shadow-[0_14px_26px_hsl(var(--primary)/0.4)]">
+          <div className="grid grid-cols-2 gap-2 mb-3 md:hidden">
+            <p className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary/80 bg-primary px-3 py-2.5 text-xs font-extrabold tracking-[0.08em] text-white text-center shadow-[0_14px_26px_hsl(var(--primary)/0.4)]">
               <BadgeCheck className="w-4 h-4 text-white" />
               Web-Maat
             </p>
-            <p className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-400/90 bg-slate-200 px-3 py-2.5 md:py-3 text-xs md:text-base font-extrabold tracking-[0.08em] text-slate-900 text-center shadow-[0_12px_22px_rgba(15,23,42,0.16)]">
+            <p className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-400/90 bg-slate-200 px-3 py-2.5 text-xs font-extrabold tracking-[0.08em] text-slate-900 text-center shadow-[0_12px_22px_rgba(15,23,42,0.16)]">
               <Building2 className="w-4 h-4 text-slate-700" />
-              {language === 'nl' ? 'AI-site + Concurrenten' : 'AI Site + Competitors'}
+              {language === 'nl' ? 'Concurrenten' : 'Competitors'}
+            </p>
+          </div>
+
+          <div className="hidden md:grid md:grid-cols-[0.72fr_1fr_1fr] md:gap-3 mb-4">
+            <div className="inline-flex items-center px-3 text-sm font-bold text-slate-700">
+              {language === 'nl' ? 'Aspect' : 'Aspect'}
+            </div>
+            <p className="h-12 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary/80 bg-primary px-3 text-base font-extrabold tracking-[0.08em] text-white text-center shadow-[0_14px_26px_hsl(var(--primary)/0.4)]">
+              <BadgeCheck className="w-4 h-4 text-white" />
+              Web-Maat
+            </p>
+            <p className="h-12 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-400/90 bg-slate-200 px-3 text-base font-extrabold tracking-[0.08em] text-slate-900 text-center shadow-[0_12px_22px_rgba(15,23,42,0.16)]">
+              <Building2 className="w-4 h-4 text-slate-700" />
+              {language === 'nl' ? 'Concurrenten' : 'Competitors'}
             </p>
           </div>
 
@@ -120,18 +134,18 @@ const PremiumPositioningSection = () => {
             {comparisonRows.map((row) => (
               <div
                 key={row.feature}
-                className="rounded-lg md:rounded-none md:grid md:grid-cols-[0.72fr_1.14fr_1.14fr] md:gap-3 md:border-t md:border-border/60 bg-background/55 md:bg-transparent p-2 md:p-0"
+                className="rounded-lg md:rounded-none md:grid md:grid-cols-[0.72fr_1.14fr_1.14fr] md:gap-3 md:border-t md:border-border/60 bg-transparent p-2 md:p-0"
               >
                 <div className="px-2.5 py-2 md:px-3 md:py-3">
                   <p className="text-[11px] md:text-sm font-extrabold text-slate-900 leading-tight tracking-[0.01em]">
-                    {row.feature}
+                    {row.feature}:
                   </p>
                 </div>
-                <div className="px-2.5 py-2 md:px-3 md:py-3 rounded-md md:rounded-none bg-primary/10 md:bg-primary/7 border border-primary/20 md:border-0">
+                <div className="min-h-[66px] flex items-center px-2.5 py-2 md:px-3 md:py-3 rounded-md md:rounded-none bg-white/85 md:bg-white/75 border border-slate-300/80 md:border-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_8px_18px_rgba(15,23,42,0.08)]">
                   <p className="text-[11px] md:text-sm text-slate-900 leading-relaxed">{row.webmaat}</p>
                 </div>
-                <div className="px-2.5 py-2 md:px-3 md:py-3 rounded-md md:rounded-none bg-slate-100/85 md:bg-slate-100/75 border border-slate-300/70 md:border-0 mt-2 md:mt-0">
-                  <p className="text-[11px] md:text-sm text-slate-700 leading-relaxed">{row.market}</p>
+                <div className="min-h-[66px] flex items-center px-2.5 py-2 md:px-3 md:py-3 rounded-md md:rounded-none bg-white/85 md:bg-white/75 border border-slate-300/80 md:border-0 mt-2 md:mt-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_8px_18px_rgba(15,23,42,0.08)]">
+                  <p className="text-[11px] md:text-sm text-slate-900 leading-relaxed">{row.market}</p>
                 </div>
               </div>
             ))}

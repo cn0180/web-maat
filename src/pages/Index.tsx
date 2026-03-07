@@ -21,7 +21,7 @@ const Index = () => {
         <div className="container mx-auto container-padding">
           <div className="section-divider-strong" />
         </div>
-        <PremiumPositioningSection />
+        <ServicesSection />
         <div className="container mx-auto container-padding">
           <div className="section-divider-strong" />
         </div>
@@ -29,7 +29,7 @@ const Index = () => {
         <div className="container mx-auto container-padding">
           <div className="section-divider-strong" />
         </div>
-        <ServicesSection />
+        <PremiumPositioningSection />
         <div className="container mx-auto container-padding">
           <div className="section-divider-strong" />
         </div>
