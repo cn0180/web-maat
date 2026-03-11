@@ -5,6 +5,7 @@ import HeroBenefitsStrip from '@/components/sections/HeroBenefitsStrip';
 import ServicesSection from '@/components/sections/ServicesSection';
 import PortfolioSection from '@/components/sections/PortfolioSection';
 import PremiumPositioningSection from '@/components/sections/PremiumPositioningSection';
+import BundlesSection from '@/components/sections/BundlesSection';
 import CTASection from '@/components/sections/CTASection';
 import StatsMiniSection from '@/components/sections/StatsMiniSection';
 
@@ -34,6 +35,10 @@ const Index = () => {
           <div className="section-divider-strong" />
         </div>
         <PortfolioSection />
+        <div className="container mx-auto container-padding">
+          <div className="section-divider-strong" />
+        </div>
+        <BundlesSection />
         <div className="container mx-auto container-padding">
           <div className="section-divider-strong" />
         </div>

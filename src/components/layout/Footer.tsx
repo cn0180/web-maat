@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, Mail, Phone, ShieldCheck } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import {
   Dialog,
@@ -10,7 +10,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import logo from '@/assets/logo.png';
 
 type LegalTab = 'privacy' | 'terms';
@@ -80,7 +79,7 @@ const legalDocuments: Record<'nl' | 'en', Record<LegalTab, LegalDocument>> = {
         {
           title: '7. Contact',
           body:
-            'Vragen over privacy of een verzoek rondom uw gegevens? Neem contact met ons op via info@webstudio.nl. Wij reageren zo snel mogelijk.',
+            'Vragen over privacy of een verzoek rondom uw gegevens? Neem contact met ons op via info@web-maat.nl. Wij reageren zo snel mogelijk.',
         },
       ],
     },
@@ -189,7 +188,7 @@ const legalDocuments: Record<'nl' | 'en', Record<LegalTab, LegalDocument>> = {
         {
           title: '7. Contact',
           body:
-            'Questions about privacy or data requests? Contact us at info@webstudio.nl and we will respond as quickly as possible.',
+            'Questions about privacy or data requests? Contact us at info@web-maat.nl and we will respond as quickly as possible.',
         },
       ],
     },
@@ -249,15 +248,19 @@ const legalDocuments: Record<'nl' | 'en', Record<LegalTab, LegalDocument>> = {
 
 const Footer = () => {
   const { t, language } = useLanguage();
-  const [isLegalDialogOpen, setIsLegalDialogOpen] = useState(false);
-  const [activeLegalTab, setActiveLegalTab] = useState<LegalTab>('privacy');
-
-  const openLegalDialog = (tab: LegalTab) => {
-    setActiveLegalTab(tab);
-    setIsLegalDialogOpen(true);
-  };
+  const [openLegalDocument, setOpenLegalDocument] = useState<LegalTab | null>(null);
 
   const legalContent = legalDocuments[language];
+  const selectedLegalDocument = openLegalDocument ? legalContent[openLegalDocument] : null;
+  const isPrivacyOpen = openLegalDocument === 'privacy';
+  const legalTitle = isPrivacyOpen ? t.footer.privacy : t.footer.terms;
+  const legalDescription = isPrivacyOpen
+    ? language === 'nl'
+      ? 'Lees hoe wij persoonsgegevens verzamelen, gebruiken en beschermen.'
+      : 'Read how we collect, use, and protect personal data.'
+    : language === 'nl'
+      ? 'Lees de voorwaarden die gelden voor offertes, opdrachten en samenwerking.'
+      : 'Read the terms that apply to quotes, assignments, and collaboration.';
 
   return (
     <footer className="bg-foreground text-background py-6">
@@ -285,9 +288,9 @@ const Footer = () => {
               <Phone className="w-3 h-3" />
               <span>+31 6 12345678</span>
             </a>
-            <a href="mailto:info@webstudio.nl" className="flex items-center gap-1.5 text-background/70 hover:text-primary transition-colors">
+            <a href="mailto:info@web-maat.nl" className="flex items-center gap-1.5 text-background/70 hover:text-primary transition-colors">
               <Mail className="w-3 h-3" />
-              <span>info@webstudio.nl</span>
+              <span>info@web-maat.nl</span>
             </a>
           </div>
         </div>
@@ -298,14 +301,14 @@ const Footer = () => {
           <div className="flex flex-nowrap gap-3 whitespace-nowrap">
             <button
               type="button"
-              onClick={() => openLegalDialog('privacy')}
+              onClick={() => setOpenLegalDocument('privacy')}
               className="hover:text-primary transition-colors"
             >
               {t.footer.privacy}
             </button>
             <button
               type="button"
-              onClick={() => openLegalDialog('terms')}
+              onClick={() => setOpenLegalDocument('terms')}
               className="hover:text-primary transition-colors"
             >
               {t.footer.terms}
@@ -314,53 +317,26 @@ const Footer = () => {
         </div>
       </div>
 
-      <Dialog open={isLegalDialogOpen} onOpenChange={setIsLegalDialogOpen}>
-        <DialogContent className="w-[95vw] max-w-4xl border border-slate-700 bg-slate-950 p-0 text-slate-100">
-          <div className="border-b border-slate-800 bg-slate-900/80 px-5 py-4 md:px-6">
+      <Dialog open={Boolean(openLegalDocument)} onOpenChange={(open) => !open && setOpenLegalDocument(null)}>
+        <DialogContent className="w-[95vw] max-w-4xl border border-slate-200 bg-white p-0 text-slate-900 shadow-2xl">
+          <div className="border-b border-slate-200 bg-white px-5 py-4 md:px-6">
             <DialogHeader className="text-left">
-              <DialogTitle className="text-lg font-bold text-white md:text-xl">
-                {language === 'nl' ? 'Juridische informatie' : 'Legal information'}
-              </DialogTitle>
-              <DialogDescription className="text-slate-300">
-                {language === 'nl'
-                  ? 'Lees ons privacybeleid en de algemene voorwaarden in een overzichtelijke popup.'
-                  : 'Read our privacy policy and terms in a structured popup.'}
-              </DialogDescription>
+              <DialogTitle className="text-lg font-bold text-slate-900 md:text-xl">{legalTitle}</DialogTitle>
+              <DialogDescription className="text-slate-600">{legalDescription}</DialogDescription>
             </DialogHeader>
           </div>
 
-          <Tabs
-            value={activeLegalTab}
-            onValueChange={(value) => setActiveLegalTab(value as LegalTab)}
-            className="px-5 pb-5 pt-4 md:px-6 md:pb-6"
-          >
-            <TabsList className="grid w-full grid-cols-2 bg-slate-900 p-1">
-              <TabsTrigger
-                value="privacy"
-                className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-white"
-              >
-                <ShieldCheck className="h-4 w-4" />
-                {t.footer.privacy}
-              </TabsTrigger>
-              <TabsTrigger
-                value="terms"
-                className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-white"
-              >
-                <FileText className="h-4 w-4" />
-                {t.footer.terms}
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="privacy" className="mt-4">
-              <ScrollArea className="h-[58vh] pr-3">
+          {selectedLegalDocument && (
+            <div className="px-5 pb-5 pt-4 md:px-6 md:pb-6">
+              <ScrollArea className="h-[70vh] pr-3 md:h-[76vh]">
                 <div className="space-y-4 pb-2">
-                  <p className="text-sm leading-relaxed text-slate-300">{legalContent.privacy.intro}</p>
-                  {legalContent.privacy.sections.map((section) => (
-                    <article key={section.title} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-                      <h4 className="text-sm font-semibold text-white md:text-base">{section.title}</h4>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-300">{section.body}</p>
+                  <p className="text-sm leading-relaxed text-slate-700">{selectedLegalDocument.intro}</p>
+                  {selectedLegalDocument.sections.map((section) => (
+                    <article key={section.title} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                      <h4 className="text-sm font-semibold text-slate-900 md:text-base">{section.title}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-700">{section.body}</p>
                       {section.points && (
-                        <ul className="mt-3 space-y-1 text-sm text-slate-200">
+                        <ul className="mt-3 space-y-1 text-sm text-slate-700">
                           {section.points.map((point) => (
                             <li key={point} className="flex gap-2">
                               <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
@@ -373,32 +349,8 @@ const Footer = () => {
                   ))}
                 </div>
               </ScrollArea>
-            </TabsContent>
-
-            <TabsContent value="terms" className="mt-4">
-              <ScrollArea className="h-[58vh] pr-3">
-                <div className="space-y-4 pb-2">
-                  <p className="text-sm leading-relaxed text-slate-300">{legalContent.terms.intro}</p>
-                  {legalContent.terms.sections.map((section) => (
-                    <article key={section.title} className="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
-                      <h4 className="text-sm font-semibold text-white md:text-base">{section.title}</h4>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-300">{section.body}</p>
-                      {section.points && (
-                        <ul className="mt-3 space-y-1 text-sm text-slate-200">
-                          {section.points.map((point) => (
-                            <li key={point} className="flex gap-2">
-                              <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                              <span>{point}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              </ScrollArea>
-            </TabsContent>
-          </Tabs>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </footer>

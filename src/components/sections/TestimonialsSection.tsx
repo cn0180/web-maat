@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Star, Quote, ArrowRight } from 'lucide-react';
+import { Star, Quote, ArrowRight, ExternalLink } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -7,35 +7,71 @@ import { motion } from 'framer-motion';
 import { useScrollAnimation, fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
 
 const TestimonialsSection = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { ref, controls } = useScrollAnimation();
 
-  const testimonials = [
-    {
-      name: 'Sarah de Jong',
-      company: 'TechFlow Solutions',
-      role: 'CEO',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80',
-      text: 'Fantastische samenwerking! Het team begreep precies wat we nodig hadden en leverde een website die onze verwachtingen overtrof.',
-      rating: 5,
-    },
-    {
-      name: 'Mark van der Berg',
-      company: 'ModaStyle Boutique',
-      role: 'Eigenaar',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80',
-      text: 'De webshop is precies wat we zochten. Professioneel, snel en gebruiksvriendelijk. De klantenservice is ook top.',
-      rating: 5,
-    },
-    {
-      name: 'Lisa Bakker',
-      company: 'GreenLeaf Catering',
-      role: 'Marketing Manager',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
-      text: 'Van eerste contact tot oplevering, alles verliep soepel. De website past perfect bij ons merk.',
-      rating: 5,
-    },
-  ];
+  const testimonials =
+    language === 'nl'
+      ? [
+          {
+            name: 'Sarah de Jong',
+            company: 'TechFlow Solutions',
+            role: 'CEO',
+            text: 'Fantastische samenwerking en duidelijke communicatie. We kregen precies wat we nodig hadden.',
+            rating: 5,
+            websiteUrl: 'https://rijscholenadvies.nl',
+          },
+          {
+            name: 'Mark van der Berg',
+            company: 'ModaStyle Boutique',
+            role: 'Eigenaar',
+            text: 'De webshop is professioneel, snel en gebruiksvriendelijk. Precies wat we zochten.',
+            rating: 5,
+            websiteUrl: 'https://promotioncars.nl',
+          },
+          {
+            name: 'Lisa Bakker',
+            company: 'GreenLeaf Catering',
+            role: 'Marketing Manager',
+            text: 'Van eerste contact tot oplevering verliep alles soepel. De website past perfect bij ons merk.',
+            rating: 5,
+            websiteUrl: 'https://vanderbergen.nl',
+          },
+        ]
+      : [
+          {
+            name: 'Sarah de Jong',
+            company: 'TechFlow Solutions',
+            role: 'CEO',
+            text: 'Fantastic collaboration and clear communication. We got exactly what we needed.',
+            rating: 5,
+            websiteUrl: 'https://rijscholenadvies.nl',
+          },
+          {
+            name: 'Mark van der Berg',
+            company: 'ModaStyle Boutique',
+            role: 'Owner',
+            text: 'The webshop is professional, fast and easy to use. Exactly what we wanted.',
+            rating: 5,
+            websiteUrl: 'https://promotioncars.nl',
+          },
+          {
+            name: 'Lisa Bakker',
+            company: 'GreenLeaf Catering',
+            role: 'Marketing Manager',
+            text: 'From first contact to delivery everything ran smoothly. The website fits our brand perfectly.',
+            rating: 5,
+            websiteUrl: 'https://vanderbergen.nl',
+          },
+        ];
+
+  const getHostnameLabel = (url: string) => {
+    try {
+      return new URL(url).hostname.replace(/^www\./, '');
+    } catch {
+      return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    }
+  };
 
   return (
     <section className="section-padding relative overflow-hidden bg-soft">
@@ -67,16 +103,13 @@ const TestimonialsSection = () => {
                     ))}
                   </div>
 
-                  <p className="text-foreground leading-relaxed mb-6 text-sm">
-                    "{testimonial.text}"
-                  </p>
+                  <div className="space-y-2 text-foreground leading-relaxed mb-6 text-sm">
+                    {testimonial.text.split(/(?<=\.)\s+/).map((line) => (
+                      <p key={line}>"{line}"</p>
+                    ))}
+                  </div>
 
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20"
-                    />
+                  <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <p className="font-medium text-sm text-foreground">
                         {testimonial.name}
@@ -85,6 +118,15 @@ const TestimonialsSection = () => {
                         {testimonial.role}, {testimonial.company}
                       </p>
                     </div>
+                    <a
+                      href={testimonial.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-primary transition-colors hover:border-primary/30 hover:bg-primary/5"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      {getHostnameLabel(testimonial.websiteUrl)}
+                    </a>
                   </div>
                 </CardContent>
               </Card>

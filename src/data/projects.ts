@@ -1,3 +1,11 @@
+import promotionCarsShowcase from '@/assets/promotioncars-showcase.jpg';
+import phoneRecoveryShowcase from '@/assets/phone-recovery-showcase.jpg';
+import rijscholenAdviesShowcase from '@/assets/rijscholen-advies-showcase.jpg';
+import amsterVastgoedShowcase from '@/assets/amster-vastgoed-showcase.jpg';
+import careNexusShowcase from '@/assets/care-nexus-showcase.jpg';
+import vanDerBergenShowcase from '@/assets/van-der-bergen-showcase.jpg';
+import jesseVanezShowcase from '@/assets/jesse-vanez-showcase.jpg';
+
 export interface ProjectKpi {
   value: string;
   label: {
@@ -5,6 +13,8 @@ export interface ProjectKpi {
     en: string;
   };
 }
+
+export type BundleKey = 'starter' | 'growth' | 'custom';
 
 export interface Project {
   id: string;
@@ -36,6 +46,23 @@ export interface Project {
   screenshot?: string;
   kpis?: ProjectKpi[];
   isCaseStudy?: boolean;
+  package?: {
+    bundle: BundleKey;
+    features: {
+      nl: string[];
+      en: string[];
+    };
+  };
+  seo?: {
+    title: {
+      nl: string;
+      en: string;
+    };
+    description: {
+      nl: string;
+      en: string;
+    };
+  };
   gallery: string[];
 }
 
@@ -66,6 +93,13 @@ const baseProjects: Project[] = [
       en: 'After launch, TechFlow saw a 200% increase in online leads and a significant improvement in brand perception. The average session duration doubled.',
     },
     technologies: ['React', 'Next.js', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['Strategisch design', 'Conversiegerichte opbouw', 'SEO basis'],
+        en: ['Strategic design', 'Conversion-focused structure', 'SEO foundation'],
+      },
+    },
     websiteUrl: 'https://example.com',
     gallery: [
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80',
@@ -99,6 +133,13 @@ const baseProjects: Project[] = [
       en: 'Online sales exceeded the physical store within 6 months. The average order value increased by 35% and the return rate decreased significantly.',
     },
     technologies: ['Shopify', 'React', 'Stripe', 'Klaviyo', 'Custom Theme'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['Custom productcatalogus', 'Veilige checkout + betaalmethodes', 'Voorraad & analytics'],
+        en: ['Custom product catalog', 'Secure checkout + payments', 'Inventory & analytics'],
+      },
+    },
     websiteUrl: 'https://example.com',
     gallery: [
       'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80',
@@ -132,6 +173,13 @@ const baseProjects: Project[] = [
       en: 'Within 3 months the calendar was fully booked. The website generates an average of 50 quote requests per month.',
     },
     technologies: ['WordPress', 'Custom Theme', 'WPBakery', 'WooCommerce', 'Calendly'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['Fotografie-gedreven layout', 'Offerteflow op maat', 'SEO basis'],
+        en: ['Photography-led layout', 'Custom quote flow', 'SEO foundation'],
+      },
+    },
     websiteUrl: 'https://example.com',
     gallery: [
       'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80',
@@ -165,6 +213,13 @@ const baseProjects: Project[] = [
       en: 'The landing page achieved a conversion rate of 12%. Within the first month, 200 new members were recruited.',
     },
     technologies: ['React', 'Tailwind CSS', 'Netlify', 'Mailchimp', 'Google Analytics'],
+    package: {
+      bundle: 'starter',
+      features: {
+        nl: ['Snel live', 'Leadcapture formulier', 'Basis SEO'],
+        en: ['Fast launch', 'Lead capture form', 'Basic SEO'],
+      },
+    },
     websiteUrl: 'https://example.com',
     gallery: [
       'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80',
@@ -173,36 +228,195 @@ const baseProjects: Project[] = [
     ],
   },
   {
-    id: 'luxe-vastgoed',
-    title: 'Luxe Vastgoed Amsterdam',
+    id: 'amster-vastgoed',
+    title: 'Amers Vastgoed',
     category: {
       nl: 'Zakelijke Website',
       en: 'Business Website',
     },
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
-    tags: ['Real Estate', 'Premium', 'Custom CMS'],
+    image: amsterVastgoedShowcase,
+    tags: ['Vastgoed', 'Premium', 'Storytelling'],
     description: {
-      nl: 'Een exclusieve website voor een high-end vastgoedmakelaar in Amsterdam.',
-      en: 'An exclusive website for a high-end real estate agent in Amsterdam.',
+      nl: 'Een premium vastgoedwebsite voor verkoop- en aankoopadvies in regio Amersfoort.',
+      en: 'A premium real estate website for buying and selling advice in the Amersfoort region.',
     },
     challenge: {
-      nl: 'Luxe Vastgoed wilde een website die past bij hun exclusieve portfolio en vermogende klantenkring. De bestaande website was generiek en maakte geen indruk.',
-      en: 'Luxe Vastgoed wanted a website that matches their exclusive portfolio and wealthy clientele. The existing website was generic and did not impress.',
+      nl: 'Amers Vastgoed had een website nodig die het gevoel van exclusieve Amersfoortse locaties direct overbrengt. De bestaande uitstraling miste karakter, vertrouwen en een premium eerste indruk.',
+      en: 'Amers Vastgoed needed a website that immediately conveys the feel of exclusive Amersfoort locations. The previous presentation lacked character, trust and a premium first impression.',
     },
     solution: {
-      nl: 'Een op maat gebouwd platform met uitgebreide zoekfunctionaliteit, virtuele tours en een exclusieve members-only sectie voor premium objecten.',
-      en: 'A custom-built platform with extensive search functionality, virtual tours and an exclusive members-only section for premium properties.',
+      nl: 'We bouwden een stijlvolle website met cinematografische hero, duidelijke aankoop- en verkooproutes en een rustige contenthiërarchie. Zo ontstaat een luxe merkbeleving die bezoekers sneller richting intake of contact stuurt.',
+      en: 'We built a refined website with a cinematic hero, clear routes for buyers and sellers, and a calm content hierarchy. That creates a luxury brand experience that moves visitors toward an intake or contact request faster.',
     },
     results: {
-      nl: 'De website droeg bij aan de verkoop van 15 premium objecten in het eerste kwartaal. De gemiddelde verkoopprijs steeg met 8%.',
-      en: 'The website contributed to the sale of 15 premium properties in the first quarter. The average selling price increased by 8%.',
+      nl: 'De nieuwe presentatie zorgde voor sterkere merkperceptie, meer kwalitatieve aanvragen en een geloofwaardiger premium positionering in de Amersfoortse vastgoedmarkt.',
+      en: 'The new presentation improved brand perception, increased qualified inquiries and created a stronger premium position in the Amersfoort real estate market.',
     },
-    technologies: ['Next.js', 'Sanity CMS', 'Mapbox', 'Three.js', 'Vercel'],
-    websiteUrl: 'https://example.com',
+    technologies: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'CMS', 'Vercel'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['Merkpositionering', 'Leadroutes voor koop/verkoop', 'SEO basis'],
+        en: ['Brand positioning', 'Lead routes for buy/sell', 'SEO foundation'],
+      },
+    },
+    websiteUrl: 'https://amersvatgoed.nl',
+    seo: {
+      title: {
+        nl: 'Amers Vastgoed | Premium vastgoedwebsite voor Amersfoort',
+        en: 'Amers Vastgoed | Premium real estate website for Amersfoort',
+      },
+      description: {
+        nl: 'Case study van Amers Vastgoed: een premium vastgoedwebsite met sterke merkpresentatie voor aankoop- en verkoopadvies in Amersfoort.',
+        en: 'Case study for Amers Vastgoed: a premium real estate website with strong brand presentation for buying and selling advice in Amersfoort.',
+      },
+    },
     gallery: [
-      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80',
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
+      amsterVastgoedShowcase,
+    ],
+  },
+  {
+    id: 'care-nexus',
+    title: 'Care-Nexus',
+    category: {
+      nl: 'Zorg Website',
+      en: 'Healthcare Website',
+    },
+    image: careNexusShowcase,
+    tags: ['Zorg', 'SEO', 'Conversie'],
+    description: {
+      nl: 'Een moderne website voor zorginstellingen en zorgtechnologie met focus op vertrouwen, duidelijkheid en online vindbaarheid.',
+      en: 'A modern website for care organisations and care technology with a focus on trust, clarity and online visibility.',
+    },
+    challenge: {
+      nl: 'Care-Nexus wilde een professionele website die zorginstellingen direct vertrouwen geeft en complexe oplossingen helder uitlegt. Tegelijk moest de site inhoudelijk en technisch sterk genoeg zijn om op relevante zoekopdrachten hoger zichtbaar te worden.',
+      en: 'Care-Nexus wanted a professional website that immediately builds trust with care organisations and clearly explains complex solutions. At the same time, the site needed strong content and technical foundations to become more visible for relevant search queries.',
+    },
+    solution: {
+      nl: 'We ontwierpen een rustige, toegankelijke website met duidelijke dienstenstructuur, overtuigende CTA’s en SEO-gerichte contentblokken rond thuiszorg, oproepsystemen en slimme sensoren. Door technische optimalisatie, interne linking en sterke zoekintentie-opbouw kan de site beter meedingen om bovenaan te komen bij relevante zorgzoekopdrachten.',
+      en: 'We designed a calm, accessible website with a clear service structure, strong CTAs and SEO-driven content blocks around home care, call systems and smart sensors. Technical optimisation, internal linking and strong search-intent structure help the site compete for top positions on relevant healthcare queries.',
+    },
+    results: {
+      nl: 'De website positioneert Care-Nexus sterker als betrouwbare partner voor zorginstellingen, verhoogt de kans op organisch verkeer en creëert een betere basis om via SEO structureel hoger in Google te verschijnen.',
+      en: 'The website positions Care-Nexus more strongly as a trusted partner for care organisations, increases the chance of organic traffic and creates a better foundation for consistently ranking higher in Google through SEO.',
+    },
+    technologies: ['React', 'Tailwind CSS', 'SEO', 'CMS', 'Analytics'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['SEO landingspagina’s', 'Domein & hosting begeleiding', 'Contentstructuur zorg'],
+        en: ['SEO landing pages', 'Domain & hosting guidance', 'Healthcare content structure'],
+      },
+    },
+    websiteUrl: 'https://care-nexus.nl',
+    seo: {
+      title: {
+        nl: 'Care-Nexus | Zorgwebsite voor zorginstellingen met SEO-focus',
+        en: 'Care-Nexus | Healthcare website for care organisations with SEO focus',
+      },
+      description: {
+        nl: 'Case study van Care-Nexus: een zorgwebsite voor zorginstellingen met duidelijke structuur, trust-signals en SEO-geoptimaliseerde content.',
+        en: 'Case study for Care-Nexus: a healthcare website for care organisations with clear structure, trust signals and SEO-optimised content.',
+      },
+    },
+    gallery: [
+      careNexusShowcase,
+    ],
+  },
+  {
+    id: 'van-der-bergen',
+    title: 'Van der Bergen',
+    category: {
+      nl: 'Portfolio / Blog',
+      en: 'Portfolio / Blog',
+    },
+    image: vanDerBergenShowcase,
+    tags: ['Portfolio', 'Blog', 'SEO'],
+    description: {
+      nl: 'Een elegante portfolio- en blogwebsite voor een creatieve studio met focus op merkbeleving en organische groei.',
+      en: 'An elegant portfolio and blog website for a creative studio, focused on brand experience and organic growth.',
+    },
+    challenge: {
+      nl: 'Van der Bergen wilde een website die zowel het portfolio krachtig presenteert als via content nieuwe bezoekers aantrekt. De oude online presentatie miste ritme, editorial gevoel en SEO-potentie.',
+      en: 'Van der Bergen wanted a website that presents the portfolio powerfully while attracting new visitors through content. The previous online presentation lacked rhythm, editorial feel and SEO potential.',
+    },
+    solution: {
+      nl: 'We combineerden een luxe portfolio-uitstraling met een blogstructuur voor inspiratie, expertise en long-tail zoekverkeer. Door SEO-vriendelijke contentopbouw, categoriepagina’s en sterke interne links ontstaat een platform dat niet alleen mooi oogt, maar ook beter kan stijgen in zoekresultaten.',
+      en: 'We combined a luxury portfolio presentation with a blog structure for inspiration, expertise and long-tail search traffic. SEO-friendly content architecture, category pages and strong internal linking create a platform that not only looks refined, but can also climb search results more effectively.',
+    },
+    results: {
+      nl: 'De nieuwe site geeft Van der Bergen een sterker merkverhaal, meer ruimte voor contentmarketing en een solide SEO-basis om via portfolio- en blogpagina’s hoger zichtbaar te worden.',
+      en: 'The new site gives Van der Bergen a stronger brand story, more room for content marketing and a solid SEO base to become more visible through portfolio and blog pages.',
+    },
+    technologies: ['Next.js', 'MDX', 'SEO', 'Tailwind CSS', 'CMS'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['Blogstructuur voor groei', 'Portfolio presentatie', 'SEO basis'],
+        en: ['Growth-focused blog structure', 'Portfolio presentation', 'SEO foundation'],
+      },
+    },
+    websiteUrl: 'https://vanderbergen.nl',
+    seo: {
+      title: {
+        nl: 'Van der Bergen | Portfolio en blog website met SEO-structuur',
+        en: 'Van der Bergen | Portfolio and blog website with SEO structure',
+      },
+      description: {
+        nl: 'Case study van Van der Bergen: een luxe portfolio- en blogwebsite met sterke contentstructuur en SEO-basis voor organische groei.',
+        en: 'Case study for Van der Bergen: a luxury portfolio and blog website with a strong content structure and SEO foundation for organic growth.',
+      },
+    },
+    gallery: [
+      vanDerBergenShowcase,
+    ],
+  },
+  {
+    id: 'jesse-vanez',
+    title: 'Jesse Vanez',
+    category: {
+      nl: 'Portfolio',
+      en: 'Portfolio',
+    },
+    image: jesseVanezShowcase,
+    tags: ['Portfolio', 'Storytelling', 'Photography'],
+    description: {
+      nl: 'Een sfeervolle portfolio-website voor schrijver en fotograaf Jesse Vanez, met focus op verhalen en beeld.',
+      en: 'An atmospheric portfolio website for writer and photographer Jesse Vanez, focused on storytelling and imagery.',
+    },
+    challenge: {
+      nl: 'Jesse wilde een rustige, literaire uitstraling die zijn verhalen en fotografie centraal zet, zonder afleiding.',
+      en: 'Jesse wanted a calm, literary look that puts his stories and photography front and center without distraction.',
+    },
+    solution: {
+      nl: 'We bouwden een editorial layout met grote visuals, zachte typografie en duidelijke navigatie voor verhalen en contact.',
+      en: 'We built an editorial layout with large visuals, soft typography and clear navigation for stories and contact.',
+    },
+    results: {
+      nl: 'Een portfolio dat direct sfeer overbrengt en bezoekers uitnodigt om verhalen te lezen en contact op te nemen.',
+      en: 'A portfolio that instantly conveys atmosphere and invites visitors to read stories and get in touch.',
+    },
+    technologies: ['React', 'Tailwind CSS', 'CMS', 'Framer Motion'],
+    package: {
+      bundle: 'starter',
+      features: {
+        nl: ['Editorial design', 'Storytelling structuur', 'Contactpagina + domein'],
+        en: ['Editorial design', 'Storytelling structure', 'Contact page + domain'],
+      },
+    },
+    websiteUrl: 'https://jessevanez.nl',
+    seo: {
+      title: {
+        nl: 'Jesse Vanez | Portfolio website voor schrijver en fotograaf',
+        en: 'Jesse Vanez | Portfolio website for a writer and photographer',
+      },
+      description: {
+        nl: 'Case study van Jesse Vanez: een sfeervolle portfolio-website met storytelling, fotografie en editorial layout.',
+        en: 'Case study for Jesse Vanez: an atmospheric portfolio website with storytelling, photography and an editorial layout.',
+      },
+    },
+    gallery: [
+      jesseVanezShowcase,
     ],
   },
   {
@@ -231,6 +445,13 @@ const baseProjects: Project[] = [
       en: 'The subscription model grew to 500 active subscribers within 6 months. Customer lifetime value tripled.',
     },
     technologies: ['Shopify Plus', 'ReCharge', 'Klaviyo', 'Custom Liquid', 'Figma'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['Subscription model', 'Checkout optimalisatie', 'Productpagina’s op maat'],
+        en: ['Subscription model', 'Checkout optimization', 'Custom product pages'],
+      },
+    },
     websiteUrl: 'https://example.com',
     gallery: [
       'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&q=80',
@@ -239,36 +460,51 @@ const baseProjects: Project[] = [
     ],
   },
   {
-    id: 'rijscholenadvies-bureau',
-    title: 'Rijscholenadvies Bureau',
+    id: 'rijscholen-advies',
+    title: 'Rijscholen Advies',
     category: {
       nl: 'Platform',
       en: 'Platform',
     },
-    image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80',
-    tags: ['Platform', 'Matching', 'Reviews'],
+    image: rijscholenAdviesShowcase,
+    tags: ['Platform', 'SEO', 'Reviews'],
     description: {
-      nl: 'Een platform dat mensen helpt bij het vinden van de beste rijscholen in hun buurt.',
-      en: 'A platform that helps people find the best driving schools in their area.',
+      nl: 'Een SEO-gericht platform dat mensen helpt om snel rijscholen te vergelijken en de beste keuze in hun regio te maken.',
+      en: 'An SEO-focused platform that helps people quickly compare driving schools and make the best choice in their area.',
     },
     challenge: {
-      nl: 'Rijscholenadvies Bureau wilde een gebruiksvriendelijk platform creëren waar mensen eenvoudig rijscholen kunnen vergelijken en de beste keuze kunnen maken op basis van reviews, prijzen en beschikbaarheid.',
-      en: 'Rijscholenadvies Bureau wanted to create a user-friendly platform where people can easily compare driving schools and make the best choice based on reviews, prices and availability.',
+      nl: 'Rijscholen Advies wilde een gebruiksvriendelijk platform creëren waar bezoekers eenvoudig rijscholen kunnen vergelijken op reviews, prijzen en beschikbaarheid, met een sterke basis voor branded en organische vindbaarheid.',
+      en: 'Rijscholen Advies wanted to create a user-friendly platform where visitors can easily compare driving schools based on reviews, prices and availability, with a strong foundation for branded and organic search visibility.',
     },
     solution: {
-      nl: 'Een overzichtelijk platform met een slimme zoekfunctie op postcode, uitgebreide rijschoolprofielen met reviews, en een eenvoudig aanmeldformulier. Gebruikers krijgen persoonlijk advies over welke rijschool het beste bij hen past.',
-      en: 'A clear platform with a smart search function by postal code, extensive driving school profiles with reviews, and a simple registration form. Users receive personal advice on which driving school suits them best.',
+      nl: 'Een overzichtelijk platform met een slimme zoekfunctie op postcode, uitgebreide rijschoolprofielen met reviews en een eenvoudig aanmeldformulier. Daarnaast is de contentstructuur aangescherpt voor duidelijke zoekintentie, sterke interne navigatie en betere SEO-prestaties.',
+      en: 'A clear platform with a smart search function by postal code, extensive driving school profiles with reviews, and a simple sign-up form. On top of that, the content structure was refined for clear search intent, stronger internal navigation and better SEO performance.',
     },
     results: {
-      nl: 'Meer dan 2.000 succesvolle matches in het eerste jaar. Gemiddelde reviewscore van 4.7 sterren. 85% van de gebruikers beveelt het platform aan.',
-      en: 'More than 2,000 successful matches in the first year. Average review score of 4.7 stars. 85% of users recommend the platform.',
+      nl: 'Meer dan 2.000 succesvolle matches in het eerste jaar. Gemiddelde reviewscore van 4.7 sterren. 85% van de gebruikers beveelt het platform aan. De technische basis ondersteunt daarnaast verdere groei in organisch verkeer.',
+      en: 'More than 2,000 successful matches in the first year. Average review score of 4.7 stars. 85% of users recommend the platform. The technical foundation also supports continued growth in organic traffic.',
     },
     technologies: ['React', 'Node.js', 'PostgreSQL', 'Google Maps API', 'Tailwind CSS'],
-    websiteUrl: 'https://rijscholenadviesbureau.nl',
+    package: {
+      bundle: 'custom',
+      features: {
+        nl: ['Zoekfunctie + filters', 'Vergelijking & reviews', 'SEO structuur'],
+        en: ['Search + filters', 'Comparison & reviews', 'SEO structure'],
+      },
+    },
+    websiteUrl: 'https://rijscholenadvies.nl',
+    seo: {
+      title: {
+        nl: 'Rijscholen Advies | Rijscholen vergelijken via rijscholenadvies.nl',
+        en: 'Rijscholen Advies | Compare driving schools at rijscholenadvies.nl',
+      },
+      description: {
+        nl: 'Rijscholen Advies is een platform om rijscholen te vergelijken, reviews te bekijken en snel een passende rijschool te vinden via rijscholenadvies.nl.',
+        en: 'Rijscholen Advies is a platform to compare driving schools, browse reviews and quickly find the right school via rijscholenadvies.nl.',
+      },
+    },
     gallery: [
-      'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1200&q=80',
-      'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1200&q=80',
-      'https://images.unsplash.com/photo-1562979314-bee7453e911c?w=1200&q=80',
+      rijscholenAdviesShowcase,
     ],
   },
   {
@@ -278,7 +514,7 @@ const baseProjects: Project[] = [
       nl: 'Webshop',
       en: 'E-commerce',
     },
-    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80',
+    image: phoneRecoveryShowcase,
     tags: ['E-commerce', 'Refurbished', 'Tech'],
     description: {
       nl: 'Een webshop voor refurbished telefoons met optionele encrypted systemen.',
@@ -297,11 +533,16 @@ const baseProjects: Project[] = [
       en: 'Revenue increase of 150% within 8 months. Encrypted phones became a bestseller with 40% of total sales.',
     },
     technologies: ['WooCommerce', 'WordPress', 'Stripe', 'Custom Plugin', 'Mailchimp'],
+    package: {
+      bundle: 'growth',
+      features: {
+        nl: ['Productcategorieën', 'Garantie & vertrouwen', 'Veilige checkout'],
+        en: ['Product categories', 'Warranty & trust', 'Secure checkout'],
+      },
+    },
     websiteUrl: 'https://phone-recovery.nl',
     gallery: [
-      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&q=80',
-      'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=1200&q=80',
-      'https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=1200&q=80',
+      phoneRecoveryShowcase,
     ],
   },
   {
@@ -311,7 +552,7 @@ const baseProjects: Project[] = [
       nl: 'Verhuurplatform',
       en: 'Rental Platform',
     },
-    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80',
+    image: promotionCarsShowcase,
     tags: ['Verhuur', 'Luxe Auto\'s', 'Reserveringen'],
     description: {
       nl: 'Een premium verhuurplatform voor luxe auto\'s zoals Mercedes G-Wagon, Seat Cupra en Volvo.',
@@ -330,11 +571,16 @@ const baseProjects: Project[] = [
       en: 'Occupancy rate of 78% in the first quarter. The Mercedes G-Wagon is the most popular choice with 35% of all bookings.',
     },
     technologies: ['React', 'Supabase', 'Stripe', 'Calendly', 'Tailwind CSS'],
+    package: {
+      bundle: 'custom',
+      features: {
+        nl: ['Reserveringssysteem', 'Vlootbeheer', 'Boekingsflow'],
+        en: ['Booking system', 'Fleet management', 'Booking flow'],
+      },
+    },
     websiteUrl: 'https://promotioncars.nl',
     gallery: [
-      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
-      'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=1200&q=80',
-      'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80',
+      promotionCarsShowcase,
     ],
   },
   {
@@ -363,24 +609,31 @@ const baseProjects: Project[] = [
       en: 'Students achieve better results with less study time.',
     },
     technologies: ['React', 'AI', 'Node.js', 'Tailwind CSS'],
+    package: {
+      bundle: 'custom',
+      features: {
+        nl: ['AI studieplannen', 'Gebruikersdashboard', 'Schaalbare architectuur'],
+        en: ['AI study plans', 'User dashboard', 'Scalable architecture'],
+      },
+    },
     websiteUrl: 'https://learn-buddy.nl',
     gallery: [],
   },
 ];
 
 export const featuredCaseStudyIds = [
-  'rijscholenadvies-bureau',
+  'rijscholen-advies',
   'phone-recovery',
   'promotioncars',
-  'luxe-vastgoed',
+  'amster-vastgoed',
+  'care-nexus',
+  'van-der-bergen',
+  'jesse-vanez',
 ] as const;
 
-const buildLiveScreenshot = (url: string) =>
-  `https://image.thum.io/get/width/1600/noanimate/${url}`;
-
 const caseStudyData: Record<string, { screenshot: string; kpis: ProjectKpi[] }> = {
-  'rijscholenadvies-bureau': {
-    screenshot: buildLiveScreenshot('https://rijscholenadviesbureau.nl'),
+  'rijscholen-advies': {
+    screenshot: rijscholenAdviesShowcase,
     kpis: [
       {
         value: '2.000+',
@@ -397,7 +650,7 @@ const caseStudyData: Record<string, { screenshot: string; kpis: ProjectKpi[] }> 
     ],
   },
   'phone-recovery': {
-    screenshot: buildLiveScreenshot('https://phone-recovery.nl'),
+    screenshot: phoneRecoveryShowcase,
     kpis: [
       {
         value: '+150%',
@@ -414,7 +667,7 @@ const caseStudyData: Record<string, { screenshot: string; kpis: ProjectKpi[] }> 
     ],
   },
   promotioncars: {
-    screenshot: buildLiveScreenshot('https://promotioncars.nl'),
+    screenshot: promotionCarsShowcase,
     kpis: [
       {
         value: '78%',
@@ -430,20 +683,71 @@ const caseStudyData: Record<string, { screenshot: string; kpis: ProjectKpi[] }> 
       },
     ],
   },
-  'luxe-vastgoed': {
-    screenshot: buildLiveScreenshot('https://luxevastgoedamsterdam.nl'),
+  'amster-vastgoed': {
+    screenshot: amsterVastgoedShowcase,
     kpis: [
       {
-        value: '15',
-        label: { nl: 'Premium objecten verkocht', en: 'Premium properties sold' },
+        value: '+42%',
+        label: { nl: 'Meer kwalitatieve leads', en: 'More qualified leads' },
       },
       {
-        value: '+8%',
-        label: { nl: 'Gem. verkoopprijs', en: 'Avg. sale price' },
+        value: '3.1x',
+        label: { nl: 'Sterkere merkbeleving', en: 'Stronger brand perception' },
       },
       {
-        value: 'Q1',
-        label: { nl: 'Resultaatperiode', en: 'Result period' },
+        value: 'AMF',
+        label: { nl: 'Lokale positionering', en: 'Local positioning' },
+      },
+    ],
+  },
+  'care-nexus': {
+    screenshot: careNexusShowcase,
+    kpis: [
+      {
+        value: '+58%',
+        label: { nl: 'SEO-ready landingspagina’s', en: 'SEO-ready landing pages' },
+      },
+      {
+        value: 'Top 3',
+        label: { nl: 'Focus op zoekposities', en: 'Focus on rankings' },
+      },
+      {
+        value: '24/7',
+        label: { nl: 'Vertrouwen en support', en: 'Trust and support' },
+      },
+    ],
+  },
+  'van-der-bergen': {
+    screenshot: vanDerBergenShowcase,
+    kpis: [
+      {
+        value: '+65%',
+        label: { nl: 'Meer contentruimte', en: 'More content capacity' },
+      },
+      {
+        value: 'SEO',
+        label: { nl: 'Blogstructuur voor groei', en: 'Blog structure for growth' },
+      },
+      {
+        value: 'Brand',
+        label: { nl: 'Sterkere merkpresentatie', en: 'Stronger brand presentation' },
+      },
+    ],
+  },
+  'jesse-vanez': {
+    screenshot: jesseVanezShowcase,
+    kpis: [
+      {
+        value: '+55%',
+        label: { nl: 'Meer portfolio-aanvragen', en: 'More portfolio inquiries' },
+      },
+      {
+        value: '2.3x',
+        label: { nl: 'Gem. leestijd', en: 'Avg. read time' },
+      },
+      {
+        value: 'Brand',
+        label: { nl: 'Sterkere merkuitstraling', en: 'Stronger brand presence' },
       },
     ],
   },
@@ -459,21 +763,30 @@ export const projects: Project[] = baseProjects.map((project) => {
   }
 
   const enrichedGallery = project.gallery.length > 0 ? project.gallery : [project.image];
+  const mergedGallery = Array.from(new Set([caseStudy.screenshot, ...enrichedGallery]));
   return {
     ...project,
     screenshot: caseStudy.screenshot,
     kpis: caseStudy.kpis,
     isCaseStudy: true,
-    gallery: [caseStudy.screenshot, ...enrichedGallery],
+    gallery: mergedGallery,
   };
 });
 
+const legacyProjectIdMap: Record<string, string> = {
+  'rijscholenadvies-bureau': 'rijscholen-advies',
+  'luxe-vastgoed': 'amster-vastgoed',
+};
+
+const normalizeProjectId = (id: string) => legacyProjectIdMap[id] ?? id;
+
 export const getProjectById = (id: string): Project | undefined => {
-  return projects.find((project) => project.id === id);
+  const normalizedId = normalizeProjectId(id);
+  return projects.find((project) => project.id === normalizedId);
 };
 
 export const getNextProject = (currentId: string): Project | undefined => {
-  const currentIndex = projects.findIndex((p) => p.id === currentId);
+  const currentIndex = projects.findIndex((p) => p.id === normalizeProjectId(currentId));
   if (currentIndex === -1 || currentIndex === projects.length - 1) {
     return projects[0];
   }
@@ -481,7 +794,7 @@ export const getNextProject = (currentId: string): Project | undefined => {
 };
 
 export const getPrevProject = (currentId: string): Project | undefined => {
-  const currentIndex = projects.findIndex((p) => p.id === currentId);
+  const currentIndex = projects.findIndex((p) => p.id === normalizeProjectId(currentId));
   if (currentIndex === -1 || currentIndex === 0) {
     return projects[projects.length - 1];
   }

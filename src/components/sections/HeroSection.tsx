@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BadgeCheck, Palette, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
-import heroMacbookMockup from '@/assets/mockup1.0.png';
 import webmaatBg from '@/assets/Webmaat.png';
 
 const heroHomeBg =
@@ -15,15 +14,27 @@ const HeroSection = () => {
   const heroContent = {
     title:
       language === 'nl'
-        ? 'Websites & Digitale Oplossingen Op Maat'
-        : 'Digital solutions for businesses that want to move forward.',
+        ? 'Digitale oplossingen voor groei.'
+        : 'Digital solutions for growth.',
     subtitle:
       language === 'nl'
-        ? 'Meer dan design, gebouwd voor groei.'
-        : 'From professional websites to tailored digital systems. Fast, scalable, and future-proof.',
+        ? 'Maatwerk websites voor bedrijven die online willen groeien.'
+        : 'Tailored websites for businesses that want to grow online.',
     cta: language === 'nl' ? 'Vraag Offerte Aan' : 'Request Quote',
     ctaSecondary: language === 'nl' ? 'Bekijk Ons Werk' : 'View Our Work',
   };
+  const heroPoints =
+    language === 'nl'
+      ? [
+          { icon: BadgeCheck, label: 'Conversiegericht gebouwd' },
+          { icon: Palette, label: 'Branding, design en naam' },
+          { icon: TrendingUp, label: 'Gemaakt voor online groei' },
+        ]
+      : [
+          { icon: BadgeCheck, label: 'Built for conversion' },
+          { icon: Palette, label: 'Branding, design and naming' },
+          { icon: TrendingUp, label: 'Made for online growth' },
+        ];
 
   return (
     <section
@@ -50,6 +61,8 @@ const HeroSection = () => {
               'linear-gradient(90deg, rgba(2,6,23,0.35) 0%, rgba(15,23,42,0.24) 55%, rgba(15,23,42,0.12) 100%)',
           }}
         />
+        <div className="absolute -left-16 top-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
+        <div className="absolute right-8 top-14 h-32 w-32 rounded-full bg-white/10 blur-3xl" />
       </div>
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
@@ -59,9 +72,9 @@ const HeroSection = () => {
         }}
       />
 
-      <div className="mx-auto w-full px-3 sm:px-6 lg:px-8 relative z-10">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-3 sm:px-6 lg:px-8">
         <motion.div
-          className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_560px]"
+          className="grid items-start gap-8"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
@@ -69,14 +82,20 @@ const HeroSection = () => {
           <div className="max-w-4xl flex flex-col">
             <div className="flex-1 flex items-center md:flex-none md:block">
               <div className="w-full md:pt-5 lg:pt-8">
+            <motion.p
+              className="mb-4 inline-flex w-fit items-center rounded-full border border-white/15 bg-slate-900/55 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white shadow-[0_10px_24px_rgba(2,6,23,0.26)] backdrop-blur-md mx-auto md:mx-0"
+              variants={fadeInUp}
+            >
+              {language === 'nl' ? 'Websites, branding en groei' : 'Websites, branding and growth'}
+            </motion.p>
             <motion.h1
-              className="font-display text-[clamp(1.25rem,6.4vw,3.75rem)] sm:text-[2.2rem] md:text-[2.3rem] lg:text-[2.7rem] font-extrabold tracking-tight text-white leading-[1.02] mb-4 text-center md:text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
+              className="font-display text-[clamp(1.5rem,6.2vw,4.25rem)] sm:text-[2.35rem] md:text-[2.55rem] lg:text-[3.25rem] font-extrabold tracking-tight text-white leading-[0.98] mb-4 text-center md:text-left drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
               variants={fadeInUp}
             >
               {language === 'nl' ? (
                 <>
-                  Websites & Digitale Oplossingen
-                  <span className="block">Op Maat</span>
+                  Digitale oplossingen
+                  <span className="block text-white">voor groei</span>
                 </>
               ) : (
                 heroContent.title
@@ -84,15 +103,35 @@ const HeroSection = () => {
             </motion.h1>
 
             <motion.p
-              className="text-base md:text-xl text-white/95 mb-6 max-w-2xl mx-auto md:mx-0 text-center md:text-left drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]"
+              className="text-base md:text-xl text-white mb-5 max-w-xl mx-auto md:mx-0 text-center md:text-left drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]"
               variants={fadeInUp}
             >
               {heroContent.subtitle}
             </motion.p>
+
+            <motion.div
+              className="grid gap-2.5 sm:grid-cols-3 mb-6 max-w-3xl mx-auto md:mx-0"
+              variants={fadeInUp}
+            >
+              {heroPoints.map((point) => {
+                const Icon = point.icon;
+                return (
+                  <div
+                    key={point.label}
+                    className="flex items-center gap-2.5 rounded-2xl border border-white/12 bg-slate-900/45 px-3.5 py-3 text-left shadow-[0_12px_30px_rgba(2,6,23,0.22)] backdrop-blur-sm"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/18 text-white">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span className="text-sm font-medium leading-snug text-white">{point.label}</span>
+                  </div>
+                );
+              })}
+            </motion.div>
               </div>
             </div>
 
-            <motion.div className="pt-6 md:mt-16 lg:mt-20 grid grid-cols-2 gap-3 w-full max-w-md mx-auto md:mx-0" variants={fadeInUp}>
+            <motion.div className="pt-4 md:mt-12 lg:mt-14 grid grid-cols-2 gap-3 w-full max-w-md mx-auto md:mx-0" variants={fadeInUp}>
               <Button
                 size="default"
                 asChild
@@ -107,20 +146,16 @@ const HeroSection = () => {
                 size="default"
                 variant="outline"
                 asChild
-                className="w-full h-10 md:h-14 px-4 md:px-6 text-sm md:text-base border-primary/60 text-white bg-primary/25 hover:bg-primary/35 hover:text-white"
+                className="group w-full h-10 md:h-14 px-4 md:px-6 text-sm md:text-base border-slate-700 bg-slate-800 text-white transition-colors duration-300 hover:bg-slate-700 hover:text-white"
               >
-                <Link to="/portfolio">{heroContent.ctaSecondary}</Link>
+                <Link to="/portfolio">
+                  {heroContent.ctaSecondary}
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
               </Button>
             </motion.div>
           </div>
 
-          <motion.div className="hidden lg:flex items-end justify-end bg-transparent" variants={fadeInUp}>
-            <img
-              src={heroMacbookMockup}
-              alt="Mockup met Web-Maat preview"
-              className="w-full max-w-[600px] ml-auto bg-transparent object-contain drop-shadow-[0_18px_38px_rgba(0,0,0,0.48)]"
-            />
-          </motion.div>
         </motion.div>
       </div>
     </section>

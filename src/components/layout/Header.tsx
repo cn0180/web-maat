@@ -34,7 +34,7 @@ const Header = () => {
             <img 
               src={logo} 
               alt="Web-Maat Creations" 
-              className="w-[4.25rem] h-[4.25rem] md:w-[5rem] md:h-[5rem] rounded-full object-cover"
+              className="w-[4.45rem] h-[4.45rem] md:w-[5.2rem] md:h-[5.2rem] rounded-full object-cover"
             />
           </Link>
 

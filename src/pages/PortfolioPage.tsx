@@ -3,11 +3,11 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import CTASection from '@/components/sections/CTASection';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { featuredCaseStudyIds, projects } from '@/data/projects';
-import { ArrowUpRight } from 'lucide-react';
+import { featuredCaseStudyIds, projects, type Project } from '@/data/projects';
+import { BarChart3 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { fadeInUp, staggerContainer, useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
 
 const CountUpValue = ({ end, suffix, start }: { end: number; suffix: string; start: boolean }) => {
   const [value, setValue] = useState(0);
@@ -43,7 +43,6 @@ const CountUpValue = ({ end, suffix, start }: { end: number; suffix: string; sta
 
 const PortfolioPage = () => {
   const { t, language } = useLanguage();
-  const { ref: statsRef, controls: statsControls, isInView: statsInView } = useScrollAnimation(0.2);
   const caseStudyProjects = featuredCaseStudyIds
     .map((id) => projects.find((project) => project.id === id))
     .filter((project): project is (typeof projects)[number] => Boolean(project));
@@ -90,6 +89,26 @@ const PortfolioPage = () => {
     },
   ];
 
+  const statsChunks = companyStats.reduce<typeof companyStats[]>((chunks, stat, index) => {
+    if (index % 3 === 0) {
+      chunks.push([]);
+    }
+    chunks[chunks.length - 1].push(stat);
+    return chunks;
+  }, []);
+
+  const showcaseRows: Array<
+    | { type: 'projects'; items: Project[] }
+    | { type: 'stats'; items: typeof companyStats }
+  > = [];
+  for (let i = 0; i < caseStudyProjects.length; i += 2) {
+    showcaseRows.push({ type: 'projects', items: caseStudyProjects.slice(i, i + 2) });
+    const statsChunk = statsChunks[Math.floor(i / 2)];
+    if (statsChunk && statsChunk.length > 0) {
+      showcaseRows.push({ type: 'stats', items: statsChunk });
+    }
+  }
+
   return (
     <div className="portfolio-dark min-h-screen bg-slate-900">
       <Header />
@@ -104,24 +123,24 @@ const PortfolioPage = () => {
             />
             <div className="absolute inset-0 bg-slate-900/20" style={{ backgroundColor: 'rgba(15, 23, 42, 0.2)' }} />
             <div
-              className="absolute inset-0 bg-gradient-to-r from-slate-950/35 via-slate-900/24 to-slate-900/12"
+              className="absolute inset-0 bg-gradient-to-r from-slate-950/72 via-slate-900/56 to-slate-900/40"
               style={{
                 background:
-                  'linear-gradient(90deg, rgba(2,6,23,0.35) 0%, rgba(15,23,42,0.24) 55%, rgba(15,23,42,0.12) 100%)',
+                  'linear-gradient(90deg, rgba(2,6,23,0.78) 0%, rgba(15,23,42,0.60) 55%, rgba(15,23,42,0.42) 100%)',
               }}
             />
           </div>
           <div className="container mx-auto container-padding relative">
-            <div className="max-w-2xl">
-              <h1 className="font-sans text-2xl md:text-3xl font-bold text-white mb-3">{t.pages.portfolio.hero}</h1>
-              <p className="text-slate-200">{t.pages.portfolio.heroSubtitle}</p>
+            <div className="max-w-3xl">
+              <h1 className="font-sans text-3xl md:text-5xl font-extrabold text-blue-50 mb-3 tracking-tight drop-shadow-[0_10px_28px_rgba(2,6,23,0.52)]">{t.pages.portfolio.hero}</h1>
+              <p className="text-base md:text-xl text-sky-200 max-w-2xl drop-shadow-[0_6px_18px_rgba(2,6,23,0.42)]">{t.pages.portfolio.heroSubtitle}</p>
             </div>
           </div>
         </section>
 
         <div className="section-divider" />
 
-        <section className="section-padding bg-slate-900">
+        <section className="section-padding bg-[#edf2f7]">
           <motion.div 
             className="container mx-auto container-padding"
             variants={staggerContainer}
@@ -130,96 +149,101 @@ const PortfolioPage = () => {
           >
             {/* Case Studies */}
             <motion.div className="mb-8 text-center" variants={fadeInUp}>
-              <h2 className="section-title text-white">
+              <h2 className="section-title text-primary">
                 {language === 'nl' ? 'Door ons gemaakte websites met resultaat' : 'Websites we built with measurable results'}
               </h2>
-              <p className="text-slate-300 max-w-2xl mx-auto">
+              <p className="max-w-2xl mx-auto text-slate-600">
                 {language === 'nl'
-                  ? 'Concrete cijfers per project.'
-                  : 'Concrete metrics per project.'}
+                  ? 'Gepresenteerd als grotere showcases. Klik op een project voor cijfers, live website en een vergelijkbare oplossing.'
+                  : 'Presented as large showcases. Click a project for metrics, the live website, and a similar solution.'}
               </p>
             </motion.div>
 
-            <motion.div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-5 mb-12" variants={fadeInUp}>
-              {caseStudyProjects.map((project) => (
-                <Link 
-                  key={project.id} 
-                  to={`/portfolio/${project.id}`} 
-                  className="group block"
-                >
-                  <div className="overflow-hidden bg-card border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl h-full rounded-xl">
-                    <div className="relative overflow-hidden aspect-[4/3]">
-                      <img 
-                        src={project.screenshot || project.image}
-                        alt={`${project.title} screenshot`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                        onError={(event) => {
-                          event.currentTarget.src = project.image;
-                        }}
-                      />
-                      <div className="absolute top-4 left-4 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-foreground backdrop-blur-sm">
-                        {language === 'nl' ? 'Live case' : 'Live case'}
-                      </div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                        <span className="flex items-center gap-2 text-white font-medium">
-                          {t.portfolio.viewProject}
-                          <ArrowUpRight className="w-5 h-5" />
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-4 md:p-5">
-                      <span className="text-primary text-xs md:text-sm font-semibold">{project.category[language]}</span>
-                      <h3 className="font-sans text-base md:text-lg font-bold text-foreground mt-1 mb-2 group-hover:text-primary transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-muted-foreground text-xs md:text-sm mb-3 line-clamp-2">{project.description[language]}</p>
-                      <div className="grid grid-cols-3 gap-2">
-                        {project.kpis?.slice(0, 3).map((kpi) => (
-                          <div key={`${project.id}-${kpi.value}`} className="rounded-lg bg-primary/5 border border-primary/10 px-2 py-2 text-center">
-                            <p className="font-display text-sm md:text-base font-bold text-primary leading-tight">{kpi.value}</p>
-                            <p className="text-[10px] md:text-[11px] text-muted-foreground leading-tight">{kpi.label[language]}</p>
+            <motion.div className="space-y-8 mb-12" variants={fadeInUp}>
+              {showcaseRows.map((row, rowIndex) => {
+                if (row.type === 'projects') {
+                  return (
+                    <div key={`projects-${rowIndex}`} className="grid gap-8 xl:grid-cols-2">
+                      {row.items.map((project, index) => (
+                        <Link
+                          key={project.id}
+                          to={`/portfolio/${project.id}`}
+                          className="group block w-full text-left"
+                        >
+                          <div className="h-full overflow-hidden rounded-[34px] border border-slate-200/70 bg-transparent px-4 py-4 md:px-5 md:py-5 shadow-[0_18px_60px_rgba(15,23,42,0.12)] transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_26px_80px_rgba(15,23,42,0.14)]">
+                            <div className="relative px-1 py-3 md:px-2 md:py-4">
+                              <div className="relative mx-auto min-h-[200px] sm:min-h-[260px] md:min-h-[320px] w-full max-w-[740px]">
+                                <div className="mx-auto w-full max-w-[740px]">
+                                  <div className="rounded-[22px] bg-slate-950 p-2.5 shadow-[0_22px_56px_rgba(15,23,42,0.24)]">
+                                    <div className="rounded-[18px] bg-slate-800 p-1.5">
+                                      <div className="aspect-[16/10] overflow-hidden rounded-[14px] bg-white">
+                                        <img
+                                          src={project.screenshot || project.image}
+                                          alt={`${project.title} screenshot`}
+                                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+                                          onError={(event) => {
+                                            event.currentTarget.src = project.image;
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div
+                                  className={`absolute bottom-0 ${index % 2 === 0 ? 'left-0 md:left-2' : 'right-0 md:right-2'} w-[96px] sm:w-[116px] md:w-[148px] rounded-[26px] bg-slate-950 p-1.5 shadow-[0_22px_48px_rgba(15,23,42,0.26)]`}
+                                >
+                                  <div className="rounded-[20px] bg-slate-800 p-1">
+                                    <div className="aspect-[9/19] overflow-hidden rounded-[16px] bg-white">
+                                      <img
+                                        src={project.image}
+                                        alt={`${project.title} mobile preview`}
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="mt-3 flex flex-wrap items-center gap-2 sm:gap-4">
+                              <h3 className="flex-1 font-sans text-xl md:text-2xl font-bold leading-tight text-slate-900">
+                                {project.title}
+                              </h3>
+                              {project.kpis?.[0] && (
+                                <div className="flex flex-wrap items-center gap-2 text-[11px] md:text-xs text-slate-600">
+                                  <BarChart3 className="w-3.5 h-3.5 text-primary" />
+                                  <span className="uppercase tracking-[0.18em] text-[10px] text-slate-500">
+                                    {language === 'nl' ? 'Resultaat' : 'Outcome'}
+                                  </span>
+                                  <span className="font-semibold text-slate-900 text-sm">{project.kpis[0].value}</span>
+                                  <span className="text-slate-600">{project.kpis[0].label[language]}</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        ))}
-                      </div>
+                        </Link>
+                      ))}
                     </div>
+                  );
+                }
+
+                return (
+                  <div key={`stats-${rowIndex}`} className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                    {row.items.map((stat) => (
+                      <div
+                        key={stat.label}
+                        className="rounded-2xl border border-slate-200 bg-white px-4 py-4 md:px-5 md:py-5 text-center shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
+                      >
+                        <p className="text-2xl md:text-3xl font-display font-bold text-primary leading-none">
+                          <CountUpValue end={stat.value} suffix={stat.suffix} start />
+                        </p>
+                        <p className="mt-2 text-xs md:text-sm text-slate-600">{stat.label}</p>
+                      </div>
+                    ))}
                   </div>
-                </Link>
-              ))}
-            </motion.div>
-
-            <div className="section-divider mb-10" />
-
-            <motion.div
-              ref={statsRef}
-              className="mb-12"
-              variants={staggerContainer}
-              initial="hidden"
-              animate={statsControls}
-            >
-              <motion.div className="mb-6 text-center" variants={fadeInUp}>
-                <h2 className="section-title text-white">
-                  {language === 'nl' ? 'Al onze cijfers in één overzicht' : 'All our numbers in one overview'}
-                </h2>
-                <p className="text-slate-300 max-w-2xl mx-auto">
-                  {language === 'nl'
-                    ? 'Projecten, websites, onderhoud, SEO en AI-trajecten helder op één plek.'
-                    : 'Projects, websites, maintenance, SEO, and AI trajectories in one clear section.'}
-                </p>
-              </motion.div>
-
-              <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4" variants={fadeInUp}>
-                {companyStats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-xl border border-white/15 bg-white/5 px-4 py-4 md:px-5 md:py-5 text-center"
-                  >
-                    <p className="text-2xl md:text-3xl font-display font-bold text-primary leading-none">
-                      <CountUpValue end={stat.value} suffix={stat.suffix} start={statsInView} />
-                    </p>
-                    <p className="mt-2 text-xs md:text-sm text-slate-200">{stat.label}</p>
-                  </div>
-                ))}
-              </motion.div>
+                );
+              })}
             </motion.div>
 
           </motion.div>
@@ -228,6 +252,7 @@ const PortfolioPage = () => {
         <CTASection />
       </main>
       <Footer />
+
     </div>
   );
 };

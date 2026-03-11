@@ -29,8 +29,8 @@ const ChatWidget = () => {
       sender: 'agent',
       text:
         language === 'nl'
-          ? 'Hulp nodig? Stel hier je vraag, we helpen je graag.'
-          : 'Need help? Ask your question here and we will help you quickly.',
+          ? '24/7 bereikbaar. Stel hier je vraag, we helpen je graag.'
+          : 'Available 24/7. Ask your question here and we will help you quickly.',
     },
   ]);
 
@@ -45,8 +45,8 @@ const ChatWidget = () => {
         sender: 'agent',
         text:
           language === 'nl'
-            ? 'Hulp nodig? Stel hier je vraag, we helpen je graag.'
-            : 'Need help? Ask your question here and we will help you quickly.',
+            ? '24/7 bereikbaar. Stel hier je vraag, we helpen je graag.'
+            : 'Available 24/7. Ask your question here and we will help you quickly.',
       },
     ]);
     setMessage('');
@@ -69,8 +69,9 @@ const ChatWidget = () => {
     return [...messages].reverse().find((item) => item.sender === 'user')?.text ?? '';
   }, [messages]);
 
-  const openWhatsApp = () => {
+  const openWhatsApp = (text?: string) => {
     const presetText =
+      text?.trim() ||
       lastUserMessage ||
       (language === 'nl'
         ? 'Hallo, ik heb een vraag over jullie diensten.'
@@ -86,21 +87,8 @@ const ChatWidget = () => {
 
     const userMessage: ChatMessage = { id: Date.now(), sender: 'user', text: trimmed };
     setMessages((prev) => [...prev, userMessage]);
+    openWhatsApp(trimmed);
     setMessage('');
-
-    window.setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now() + 1,
-          sender: 'agent',
-          text:
-            language === 'nl'
-              ? 'Top, ontvangen. Klik op "Open WhatsApp" om direct met ons verder te chatten.'
-              : 'Great, received. Tap "Open WhatsApp" to continue the chat directly with us.',
-        },
-      ]);
-    }, 550);
   };
 
   const handleOpenComposer = () => {
@@ -133,23 +121,23 @@ const ChatWidget = () => {
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             className="fixed bottom-2 left-2 right-2 sm:left-auto sm:right-4 md:right-6 md:bottom-6 z-50 h-[78vh] max-h-[720px] sm:w-[360px] md:w-[390px] bg-card border border-border rounded-2xl shadow-2xl overflow-hidden flex flex-col"
           >
-            <div className="bg-[#25D366] px-3.5 py-3 md:px-4 md:py-3.5 flex items-center justify-between">
+            <div className="bg-white px-3.5 py-3 md:px-4 md:py-3.5 flex items-center justify-between border-b border-slate-200">
               <div className="flex items-center gap-3">
                 <img
                   src={logo}
                   alt="Web-Maat"
-                  className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover border-2 border-white/70"
+                  className="w-9 h-9 md:w-10 md:h-10 rounded-full object-cover border-2 border-slate-200"
                 />
                 <div>
-                  <h3 className="font-semibold text-white text-sm md:text-base">Web-Maat Support</h3>
-                  <p className="text-[11px] md:text-xs text-white/90">
+                  <h3 className="font-semibold text-slate-900 text-sm md:text-base">Web-Maat Support</h3>
+                  <p className="text-[11px] md:text-xs text-slate-500">
                     {language === 'nl' ? 'Meestal binnen 5 min online' : 'Usually online within 5 minutes'}
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white/85 hover:text-white transition-colors"
+                className="text-slate-500 hover:text-slate-900 transition-colors"
                 aria-label={language === 'nl' ? 'Sluit chat' : 'Close chat'}
               >
                 <X className="w-5 h-5" />
@@ -214,13 +202,13 @@ const ChatWidget = () => {
               <div className="mt-2.5 flex items-center justify-between gap-2">
                 <p className="text-[11px] text-muted-foreground">
                   {language === 'nl'
-                    ? 'Bericht gaat pas weg na Open WhatsApp.'
-                    : 'Message sends after tapping Open WhatsApp.'}
+                    ? 'Na verzenden opent WhatsApp met uw bericht.'
+                    : 'After sending, WhatsApp opens with your message.'}
                 </p>
                 <Button
                   type="button"
                   variant="ghost"
-                  onClick={openWhatsApp}
+                  onClick={() => openWhatsApp(message)}
                   className="h-8 px-3 text-xs md:text-sm text-[#128C7E] hover:text-[#0f766e] hover:bg-[#128C7E]/10"
                 >
                   <MessageCircle className="w-3.5 h-3.5 mr-1.5" />

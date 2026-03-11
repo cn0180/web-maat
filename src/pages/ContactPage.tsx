@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Phone, Mail, MessageCircle, MapPin, Clock, ArrowRight, ExternalLink, Send } from 'lucide-react';
+import { Phone, Mail, MessageCircle, ArrowRight, ExternalLink, Send } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -72,7 +72,7 @@ const ContactPage = () => {
 
   const whatsappNumber = '31612345678';
   const phoneNumber = '+31 6 12345678';
-  const emailAddress = 'info@webstudio.nl';
+  const emailAddress = 'info@web-maat.nl';
 
   const contactMethods = [
     {
@@ -99,6 +99,47 @@ const ContactPage = () => {
     },
   ];
 
+  const copy =
+    language === 'nl'
+      ? {
+          contactIntroTitle: 'Neem contact op',
+          contactIntroBody:
+            'Heeft u vragen of wilt u een project bespreken? Wij staan klaar om u te helpen. Kies hieronder uw favoriete contactmethode.',
+          whatsappAvailability: '24/7 bereikbaar via WhatsApp voor vragen en updates.',
+          formTitle: 'Stuur ons een bericht',
+          submittedTitle: 'Bericht verzonden!',
+          submittedBody: 'Bedankt voor uw bericht. Wij nemen zo snel mogelijk contact met u op.',
+          nameLabel: 'Naam',
+          namePlaceholder: 'Uw naam',
+          emailLabel: 'E-mailadres',
+          emailPlaceholder: 'uw@email.nl',
+          messageLabel: 'Bericht',
+          messagePlaceholder: 'Uw vraag of bericht...',
+          submitLabel: 'Verstuur bericht',
+          submittingLabel: 'Versturen...',
+          quotePrompt: 'Liever direct een offerte aanvragen?',
+          quoteLink: 'Ga naar het offerteformulier',
+        }
+      : {
+          contactIntroTitle: 'Get in touch',
+          contactIntroBody:
+            'Have questions or want to discuss a project? We are ready to help. Choose your preferred contact method below.',
+          whatsappAvailability: 'Available 24/7 via WhatsApp for questions and updates.',
+          formTitle: 'Send us a message',
+          submittedTitle: 'Message sent!',
+          submittedBody: 'Thanks for your message. We will get back to you as soon as possible.',
+          nameLabel: 'Name',
+          namePlaceholder: 'Your name',
+          emailLabel: 'Email address',
+          emailPlaceholder: 'you@email.com',
+          messageLabel: 'Message',
+          messagePlaceholder: 'Your question or message...',
+          submitLabel: 'Send message',
+          submittingLabel: 'Sending...',
+          quotePrompt: 'Prefer to request a quote directly?',
+          quoteLink: 'Go to the quote form',
+        };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -113,17 +154,17 @@ const ContactPage = () => {
             />
             <div className="absolute inset-0 bg-slate-900/20" style={{ backgroundColor: 'rgba(15, 23, 42, 0.2)' }} />
             <div
-              className="absolute inset-0 bg-gradient-to-r from-slate-950/35 via-slate-900/24 to-slate-900/12"
+              className="absolute inset-0 bg-gradient-to-r from-slate-950/72 via-slate-900/56 to-slate-900/40"
               style={{
                 background:
-                  'linear-gradient(90deg, rgba(2,6,23,0.35) 0%, rgba(15,23,42,0.24) 55%, rgba(15,23,42,0.12) 100%)',
+                  'linear-gradient(90deg, rgba(2,6,23,0.78) 0%, rgba(15,23,42,0.60) 55%, rgba(15,23,42,0.42) 100%)',
               }}
             />
           </div>
           <div className="container mx-auto container-padding relative">
-            <div className="max-w-2xl">
-              <h1 className="font-display text-2xl md:text-3xl font-bold text-white mb-3">{t.pages.contact.hero}</h1>
-              <p className="text-slate-200">{t.pages.contact.heroSubtitle}</p>
+            <div className="max-w-3xl">
+              <h1 className="font-display text-3xl md:text-5xl font-extrabold text-blue-50 mb-3 tracking-tight drop-shadow-[0_10px_28px_rgba(2,6,23,0.52)]">{t.pages.contact.hero}</h1>
+              <p className="text-base md:text-xl text-white max-w-2xl drop-shadow-[0_6px_18px_rgba(2,6,23,0.42)]">{t.pages.contact.heroSubtitle}</p>
             </div>
           </div>
         </section>
@@ -142,9 +183,9 @@ const ContactPage = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-start">
               {/* Contact Methods */}
               <motion.div variants={fadeInUp}>
-                <h2 className="section-title text-left mb-6">Neem contact op</h2>
+                <h2 className="section-title text-left mb-6">{copy.contactIntroTitle}</h2>
                 <p className="text-muted-foreground mb-8">
-                  Heeft u vragen of wilt u een project bespreken? Wij staan klaar om u te helpen. Kies hieronder uw favoriete contactmethode.
+                  {copy.contactIntroBody}
                 </p>
 
                 <div className="space-y-4">
@@ -175,15 +216,13 @@ const ContactPage = () => {
                   ))}
                 </div>
 
-                {/* Additional Info */}
+                {/* WhatsApp availability */}
                 <div className="mt-8 p-6 bg-soft rounded-xl">
-                  <div className="flex items-center gap-3 mb-4">
-                    <MapPin className="w-5 h-5 text-primary" />
-                    <span className="font-medium text-foreground">Amsterdam, Nederland</span>
-                  </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-primary" />
-                    <span className="text-muted-foreground">Ma - Vr: 9:00 - 18:00</span>
+                    <MessageCircle className="w-5 h-5 text-primary" />
+                    <span className="text-muted-foreground">
+                      {copy.whatsappAvailability}
+                    </span>
                   </div>
                 </div>
               </motion.div>
@@ -192,51 +231,51 @@ const ContactPage = () => {
               <motion.div variants={fadeInUp}>
                 <Card className="border-border/50 shadow-lg">
                   <CardContent className="p-6 md:p-8">
-                    <h2 className="font-display text-xl font-bold text-foreground mb-6">Stuur ons een bericht</h2>
+                    <h2 className="font-display text-xl font-bold text-foreground mb-6">{copy.formTitle}</h2>
                     
                     {isSubmitted ? (
                       <div className="text-center py-8">
                         <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                           <Send className="w-8 h-8 text-primary" />
                         </div>
-                        <h3 className="font-semibold text-foreground mb-2">Bericht verzonden!</h3>
+                        <h3 className="font-semibold text-foreground mb-2">{copy.submittedTitle}</h3>
                         <p className="text-muted-foreground text-sm">
-                          Bedankt voor uw bericht. Wij nemen zo snel mogelijk contact met u op.
+                          {copy.submittedBody}
                         </p>
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
-                          <Label htmlFor="naam">Naam *</Label>
+                          <Label htmlFor="naam">{copy.nameLabel} *</Label>
                           <Input
                             id="naam"
                             required
                             value={formData.naam}
                             onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
-                            placeholder="Uw naam"
+                            placeholder={copy.namePlaceholder}
                             className="h-12"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="email">E-mailadres *</Label>
+                          <Label htmlFor="email">{copy.emailLabel} *</Label>
                           <Input
                             id="email"
                             type="email"
                             required
                             value={formData.email}
                             onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                            placeholder="uw@email.nl"
+                            placeholder={copy.emailPlaceholder}
                             className="h-12"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="bericht">Bericht *</Label>
+                          <Label htmlFor="bericht">{copy.messageLabel} *</Label>
                           <Textarea
                             id="bericht"
                             required
                             value={formData.bericht}
                             onChange={(e) => setFormData(prev => ({ ...prev, bericht: e.target.value }))}
-                            placeholder="Uw vraag of bericht..."
+                            placeholder={copy.messagePlaceholder}
                             rows={5}
                             className="resize-none"
                           />
@@ -246,7 +285,7 @@ const ContactPage = () => {
                           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12"
                           disabled={isSubmitting}
                         >
-                          {isSubmitting ? 'Versturen...' : 'Verstuur bericht'}
+                          {isSubmitting ? copy.submittingLabel : copy.submitLabel}
                           <Send className="ml-2 w-4 h-4" />
                         </Button>
                       </form>
@@ -256,9 +295,9 @@ const ContactPage = () => {
 
                 <div className="mt-6 p-4 bg-muted/50 rounded-lg text-center">
                   <p className="text-sm text-muted-foreground">
-                    Liever direct een offerte aanvragen?{' '}
+                    {copy.quotePrompt}{' '}
                     <Link to="/quote" className="text-primary hover:underline font-medium">
-                      Ga naar het offerteformulier
+                      {copy.quoteLink}
                     </Link>
                   </p>
                 </div>
@@ -270,25 +309,7 @@ const ContactPage = () => {
           <div className="section-divider-strong" />
         </div>
 
-        {/* Map Section */}
-        <section className="py-12">
-          <div className="container mx-auto container-padding">
-            <div className="relative rounded-2xl overflow-hidden h-80 bg-muted">
-              <img 
-                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1600&q=80" 
-                alt="Amsterdam city view"
-                className="w-full h-full object-cover opacity-80"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-card/95 backdrop-blur-sm p-6 rounded-xl shadow-xl text-center">
-                  <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <p className="font-display font-bold text-foreground">WebStudio HQ</p>
-                  <p className="text-sm text-muted-foreground">Amsterdam, Nederland</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Map section removed per request */}
       </main>
       <Footer />
     </div>

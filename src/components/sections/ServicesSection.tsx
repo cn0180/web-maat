@@ -172,7 +172,7 @@ const ServicesSection = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#c8d0da] py-10 md:py-12 lg:py-14">
+    <section className="relative overflow-hidden bg-[#c8d0da] pt-7 pb-10 md:pt-9 md:pb-12 lg:pt-10 lg:pb-14">
       <div className="glass-light absolute inset-0 pointer-events-none" />
       <div className="section-divider absolute top-0 left-0 right-0 z-[1]" />
 
@@ -183,15 +183,12 @@ const ServicesSection = () => {
         initial="hidden"
         animate={controls}
       >
-        <motion.div className="section-header mb-6 md:mb-8" variants={fadeInUp}>
+        <motion.div className="section-header mb-5 md:mb-7" variants={fadeInUp}>
           <h2 className="section-title !text-primary !font-extrabold">{language === 'nl' ? 'Diensten' : 'Services'}</h2>
-          <p className="section-subtitle text-slate-600">
-            {language === 'nl' ? 'Online zichtbaarheid en groei' : 'Online visibility and growth'}
-          </p>
-          <p className="mt-2 text-xs md:text-sm text-slate-700 max-w-2xl mx-auto">
+          <p className="section-subtitle text-slate-700 max-w-3xl mx-auto">
             {language === 'nl'
-              ? 'Wij helpen ook met branding: logo design, een passende naam en een uitstraling die bij uw doelgroep past.'
-              : 'We also help with branding: logo design, a fitting name, and a visual style tailored to your audience.'}
+              ? 'Van strategie tot ontwikkeling: wij creëren digitale oplossingen voor groei.'
+              : 'From strategy to development, we create digital solutions for growth.'}
           </p>
         </motion.div>
 

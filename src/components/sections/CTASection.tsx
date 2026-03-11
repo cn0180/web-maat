@@ -65,12 +65,12 @@ const CTASection = ({ variant = 'dark' }: CTASectionProps) => {
               variant="outline"
               className={`w-full h-11 px-4 md:h-12 md:px-6 ${
                 isSoft
-                  ? 'border-primary/50 text-primary bg-primary/10 hover:bg-primary/15 hover:text-primary'
-                  : 'border-primary/60 text-white bg-primary/25 hover:bg-primary/35 hover:text-white'
+                  ? 'border-slate-300 bg-slate-800 text-white hover:bg-slate-700 hover:text-white'
+                  : 'group border-slate-700 bg-slate-800 text-white transition-colors duration-300 hover:bg-slate-700 hover:text-white'
               }`}
             >
               <Link to="/contact">
-                <MessageSquare className="mr-2 w-4 h-4" />
+                <MessageSquare className="mr-2 w-4 h-4 transition-transform duration-300 group-hover:scale-105" />
                 {language === 'nl' ? 'Contact' : 'Contact Us'}
               </Link>
             </Button>

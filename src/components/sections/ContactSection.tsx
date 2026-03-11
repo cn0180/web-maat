@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MessageCircle, MapPin, Clock, ArrowRight, ExternalLink } from 'lucide-react';
+import { Phone, Mail, MessageCircle, ArrowRight, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -7,12 +7,12 @@ import { motion } from 'framer-motion';
 import { useScrollAnimation, fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
 
 const ContactSection = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { ref, controls } = useScrollAnimation();
 
   const whatsappNumber = '31612345678';
   const phoneNumber = '+31 6 12345678';
-  const emailAddress = 'info@webstudio.nl';
+  const emailAddress = 'info@web-maat.nl';
 
   const contactMethods = [
     {
@@ -52,7 +52,7 @@ const ContactSection = () => {
       >
         {/* Header */}
         <motion.div className="section-header" variants={fadeInUp}>
-          <h2 className="section-title">Contact</h2>
+          <h2 className="section-title">{t.contact.title}</h2>
         </motion.div>
 
         {/* Contact Cards */}
@@ -86,18 +86,14 @@ const ContactSection = () => {
           ))}
         </div>
 
-        {/* Additional Info */}
+        {/* WhatsApp availability */}
         <motion.div 
           className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground"
           variants={fadeInUp}
         >
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-primary" />
-            <span>Amsterdam, Nederland</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-primary" />
-            <span>Ma - Vr: 9:00 - 18:00</span>
+            <MessageCircle className="w-4 h-4 text-primary" />
+            <span>{language === 'nl' ? '24/7 bereikbaar via WhatsApp' : 'Available 24/7 via WhatsApp'}</span>
           </div>
         </motion.div>
 

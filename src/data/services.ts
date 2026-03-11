@@ -1,4 +1,5 @@
 import { Globe, ShoppingCart, Search, Wrench, Server, Share2, BarChart, Target, Mail, Palette, Bot, Monitor, Smartphone, Zap, Package } from 'lucide-react';
+import type { Language } from '@/lib/i18n';
 
 export interface ServiceItem {
   slug: string;
@@ -67,11 +68,11 @@ const allServices: ServiceItem[] = [
     slug: 'seo',
     icon: Search,
     title: 'SEO & Zoekmachine Optimalisatie',
-    subtitle: 'Word gevonden door uw ideale klanten',
-    description: 'Strategische zoekmachine optimalisatie die uw website hoger laat ranken in Google. Van technische SEO tot lokale vindbaarheid en content strategie.',
+    subtitle: 'Hoger in Google en beter gevonden worden',
+    description: 'Strategische zoekmachine optimalisatie die uw website hoger laat ranken in Google. Van technische SEO en lokale vindbaarheid tot content die helpt om bovenaan mee te doen in de zoekresultaten.',
     category: 'mrr',
     price: 'Vanaf €149/mnd',
-    features: ['Lokale SEO optimalisatie', 'Technische SEO audit', 'Blogartikelen & content', 'Google Business optimalisatie', 'Keyword research', 'Maandelijkse rapportage'],
+    features: ['Lokale SEO optimalisatie', 'Technische SEO audit', 'Content om hoger in Google te komen', 'Google Business optimalisatie', 'Keyword research', 'Maandelijkse rapportage'],
     details: [
       'Uitgebreide keyword analyse voor uw markt',
       'On-page en off-page optimalisatie',
@@ -299,24 +300,154 @@ export const services: ServiceItem[] = coreServiceOrder
 export const bundles: BundleItem[] = [
   {
     name: 'Starter',
-    price: 'Vanaf €499',
-    description: 'Perfect voor ondernemers die online willen starten',
-    features: ['Professionele website', 'Hosting & SSL', 'Basis onderhoud', 'E-mail setup', 'SEO basis'],
+    price: '€395',
+    description: 'Snel professioneel online met een sterke basis. U levert teksten en afbeeldingen aan, wij bouwen een professionele website binnen een bewezen structuur.',
+    features: [
+      'Beproefde website structuur',
+      'Geschikt voor bijna elke branche',
+      'Responsive voor mobiel en tablet',
+      'Snel online',
+    ],
   },
   {
     name: 'Groei',
-    price: 'Vanaf €999',
-    description: 'Voor bedrijven die klaar zijn om te groeien',
-    features: ['Professionele website', 'SEO optimalisatie', 'Google Ads setup', 'Hosting & onderhoud', 'Maandelijkse rapportage', 'Social media basis'],
+    price: '€1150',
+    description: 'Meer invloed op inhoud, structuur en uitstraling van uw website. Wij adviseren over design en opbouw zodat de website beter aansluit bij uw bedrijf.',
+    features: [
+      'Persoonlijk advies',
+      'Flexibele pagina-indeling',
+      'Design afgestemd op uw bedrijf',
+      'Basis SEO optimalisatie',
+    ],
     popular: true,
   },
   {
-    name: 'Dominantie',
-    price: 'Vanaf €2.499',
-    description: 'Het complete klanten-aantrek systeem',
-    features: ['Premium website', 'Uitgebreide SEO', 'Google & Meta Ads', 'Sales funnels', 'E-mail automation', 'Maandelijkse optimalisatie', 'Branding pakket', 'Priority support'],
+    name: 'Maatwerk',
+    price: '€2450',
+    description: 'Een volledig unieke website ontwikkeld rond uw bedrijf en doelen.',
+    features: [
+      'Strategische intake',
+      'Uniek design op maat',
+      'Structuur gericht op conversie',
+      'Uitbreidbaar voor groei',
+    ],
   },
 ];
+
+type ServiceCopy = Pick<ServiceItem, 'title' | 'subtitle' | 'description' | 'features' | 'details'>;
+
+const serviceCopyEn: Record<string, ServiceCopy> = {
+  'website-onderhoud': {
+    title: 'Website Maintenance',
+    subtitle: 'Worry-free maintenance with personal support',
+    description:
+      'Your website needs ongoing attention. We handle updates, backups, security and small changes so your site keeps performing at its best.',
+    features: [
+      'WordPress & plugin updates',
+      'Daily backups',
+      'Security monitoring',
+      'Bug fixes',
+      'Small monthly updates',
+      'Priority support',
+    ],
+    details: [
+      'Monthly report on uptime and performance',
+      'Proactive protection against hackers and malware',
+      'Fast response times when issues occur',
+      'Includes small content changes',
+    ],
+  },
+  seo: {
+    title: 'SEO & Search Optimization',
+    subtitle: 'Rank higher in Google and get found',
+    description:
+      'Strategic search optimization that helps your website rank higher in Google. From technical SEO and local visibility to content that competes at the top of search results.',
+    features: [
+      'Local SEO optimization',
+      'Technical SEO audit',
+      'Content to rank higher in Google',
+      'Google Business optimization',
+      'Keyword research',
+      'Monthly reporting',
+    ],
+    details: [
+      'In-depth keyword research for your market',
+      'On-page and off-page optimization',
+      'Google Business profile optimization',
+      'Competitive analysis and strategy',
+    ],
+  },
+  webdesign: {
+    title: 'Web Design & Development',
+    subtitle: 'Websites that impress and convert',
+    description:
+      'Bespoke websites that translate your brand into a digital experience. From business sites and portfolios to landing pages and corporate websites.',
+    features: [
+      'Unique custom design',
+      'Responsive for all devices',
+      'Conversion-optimized',
+      'CMS system',
+      'SEO foundations included',
+      'Fast load times',
+    ],
+    details: [
+      'Strategic design tailored to your audience',
+      'Built with the latest technologies',
+      'Fully manageable content management system',
+      'Search-engine optimized from day one',
+    ],
+  },
+  webshop: {
+    title: 'E-commerce & Webshops',
+    subtitle: 'Sell online without limits',
+    description:
+      'Complete e-commerce solutions: from webshops and custom checkout flows to subscriptions, member-only content, and digital product platforms.',
+    features: [
+      'Custom webshop design',
+      'Secure payment integration',
+      'Inventory management',
+      'Customer portal',
+      'Subscription systems',
+      'Digital products',
+    ],
+    details: [
+      'WooCommerce, Shopify, or fully custom',
+      'Optimized checkout for maximum conversion',
+      'B2B and B2C solutions',
+      'Scalable platform that grows with you',
+    ],
+  },
+  'ai-implementatie': {
+    title: 'AI Implementation',
+    subtitle: 'Stand out with smart AI solutions',
+    description:
+      'Implement AI in your business: from chatbots and customer service to content generation and automated workflows. The way to stay ahead of competitors.',
+    features: [
+      'AI chatbot on your website',
+      'AI customer service',
+      'AI content generation',
+      'Automated workflows',
+      'Smart recommendations',
+      'Training & support',
+    ],
+    details: [
+      'Custom AI solutions for your industry',
+      '24/7 virtual assistant availability',
+      'Integration with existing systems',
+      'Continuous improvement based on data',
+    ],
+  },
+};
+
+export const getLocalizedService = (service: ServiceItem, language: Language) => {
+  if (language === 'en') {
+    const copy = serviceCopyEn[service.slug];
+    if (copy) {
+      return { ...service, ...copy };
+    }
+  }
+  return service;
+};
 
 export const getServiceBySlug = (slug: string) => services.find(s => s.slug === slug);
 export const getServicesByCategory = (category: ServiceItem['category']) => services.filter(s => s.category === category);

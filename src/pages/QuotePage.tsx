@@ -48,99 +48,371 @@ const QuotePage = () => {
 
   const totalSteps = 7;
 
-  // Options
-  const typeAanvraagOptions = [
-    { value: 'nieuwe-website', label: 'Nieuwe website' },
-    { value: 'website-redesign', label: 'Website redesign' },
-    { value: 'nieuwe-webshop', label: 'Nieuwe webshop' },
-    { value: 'webshop-redesign', label: 'Webshop redesign' },
-    { value: 'onderhoud', label: 'Onderhoud & updates' },
-    { value: 'seo-optimalisatie', label: 'SEO optimalisatie' },
-    { value: 'anders', label: 'Anders' },
-  ];
+  const copy =
+    language === 'nl'
+      ? {
+          typeAanvraagOptions: [
+            { value: 'nieuwe-website', label: 'Nieuwe website' },
+            { value: 'website-redesign', label: 'Website redesign' },
+            { value: 'nieuwe-webshop', label: 'Nieuwe webshop' },
+            { value: 'webshop-redesign', label: 'Webshop redesign' },
+            { value: 'onderhoud', label: 'Onderhoud & updates' },
+            { value: 'seo-optimalisatie', label: 'SEO optimalisatie' },
+            { value: 'anders', label: 'Anders' },
+          ],
+          aanvraagVoorOptions: [
+            { value: 'particulier', label: 'Particulier' },
+            { value: 'zzp', label: 'ZZP\'er / Freelancer' },
+            { value: 'mkb', label: 'MKB / Bedrijf' },
+            { value: 'stichting', label: 'Stichting / Vereniging' },
+            { value: 'overheid', label: 'Overheid / Gemeente' },
+          ],
+          websiteOfWebshopOptions: [
+            { value: 'website', label: 'Website', description: 'Informatieve of zakelijke website' },
+            { value: 'webshop', label: 'Webshop', description: 'Online verkopen van producten' },
+            { value: 'beide', label: 'Website én webshop', description: 'Combinatie van beide' },
+          ],
+          webdesignerVoorOptions: [
+            { value: 'volledig-ontwerp', label: 'Volledig nieuw ontwerp & ontwikkeling' },
+            { value: 'redesign', label: 'Bestaande website vernieuwen' },
+            { value: 'technische-aanpassingen', label: 'Technische aanpassingen' },
+            { value: 'content-creatie', label: 'Content & copywriting' },
+            { value: 'seo-marketing', label: 'SEO & online marketing' },
+            { value: 'hosting-beheer', label: 'Hosting & domeinbeheer' },
+          ],
+          websiteFunctiesOptions: [
+            { value: 'contactformulier', label: 'Contactformulier' },
+            { value: 'blog', label: 'Blog / Nieuws' },
+            { value: 'portfolio', label: 'Portfolio / Gallerij' },
+            { value: 'reserveringen', label: 'Reserveringen' },
+            { value: 'reviews', label: 'Klantreviews' },
+            { value: 'social-media', label: 'Social media' },
+            { value: 'nieuwsbrief', label: 'Nieuwsbrief' },
+            { value: 'meertalig', label: 'Meertalig' },
+          ],
+          webshopFunctiesOptions: [
+            { value: 'ideal', label: 'iDEAL betaling' },
+            { value: 'creditcard', label: 'Creditcard' },
+            { value: 'afterpay', label: 'Afterpay / Klarna' },
+            { value: 'voorraad', label: 'Voorraadbeheer' },
+            { value: 'kortingscodes', label: 'Kortingscodes' },
+            { value: 'klantaccounts', label: 'Klantaccounts' },
+            { value: 'track-trace', label: 'Track & Trace' },
+            { value: 'filters', label: 'Productfilters' },
+            { value: 'anders', label: 'Anders' },
+          ],
+          hulpMetInhoudOptions: [
+            { value: 'ja-volledig', label: 'Ja, volledig (teksten + afbeeldingen)' },
+            { value: 'ja-teksten', label: 'Ja, alleen teksten' },
+            { value: 'ja-afbeeldingen', label: 'Ja, alleen afbeeldingen' },
+            { value: 'nee', label: 'Nee, ik lever alles zelf aan' },
+          ],
+          domeinnaamEnHostingOptions: [
+            { value: 'ja-beide', label: 'Ja, beide geregeld' },
+            { value: 'alleen-domein', label: 'Alleen domeinnaam' },
+            { value: 'alleen-hosting', label: 'Alleen hosting' },
+            { value: 'nee', label: 'Nee, nog niet' },
+            { value: 'hulp-nodig', label: 'Ik heb hulp nodig hierbij' },
+          ],
+          onderhoudOptions: [
+            { value: 'ja', label: 'Ja, graag' },
+            { value: 'nee', label: 'Nee, niet nodig' },
+            { value: 'misschien', label: 'Afhankelijk van kosten' },
+          ],
+          aantalPaginasOptions: [
+            { value: '1-5', label: '1 - 5 pagina\'s' },
+            { value: '5-10', label: '5 - 10 pagina\'s' },
+            { value: '10-20', label: '10 - 20 pagina\'s' },
+            { value: '20-plus', label: 'Meer dan 20 pagina\'s' },
+            { value: 'weet-niet', label: 'Weet ik nog niet' },
+          ],
+          opleverdatumOptions: [
+            { value: 'zo-snel-mogelijk', label: 'Zo snel mogelijk' },
+            { value: 'binnen-2-weken', label: 'Binnen 2 weken' },
+            { value: 'binnen-maand', label: 'Binnen 1 maand' },
+            { value: 'binnen-3-maanden', label: 'Binnen 3 maanden' },
+            { value: 'binnen-6-maanden', label: 'Binnen 6 maanden' },
+            { value: 'geen-deadline', label: 'Geen specifieke deadline' },
+          ],
+          stepTitles: [
+            'Type project',
+            'Contactgegevens',
+            'Type website',
+            'Diensten',
+            'Functies',
+            'Extra info',
+            'Afronden',
+          ],
+          steps: {
+            step0: {
+              title: 'Wat voor type project betreft uw aanvraag?',
+              subtitle: 'Selecteer de optie die het beste bij uw situatie past',
+              customerLabel: 'Voor wie is deze aanvraag?',
+              customerPlaceholder: 'Selecteer type klant',
+            },
+            step1: {
+              title: 'Uw contactgegevens',
+              subtitle: 'Zodat wij contact met u kunnen opnemen',
+              nameLabel: 'Naam',
+              namePlaceholder: 'Uw volledige naam',
+              emailLabel: 'E-mailadres',
+              emailPlaceholder: 'uw@email.nl',
+              phoneLabel: 'Telefoonnummer',
+              phonePlaceholder: '06 12345678',
+              cityLabel: 'Plaats',
+              cityPlaceholder: 'Uw woonplaats',
+            },
+            step2: {
+              title: 'Wat voor type project heeft u in gedachten?',
+              subtitle: 'Kies de optie die het beste aansluit bij uw wensen',
+            },
+            step3: {
+              title: 'Waar kunnen wij u mee helpen?',
+              subtitle: 'Selecteer alle opties die van toepassing zijn',
+            },
+            step4: {
+              title: 'Gewenste functionaliteiten',
+              subtitle: 'Welke functies wilt u op uw',
+              websiteLabel: 'Website functies',
+              webshopLabel: 'Webshop functies',
+            },
+            step5: {
+              title: 'Extra informatie',
+              subtitle: 'Enkele aanvullende vragen om uw project beter te begrijpen',
+              contentLabel: 'Hulp met inhoud (teksten & afbeeldingen)?',
+              domainLabel: 'Heeft u al domeinnaam en hosting?',
+              maintenanceLabel: 'Onderhoud na oplevering gewenst?',
+              pagesLabel: 'Aantal pagina\'s',
+              selectPlaceholder: 'Selecteer een optie',
+            },
+            step6: {
+              title: 'Laatste details',
+              subtitle: 'Nog een paar vragen om uw aanvraag compleet te maken',
+              urlLabel: 'Gewenste website URL',
+              urlPlaceholder: 'bijv. www.mijnbedrijf.nl',
+              deadlineLabel: 'Gewenste opleverdatum',
+              deadlinePlaceholder: 'Selecteer een termijn',
+              descriptionLabel: 'Projectomschrijving (optioneel)',
+              descriptionPlaceholder: 'Beschrijf uw project, wensen of stel vragen...',
+              uploadLabel: 'Documenten uploaden (optioneel)',
+              uploadHelper: 'Klik om bestanden te selecteren (max 5)',
+            },
+          },
+          header: {
+            title: 'Offerte aanvragen',
+            subtitle: 'Vul het formulier in en ontvang binnen 24 uur een vrijblijvende offerte',
+            prompt: 'Niet zeker welk pakket past bij uw bedrijf?',
+            link: 'Plan een gratis adviesgesprek',
+          },
+          progress: {
+            step: 'Stap',
+            of: 'van',
+          },
+          buttons: {
+            prev: 'Vorige',
+            next: 'Volgende',
+            submitting: 'Versturen...',
+            submit: 'Verstuur aanvraag',
+          },
+          trust: ['Vrijblijvend', 'Reactie binnen 24 uur', 'Persoonlijk advies'],
+          success: {
+            title: 'Bedankt! Uw aanvraag is succesvol verzonden',
+            body:
+              'Bedankt voor uw aanvraag. Wij nemen binnen 24 uur persoonlijk contact met u op om uw project te bespreken.',
+            backHome: 'Terug naar homepage',
+            newRequest: 'Nieuwe aanvraag indienen',
+            imageAlt: 'Team aan het werk',
+          },
+        }
+      : {
+          typeAanvraagOptions: [
+            { value: 'nieuwe-website', label: 'New website' },
+            { value: 'website-redesign', label: 'Website redesign' },
+            { value: 'nieuwe-webshop', label: 'New webshop' },
+            { value: 'webshop-redesign', label: 'Webshop redesign' },
+            { value: 'onderhoud', label: 'Maintenance & updates' },
+            { value: 'seo-optimalisatie', label: 'SEO optimization' },
+            { value: 'anders', label: 'Other' },
+          ],
+          aanvraagVoorOptions: [
+            { value: 'particulier', label: 'Individual' },
+            { value: 'zzp', label: 'Freelancer / self-employed' },
+            { value: 'mkb', label: 'SME / Business' },
+            { value: 'stichting', label: 'Foundation / Association' },
+            { value: 'overheid', label: 'Government / Municipality' },
+          ],
+          websiteOfWebshopOptions: [
+            { value: 'website', label: 'Website', description: 'Informational or business website' },
+            { value: 'webshop', label: 'Webshop', description: 'Sell products online' },
+            { value: 'beide', label: 'Website and webshop', description: 'Combination of both' },
+          ],
+          webdesignerVoorOptions: [
+            { value: 'volledig-ontwerp', label: 'Full new design & development' },
+            { value: 'redesign', label: 'Redesign existing website' },
+            { value: 'technische-aanpassingen', label: 'Technical adjustments' },
+            { value: 'content-creatie', label: 'Content & copywriting' },
+            { value: 'seo-marketing', label: 'SEO & online marketing' },
+            { value: 'hosting-beheer', label: 'Hosting & domain management' },
+          ],
+          websiteFunctiesOptions: [
+            { value: 'contactformulier', label: 'Contact form' },
+            { value: 'blog', label: 'Blog / News' },
+            { value: 'portfolio', label: 'Portfolio / Gallery' },
+            { value: 'reserveringen', label: 'Bookings' },
+            { value: 'reviews', label: 'Customer reviews' },
+            { value: 'social-media', label: 'Social media' },
+            { value: 'nieuwsbrief', label: 'Newsletter' },
+            { value: 'meertalig', label: 'Multilingual' },
+          ],
+          webshopFunctiesOptions: [
+            { value: 'ideal', label: 'iDEAL payment' },
+            { value: 'creditcard', label: 'Credit card' },
+            { value: 'afterpay', label: 'Afterpay / Klarna' },
+            { value: 'voorraad', label: 'Inventory management' },
+            { value: 'kortingscodes', label: 'Discount codes' },
+            { value: 'klantaccounts', label: 'Customer accounts' },
+            { value: 'track-trace', label: 'Track & Trace' },
+            { value: 'filters', label: 'Product filters' },
+            { value: 'anders', label: 'Other' },
+          ],
+          hulpMetInhoudOptions: [
+            { value: 'ja-volledig', label: 'Yes, fully (text + images)' },
+            { value: 'ja-teksten', label: 'Yes, text only' },
+            { value: 'ja-afbeeldingen', label: 'Yes, images only' },
+            { value: 'nee', label: 'No, I will provide everything' },
+          ],
+          domeinnaamEnHostingOptions: [
+            { value: 'ja-beide', label: 'Yes, both arranged' },
+            { value: 'alleen-domein', label: 'Domain only' },
+            { value: 'alleen-hosting', label: 'Hosting only' },
+            { value: 'nee', label: 'No, not yet' },
+            { value: 'hulp-nodig', label: 'I need help with this' },
+          ],
+          onderhoudOptions: [
+            { value: 'ja', label: 'Yes, please' },
+            { value: 'nee', label: 'No, not needed' },
+            { value: 'misschien', label: 'Depends on costs' },
+          ],
+          aantalPaginasOptions: [
+            { value: '1-5', label: '1 - 5 pages' },
+            { value: '5-10', label: '5 - 10 pages' },
+            { value: '10-20', label: '10 - 20 pages' },
+            { value: '20-plus', label: 'More than 20 pages' },
+            { value: 'weet-niet', label: 'Not sure yet' },
+          ],
+          opleverdatumOptions: [
+            { value: 'zo-snel-mogelijk', label: 'As soon as possible' },
+            { value: 'binnen-2-weken', label: 'Within 2 weeks' },
+            { value: 'binnen-maand', label: 'Within 1 month' },
+            { value: 'binnen-3-maanden', label: 'Within 3 months' },
+            { value: 'binnen-6-maanden', label: 'Within 6 months' },
+            { value: 'geen-deadline', label: 'No specific deadline' },
+          ],
+          stepTitles: [
+            'Project type',
+            'Contact details',
+            'Website type',
+            'Services',
+            'Features',
+            'Extra info',
+            'Finish',
+          ],
+          steps: {
+            step0: {
+              title: 'What type of project is your request about?',
+              subtitle: 'Select the option that best fits your situation',
+              customerLabel: 'Who is this request for?',
+              customerPlaceholder: 'Select client type',
+            },
+            step1: {
+              title: 'Your contact details',
+              subtitle: 'So we can get in touch with you',
+              nameLabel: 'Name',
+              namePlaceholder: 'Your full name',
+              emailLabel: 'Email address',
+              emailPlaceholder: 'you@email.com',
+              phoneLabel: 'Phone number',
+              phonePlaceholder: '+31 6 12345678',
+              cityLabel: 'City',
+              cityPlaceholder: 'Your city',
+            },
+            step2: {
+              title: 'What type of project do you have in mind?',
+              subtitle: 'Choose the option that best matches your needs',
+            },
+            step3: {
+              title: 'How can we help you?',
+              subtitle: 'Select all options that apply',
+            },
+            step4: {
+              title: 'Desired features',
+              subtitle: 'Which features do you want on your',
+              websiteLabel: 'Website features',
+              webshopLabel: 'Webshop features',
+            },
+            step5: {
+              title: 'Extra information',
+              subtitle: 'A few additional questions to better understand your project',
+              contentLabel: 'Help with content (text & images)?',
+              domainLabel: 'Do you already have a domain and hosting?',
+              maintenanceLabel: 'Maintenance after delivery?',
+              pagesLabel: 'Number of pages',
+              selectPlaceholder: 'Select an option',
+            },
+            step6: {
+              title: 'Final details',
+              subtitle: 'A few more questions to complete your request',
+              urlLabel: 'Desired website URL',
+              urlPlaceholder: 'e.g. www.yourcompany.com',
+              deadlineLabel: 'Desired delivery date',
+              deadlinePlaceholder: 'Select a timeframe',
+              descriptionLabel: 'Project description (optional)',
+              descriptionPlaceholder: 'Describe your project, wishes or questions...',
+              uploadLabel: 'Upload documents (optional)',
+              uploadHelper: 'Click to select files (max 5)',
+            },
+          },
+          header: {
+            title: 'Request a quote',
+            subtitle: 'Fill in the form and receive a no-obligation quote within 24 hours',
+            prompt: 'Not sure which package fits your business?',
+            link: 'Plan a free strategy call',
+          },
+          progress: {
+            step: 'Step',
+            of: 'of',
+          },
+          buttons: {
+            prev: 'Previous',
+            next: 'Next',
+            submitting: 'Sending...',
+            submit: 'Send request',
+          },
+          trust: ['No obligation', 'Response within 24 hours', 'Personal advice'],
+          success: {
+            title: 'Thank you! Your request has been sent',
+            body:
+              'Thanks for your request. We will contact you personally within 24 hours to discuss your project.',
+            backHome: 'Back to homepage',
+            newRequest: 'Submit a new request',
+            imageAlt: 'Team at work',
+          },
+        };
 
-  const aanvraagVoorOptions = [
-    { value: 'particulier', label: 'Particulier' },
-    { value: 'zzp', label: 'ZZP\'er / Freelancer' },
-    { value: 'mkb', label: 'MKB / Bedrijf' },
-    { value: 'stichting', label: 'Stichting / Vereniging' },
-    { value: 'overheid', label: 'Overheid / Gemeente' },
-  ];
-
-  const websiteOfWebshopOptions = [
-    { value: 'website', label: 'Website', description: 'Informatieve of zakelijke website' },
-    { value: 'webshop', label: 'Webshop', description: 'Online verkopen van producten' },
-    { value: 'beide', label: 'Website én webshop', description: 'Combinatie van beide' },
-  ];
-
-  const webdesignerVoorOptions = [
-    { value: 'volledig-ontwerp', label: 'Volledig nieuw ontwerp & ontwikkeling' },
-    { value: 'redesign', label: 'Bestaande website vernieuwen' },
-    { value: 'technische-aanpassingen', label: 'Technische aanpassingen' },
-    { value: 'content-creatie', label: 'Content & copywriting' },
-    { value: 'seo-marketing', label: 'SEO & online marketing' },
-    { value: 'hosting-beheer', label: 'Hosting & domeinbeheer' },
-  ];
-
-  const websiteFunctiesOptions = [
-    { value: 'contactformulier', label: 'Contactformulier' },
-    { value: 'blog', label: 'Blog / Nieuws' },
-    { value: 'portfolio', label: 'Portfolio / Gallerij' },
-    { value: 'reserveringen', label: 'Reserveringen' },
-    { value: 'reviews', label: 'Klantreviews' },
-    { value: 'social-media', label: 'Social media' },
-    { value: 'nieuwsbrief', label: 'Nieuwsbrief' },
-    { value: 'meertalig', label: 'Meertalig' },
-  ];
-
-  const webshopFunctiesOptions = [
-    { value: 'ideal', label: 'iDEAL betaling' },
-    { value: 'creditcard', label: 'Creditcard' },
-    { value: 'afterpay', label: 'Afterpay / Klarna' },
-    { value: 'voorraad', label: 'Voorraadbeheer' },
-    { value: 'kortingscodes', label: 'Kortingscodes' },
-    { value: 'klantaccounts', label: 'Klantaccounts' },
-    { value: 'track-trace', label: 'Track & Trace' },
-    { value: 'filters', label: 'Productfilters' },
-  ];
-
-  const hulpMetInhoudOptions = [
-    { value: 'ja-volledig', label: 'Ja, volledig (teksten + afbeeldingen)' },
-    { value: 'ja-teksten', label: 'Ja, alleen teksten' },
-    { value: 'ja-afbeeldingen', label: 'Ja, alleen afbeeldingen' },
-    { value: 'nee', label: 'Nee, ik lever alles zelf aan' },
-  ];
-
-  const domeinnaamEnHostingOptions = [
-    { value: 'ja-beide', label: 'Ja, beide geregeld' },
-    { value: 'alleen-domein', label: 'Alleen domeinnaam' },
-    { value: 'alleen-hosting', label: 'Alleen hosting' },
-    { value: 'nee', label: 'Nee, nog niet' },
-    { value: 'hulp-nodig', label: 'Ik heb hulp nodig hierbij' },
-  ];
-
-  const onderhoudOptions = [
-    { value: 'ja', label: 'Ja, graag' },
-    { value: 'nee', label: 'Nee, niet nodig' },
-    { value: 'misschien', label: 'Afhankelijk van kosten' },
-  ];
-
-  const aantalPaginasOptions = [
-    { value: '1-5', label: '1 - 5 pagina\'s' },
-    { value: '5-10', label: '5 - 10 pagina\'s' },
-    { value: '10-20', label: '10 - 20 pagina\'s' },
-    { value: '20-plus', label: 'Meer dan 20 pagina\'s' },
-    { value: 'weet-niet', label: 'Weet ik nog niet' },
-  ];
-
-  const opleverdatumOptions = [
-    { value: 'zo-snel-mogelijk', label: 'Zo snel mogelijk' },
-    { value: 'binnen-2-weken', label: 'Binnen 2 weken' },
-    { value: 'binnen-maand', label: 'Binnen 1 maand' },
-    { value: 'binnen-3-maanden', label: 'Binnen 3 maanden' },
-    { value: 'binnen-6-maanden', label: 'Binnen 6 maanden' },
-    { value: 'geen-deadline', label: 'Geen specifieke deadline' },
-  ];
+  const {
+    typeAanvraagOptions,
+    aanvraagVoorOptions,
+    websiteOfWebshopOptions,
+    webdesignerVoorOptions,
+    websiteFunctiesOptions,
+    webshopFunctiesOptions,
+    hulpMetInhoudOptions,
+    domeinnaamEnHostingOptions,
+    onderhoudOptions,
+    aantalPaginasOptions,
+    opleverdatumOptions,
+    stepTitles,
+  } = copy;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -266,16 +538,6 @@ const QuotePage = () => {
     }
   }, [formData.typeAanvraag, formData.aanvraagVoor, formData.websiteOfWebshop, currentStep, skipAutoAdvance]);
 
-  const stepTitles = [
-    'Type project',
-    'Contactgegevens',
-    'Type website',
-    'Diensten',
-    'Functies',
-    'Extra info',
-    'Afronden',
-  ];
-
   const resetForm = () => {
     setIsSubmitted(false);
     setCurrentStep(0);
@@ -311,7 +573,7 @@ const QuotePage = () => {
             <div className="absolute inset-0">
               <img 
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80" 
-                alt="Team aan het werk"
+                alt={copy.success.imageAlt}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/80" />
@@ -326,21 +588,21 @@ const QuotePage = () => {
                   <CheckCircle className="w-8 h-8 text-primary" />
                 </div>
                 <h1 className="font-sans text-2xl md:text-3xl font-bold text-foreground mb-3">
-                  Bedankt! Uw aanvraag is succesvol verzonden
+                  {copy.success.title}
                 </h1>
                 <p className="text-muted-foreground mb-8">
-                  Bedankt voor uw aanvraag. Wij nemen binnen 24 uur persoonlijk contact met u op om uw project te bespreken.
+                  {copy.success.body}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                     <Link to="/">
                       <Home className="w-4 h-4 mr-2" />
-                      Terug naar homepage
+                      {copy.success.backHome}
                     </Link>
                   </Button>
                   <Button onClick={resetForm} variant="outline" size="lg">
                     <FileText className="w-4 h-4 mr-2" />
-                    Nieuwe aanvraag indienen
+                    {copy.success.newRequest}
                   </Button>
                 </div>
               </motion.div>
@@ -364,8 +626,8 @@ const QuotePage = () => {
         return (
           <motion.div key="step-0" variants={stepVariants} initial="initial" animate="animate" exit="exit" className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-foreground">Wat voor type project betreft uw aanvraag?</h2>
-              <p className="text-sm text-muted-foreground">Selecteer de optie die het beste bij uw situatie past</p>
+              <h2 className="text-lg font-bold text-foreground">{copy.steps.step0.title}</h2>
+              <p className="text-sm text-muted-foreground">{copy.steps.step0.subtitle}</p>
             </div>
             
             <div className="grid gap-2">
@@ -399,10 +661,10 @@ const QuotePage = () => {
             </div>
 
             <div className="pt-3 border-t border-border">
-              <Label className="text-sm text-muted-foreground mb-2 block">Voor wie is deze aanvraag?</Label>
+              <Label className="text-sm text-muted-foreground mb-2 block">{copy.steps.step0.customerLabel}</Label>
               <Select value={formData.aanvraagVoor} onValueChange={(v) => handleSingleSelect('aanvraagVoor', v)}>
                 <SelectTrigger className="h-10 bg-background">
-                  <SelectValue placeholder="Selecteer type klant" />
+                  <SelectValue placeholder={copy.steps.step0.customerPlaceholder} />
                 </SelectTrigger>
                 <SelectContent className="bg-card border-border z-50">
                   {aanvraagVoorOptions.map(opt => (
@@ -418,28 +680,28 @@ const QuotePage = () => {
         return (
           <motion.div key="step-1" variants={stepVariants} initial="initial" animate="animate" exit="exit" className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-foreground">Uw contactgegevens</h2>
-              <p className="text-sm text-muted-foreground">Zodat wij contact met u kunnen opnemen</p>
+              <h2 className="text-lg font-bold text-foreground">{copy.steps.step1.title}</h2>
+              <p className="text-sm text-muted-foreground">{copy.steps.step1.subtitle}</p>
             </div>
             
             <div className="grid gap-3">
               <div className="space-y-1.5">
                 <Label htmlFor="naam" className="flex items-center gap-2 text-sm font-medium">
-                  <User className="w-4 h-4 text-muted-foreground" /> Naam *
+                  <User className="w-4 h-4 text-muted-foreground" /> {copy.steps.step1.nameLabel} *
                 </Label>
                 <Input 
                   id="naam" 
                   required 
                   value={formData.naam}
                   onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
-                  placeholder="Uw volledige naam" 
+                  placeholder={copy.steps.step1.namePlaceholder} 
                   className="h-10" 
                 />
               </div>
 
               <div className="space-y-1.5">
                 <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
-                  <Mail className="w-4 h-4 text-muted-foreground" /> E-mailadres *
+                  <Mail className="w-4 h-4 text-muted-foreground" /> {copy.steps.step1.emailLabel} *
                 </Label>
                 <Input 
                   id="email" 
@@ -447,14 +709,14 @@ const QuotePage = () => {
                   required 
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="uw@email.nl" 
+                  placeholder={copy.steps.step1.emailPlaceholder} 
                   className="h-10" 
                 />
               </div>
 
               <div className="space-y-1.5">
                 <Label htmlFor="telefoon" className="flex items-center gap-2 text-sm font-medium">
-                  <Phone className="w-4 h-4 text-muted-foreground" /> Telefoonnummer *
+                  <Phone className="w-4 h-4 text-muted-foreground" /> {copy.steps.step1.phoneLabel} *
                 </Label>
                 <Input 
                   id="telefoon" 
@@ -462,20 +724,20 @@ const QuotePage = () => {
                   required 
                   value={formData.telefoon}
                   onChange={(e) => setFormData(prev => ({ ...prev, telefoon: e.target.value }))}
-                  placeholder="06 12345678" 
+                  placeholder={copy.steps.step1.phonePlaceholder} 
                   className="h-10" 
                 />
               </div>
 
               <div className="space-y-1.5">
                 <Label htmlFor="plaats" className="flex items-center gap-2 text-sm font-medium">
-                  <MapPin className="w-4 h-4 text-muted-foreground" /> Plaats
+                  <MapPin className="w-4 h-4 text-muted-foreground" /> {copy.steps.step1.cityLabel}
                 </Label>
                 <Input 
                   id="plaats" 
                   value={formData.plaats}
                   onChange={(e) => setFormData(prev => ({ ...prev, plaats: e.target.value }))}
-                  placeholder="Uw woonplaats" 
+                  placeholder={copy.steps.step1.cityPlaceholder} 
                   className="h-10" 
                 />
               </div>
@@ -487,8 +749,8 @@ const QuotePage = () => {
         return (
           <motion.div key="step-2" variants={stepVariants} initial="initial" animate="animate" exit="exit" className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-foreground">Wat voor type project heeft u in gedachten?</h2>
-              <p className="text-sm text-muted-foreground">Kies de optie die het beste aansluit bij uw wensen</p>
+              <h2 className="text-lg font-bold text-foreground">{copy.steps.step2.title}</h2>
+              <p className="text-sm text-muted-foreground">{copy.steps.step2.subtitle}</p>
             </div>
             
             <div className="grid gap-2">
@@ -532,8 +794,8 @@ const QuotePage = () => {
         return (
           <motion.div key="step-3" variants={stepVariants} initial="initial" animate="animate" exit="exit" className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-foreground">Waar kunnen wij u mee helpen?</h2>
-              <p className="text-sm text-muted-foreground">Selecteer alle opties die van toepassing zijn</p>
+              <h2 className="text-lg font-bold text-foreground">{copy.steps.step3.title}</h2>
+              <p className="text-sm text-muted-foreground">{copy.steps.step3.subtitle}</p>
             </div>
             
             <div className="grid gap-2">
@@ -562,13 +824,15 @@ const QuotePage = () => {
         return (
           <motion.div key="step-4" variants={stepVariants} initial="initial" animate="animate" exit="exit" className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-foreground">Gewenste functionaliteiten</h2>
-              <p className="text-sm text-muted-foreground">Welke functies wilt u op uw {formData.websiteOfWebshop === 'webshop' ? 'webshop' : 'website'}?</p>
+              <h2 className="text-lg font-bold text-foreground">{copy.steps.step4.title}</h2>
+              <p className="text-sm text-muted-foreground">
+                {copy.steps.step4.subtitle} {formData.websiteOfWebshop === 'webshop' ? 'webshop' : 'website'}?
+              </p>
             </div>
             
             {(formData.websiteOfWebshop === 'website' || formData.websiteOfWebshop === 'beide' || !formData.websiteOfWebshop) && (
               <div className="space-y-2">
-                <Label className="text-xs font-semibold text-muted-foreground">Website functies</Label>
+                <Label className="text-xs font-semibold text-muted-foreground">{copy.steps.step4.websiteLabel}</Label>
                 <div className="grid sm:grid-cols-2 gap-2">
                   {websiteFunctiesOptions.map(opt => (
                     <label
@@ -593,7 +857,7 @@ const QuotePage = () => {
 
             {(formData.websiteOfWebshop === 'webshop' || formData.websiteOfWebshop === 'beide') && (
               <div className="space-y-2 pt-3 border-t border-border">
-                <Label className="text-xs font-semibold text-muted-foreground">Webshop functies</Label>
+                <Label className="text-xs font-semibold text-muted-foreground">{copy.steps.step4.webshopLabel}</Label>
                 <div className="grid sm:grid-cols-2 gap-2">
                   {webshopFunctiesOptions.map(opt => (
                     <label
@@ -622,16 +886,16 @@ const QuotePage = () => {
         return (
           <motion.div key="step-5" variants={stepVariants} initial="initial" animate="animate" exit="exit" className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-foreground">Extra informatie</h2>
-              <p className="text-sm text-muted-foreground">Enkele aanvullende vragen om uw project beter te begrijpen</p>
+              <h2 className="text-lg font-bold text-foreground">{copy.steps.step5.title}</h2>
+              <p className="text-sm text-muted-foreground">{copy.steps.step5.subtitle}</p>
             </div>
             
             <div className="grid gap-3">
               <div className="space-y-1.5">
-                <Label className="text-sm font-medium">Hulp met inhoud (teksten & afbeeldingen)?</Label>
+                <Label className="text-sm font-medium">{copy.steps.step5.contentLabel}</Label>
                 <Select value={formData.hulpMetInhoud} onValueChange={(v) => setFormData(prev => ({ ...prev, hulpMetInhoud: v }))}>
                   <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Selecteer een optie" />
+                    <SelectValue placeholder={copy.steps.step5.selectPlaceholder} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border-border z-50">
                     {hulpMetInhoudOptions.map(opt => (
@@ -642,10 +906,10 @@ const QuotePage = () => {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-sm font-medium">Heeft u al domeinnaam en hosting?</Label>
+                <Label className="text-sm font-medium">{copy.steps.step5.domainLabel}</Label>
                 <Select value={formData.domeinnaamEnHosting} onValueChange={(v) => setFormData(prev => ({ ...prev, domeinnaamEnHosting: v }))}>
                   <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Selecteer een optie" />
+                    <SelectValue placeholder={copy.steps.step5.selectPlaceholder} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border-border z-50">
                     {domeinnaamEnHostingOptions.map(opt => (
@@ -656,10 +920,10 @@ const QuotePage = () => {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-sm font-medium">Onderhoud na oplevering gewenst?</Label>
+                <Label className="text-sm font-medium">{copy.steps.step5.maintenanceLabel}</Label>
                 <Select value={formData.onderhoudNaOplevering} onValueChange={(v) => setFormData(prev => ({ ...prev, onderhoudNaOplevering: v }))}>
                   <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Selecteer een optie" />
+                    <SelectValue placeholder={copy.steps.step5.selectPlaceholder} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border-border z-50">
                     {onderhoudOptions.map(opt => (
@@ -670,10 +934,10 @@ const QuotePage = () => {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-sm font-medium">Aantal pagina's</Label>
+                <Label className="text-sm font-medium">{copy.steps.step5.pagesLabel}</Label>
                 <Select value={formData.aantalPaginas} onValueChange={(v) => setFormData(prev => ({ ...prev, aantalPaginas: v }))}>
                   <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Selecteer een optie" />
+                    <SelectValue placeholder={copy.steps.step5.selectPlaceholder} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border-border z-50">
                     {aantalPaginasOptions.map(opt => (
@@ -690,31 +954,31 @@ const QuotePage = () => {
         return (
           <motion.div key="step-6" variants={stepVariants} initial="initial" animate="animate" exit="exit" className="space-y-4">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold text-foreground">Laatste details</h2>
-              <p className="text-sm text-muted-foreground">Nog een paar vragen om uw aanvraag compleet te maken</p>
+              <h2 className="text-lg font-bold text-foreground">{copy.steps.step6.title}</h2>
+              <p className="text-sm text-muted-foreground">{copy.steps.step6.subtitle}</p>
             </div>
             
             <div className="grid gap-3">
               <div className="space-y-1.5">
                 <Label htmlFor="url" className="flex items-center gap-2 text-sm font-medium">
-                  <Globe className="w-4 h-4 text-muted-foreground" /> Gewenste website URL
+                  <Globe className="w-4 h-4 text-muted-foreground" /> {copy.steps.step6.urlLabel}
                 </Label>
                 <Input 
                   id="url" 
                   value={formData.gewensteUrl}
                   onChange={(e) => setFormData(prev => ({ ...prev, gewensteUrl: e.target.value }))}
-                  placeholder="bijv. www.mijnbedrijf.nl" 
+                  placeholder={copy.steps.step6.urlPlaceholder} 
                   className="h-10" 
                 />
               </div>
 
               <div className="space-y-1.5">
                 <Label className="flex items-center gap-2 text-sm font-medium">
-                  <Calendar className="w-4 h-4 text-muted-foreground" /> Gewenste opleverdatum *
+                  <Calendar className="w-4 h-4 text-muted-foreground" /> {copy.steps.step6.deadlineLabel} *
                 </Label>
                 <Select value={formData.opleverdatum} onValueChange={(v) => setFormData(prev => ({ ...prev, opleverdatum: v }))}>
                   <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Selecteer een termijn" />
+                    <SelectValue placeholder={copy.steps.step6.deadlinePlaceholder} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border-border z-50">
                     {opleverdatumOptions.map(opt => (
@@ -725,19 +989,19 @@ const QuotePage = () => {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="omschrijving" className="text-sm font-medium">Projectomschrijving (optioneel)</Label>
+                <Label htmlFor="omschrijving" className="text-sm font-medium">{copy.steps.step6.descriptionLabel}</Label>
                 <Textarea
                   id="omschrijving"
                   value={formData.projectOmschrijving}
                   onChange={(e) => setFormData(prev => ({ ...prev, projectOmschrijving: e.target.value }))}
-                  placeholder="Beschrijf uw project, wensen of stel vragen..."
+                  placeholder={copy.steps.step6.descriptionPlaceholder}
                   rows={3}
                   className="resize-none"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Documenten uploaden (optioneel)</Label>
+                <Label className="text-sm font-medium">{copy.steps.step6.uploadLabel}</Label>
                 
                 <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:border-primary/50 transition-colors">
                   <input
@@ -751,7 +1015,7 @@ const QuotePage = () => {
                   <label htmlFor="files" className="cursor-pointer">
                     <Upload className="w-6 h-6 text-muted-foreground mx-auto mb-1" />
                     <span className="text-xs text-muted-foreground">
-                      Klik om bestanden te selecteren (max 5)
+                      {copy.steps.step6.uploadHelper}
                     </span>
                   </label>
                 </div>
@@ -795,10 +1059,16 @@ const QuotePage = () => {
           <div className="py-6 border-b border-border bg-background/80 backdrop-blur-sm">
             <div className="container mx-auto container-padding">
               <h1 className="font-sans text-2xl md:text-3xl font-bold text-foreground text-center mb-1">
-                Offerte aanvragen
+                {copy.header.title}
               </h1>
               <p className="text-sm text-muted-foreground text-center">
-                Vul het formulier in en ontvang binnen 24 uur een vrijblijvende offerte
+                {copy.header.subtitle}
+              </p>
+              <p className="text-sm text-muted-foreground text-center mt-2">
+                {copy.header.prompt}{' '}
+                <Link to="/contact" className="text-primary hover:underline font-medium">
+                  {copy.header.link}
+                </Link>
               </p>
             </div>
           </div>
@@ -807,7 +1077,9 @@ const QuotePage = () => {
           <div className="py-3 bg-muted/50 border-b border-border sticky top-14 z-10 backdrop-blur-sm">
             <div className="container mx-auto container-padding max-w-xl">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-semibold text-foreground">Stap {currentStep + 1} van {totalSteps}</span>
+                <span className="text-sm font-semibold text-foreground">
+                  {copy.progress.step} {currentStep + 1} {copy.progress.of} {totalSteps}
+                </span>
                 <span className="text-sm text-muted-foreground">{stepTitles[currentStep]}</span>
               </div>
               <div className="w-full bg-border rounded-full h-2">
@@ -840,7 +1112,7 @@ const QuotePage = () => {
                           className="gap-2 h-11 px-6"
                         >
                           <ArrowLeft className="w-4 h-4" />
-                          Vorige
+                          {copy.buttons.prev}
                         </Button>
 
                         {currentStep < totalSteps - 1 ? (
@@ -849,7 +1121,7 @@ const QuotePage = () => {
                             onClick={nextStep}
                             className="bg-primary hover:bg-primary/90 gap-2 h-11 px-6 text-base"
                           >
-                            Volgende
+                            {copy.buttons.next}
                             <ArrowRight className="w-4 h-4" />
                           </Button>
                         ) : (
@@ -859,10 +1131,10 @@ const QuotePage = () => {
                             className="bg-primary hover:bg-primary/90 gap-2 h-11 px-6 text-base"
                           >
                             {isSubmitting ? (
-                              <>Versturen...</>
+                              <>{copy.buttons.submitting}</>
                             ) : (
                               <>
-                                Verstuur aanvraag
+                                {copy.buttons.submit}
                                 <Send className="w-4 h-4" />
                               </>
                             )}
@@ -877,15 +1149,15 @@ const QuotePage = () => {
                 <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-primary" />
-                    <span>Vrijblijvend</span>
+                    <span>{copy.trust[0]}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-primary" />
-                    <span>Reactie binnen 24 uur</span>
+                    <span>{copy.trust[1]}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-primary" />
-                    <span>Persoonlijk advies</span>
+                    <span>{copy.trust[2]}</span>
                   </div>
                 </div>
               </div>

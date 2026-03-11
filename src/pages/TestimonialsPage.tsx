@@ -8,70 +8,135 @@ import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
 
 const TestimonialsPage = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
-  const testimonials = [
-    {
-      name: 'Sarah de Jong',
-      company: 'TechFlow Solutions',
-      role: 'CEO',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80',
-      text: 'Fantastische samenwerking! Het team begreep precies wat we nodig hadden en leverde een website die onze verwachtingen overtrof. De communicatie was helder en het resultaat is prachtig.',
-      rating: 5,
-      projectImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80',
-    },
-    {
-      name: 'Mark van der Berg',
-      company: 'ModaStyle Boutique',
-      role: 'Eigenaar',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80',
-      text: 'De webshop is precies wat we zochten. Professioneel, snel en gebruiksvriendelijk. De klantenservice is ook top. Onze online verkopen zijn met 60% gestegen!',
-      rating: 5,
-      projectImage: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',
-    },
-    {
-      name: 'Lisa Bakker',
-      company: 'GreenLeaf Catering',
-      role: 'Marketing Manager',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
-      text: 'Van eerste contact tot oplevering, alles verliep soepel. De website past perfect bij ons merk en onze klanten zijn enthousiast.',
-      rating: 5,
-      projectImage: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
-    },
-    {
-      name: 'Peter Janssen',
-      company: 'Janssen Advocaten',
-      role: 'Partner',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80',
-      text: 'Een professionele en betrouwbare partner. De nieuwe website straalt kwaliteit uit, precies wat we wilden voor ons advocatenkantoor.',
-      rating: 5,
-      projectImage: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=80',
-    },
-    {
-      name: 'Emma Visser',
-      company: 'Fit & Gezond Studio',
-      role: 'Eigenaar',
-      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80',
-      text: 'Dankzij de nieuwe website zijn onze boekingen met 40% gestegen. Ongelooflijk resultaat! Het team denkt echt mee en geeft waardevolle adviezen.',
-      rating: 5,
-      projectImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80',
-    },
-    {
-      name: 'Robert Klein',
-      company: 'Klein Architecten',
-      role: 'Directeur',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80',
-      text: 'Onze portfolio website is een waar meesterwerk geworden. De aandacht voor detail en het begrip voor onze branche was indrukwekkend.',
-      rating: 5,
-      projectImage: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&q=80',
-    },
-  ];
+  const testimonials =
+    language === 'nl'
+      ? [
+          {
+            name: 'Sarah de Jong',
+            company: 'TechFlow Solutions',
+            role: 'CEO',
+            image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80',
+            text: 'Fantastische samenwerking! Het team begreep precies wat we nodig hadden en leverde een website die onze verwachtingen overtrof. De communicatie was helder en het resultaat is prachtig.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80',
+          },
+          {
+            name: 'Mark van der Berg',
+            company: 'ModaStyle Boutique',
+            role: 'Eigenaar',
+            image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80',
+            text: 'De webshop is precies wat we zochten. Professioneel, snel en gebruiksvriendelijk. De klantenservice is ook top. Onze online verkopen zijn met 60% gestegen!',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',
+          },
+          {
+            name: 'Lisa Bakker',
+            company: 'GreenLeaf Catering',
+            role: 'Marketing Manager',
+            image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
+            text: 'Van eerste contact tot oplevering, alles verliep soepel. De website past perfect bij ons merk en onze klanten zijn enthousiast.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
+          },
+          {
+            name: 'Peter Janssen',
+            company: 'Janssen Advocaten',
+            role: 'Partner',
+            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80',
+            text: 'Een professionele en betrouwbare partner. De nieuwe website straalt kwaliteit uit, precies wat we wilden voor ons advocatenkantoor.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=80',
+          },
+          {
+            name: 'Emma Visser',
+            company: 'Fit & Gezond Studio',
+            role: 'Eigenaar',
+            image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80',
+            text: 'Dankzij de nieuwe website zijn onze boekingen met 40% gestegen. Ongelooflijk resultaat! Het team denkt echt mee en geeft waardevolle adviezen.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80',
+          },
+          {
+            name: 'Robert Klein',
+            company: 'Klein Architecten',
+            role: 'Directeur',
+            image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80',
+            text: 'Onze portfolio website is een waar meesterwerk geworden. De aandacht voor detail en het begrip voor onze branche was indrukwekkend.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&q=80',
+          },
+        ]
+      : [
+          {
+            name: 'Sarah de Jong',
+            company: 'TechFlow Solutions',
+            role: 'CEO',
+            image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80',
+            text: 'Fantastic collaboration. The team understood exactly what we needed and delivered a website that exceeded our expectations.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80',
+          },
+          {
+            name: 'Mark van der Berg',
+            company: 'ModaStyle Boutique',
+            role: 'Owner',
+            image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&q=80',
+            text: 'The webshop is exactly what we wanted. Professional, fast and easy to use. Customer service is great too.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',
+          },
+          {
+            name: 'Lisa Bakker',
+            company: 'GreenLeaf Catering',
+            role: 'Marketing Manager',
+            image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
+            text: 'From first contact to delivery everything ran smoothly. The website fits our brand perfectly.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
+          },
+          {
+            name: 'Peter Janssen',
+            company: 'Janssen Advocaten',
+            role: 'Partner',
+            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80',
+            text: 'A professional and reliable partner. The new website communicates quality, exactly what we wanted.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&q=80',
+          },
+          {
+            name: 'Emma Visser',
+            company: 'Fit & Healthy Studio',
+            role: 'Owner',
+            image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80',
+            text: 'Thanks to the new website our bookings increased by 40%. Incredible result and great advice.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80',
+          },
+          {
+            name: 'Robert Klein',
+            company: 'Klein Architects',
+            role: 'Director',
+            image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80',
+            text: 'Our portfolio website became a masterpiece. The attention to detail and understanding of our industry was impressive.',
+            rating: 5,
+            projectImage: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&q=80',
+          },
+        ];
 
-  const stats = [
-    { value: '150+', label: 'Projecten Afgerond' },
-    { value: '98%', label: 'Tevreden Klanten' },
-    { value: '5★', label: 'Gemiddelde Beoordeling' },
-  ];
+  const stats =
+    language === 'nl'
+      ? [
+          { value: '150+', label: 'Projecten Afgerond' },
+          { value: '98%', label: 'Tevreden Klanten' },
+          { value: '5★', label: 'Gemiddelde Beoordeling' },
+        ]
+      : [
+          { value: '150+', label: 'Projects Delivered' },
+          { value: '98%', label: 'Satisfied Clients' },
+          { value: '5★', label: 'Average Rating' },
+        ];
 
   return (
     <div className="min-h-screen bg-background">

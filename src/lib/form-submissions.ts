@@ -90,4 +90,33 @@ export const submitQuoteSubmission = async (input: QuoteSubmissionInput) => {
   if (error) {
     throw new Error(error.message);
   }
+
+  const { error: emailError } = await supabase.functions.invoke('send-quote-email', {
+    body: {
+      name: input.name.trim(),
+      email: input.email.trim(),
+      phone: input.phone.trim(),
+      city: input.city?.trim() || null,
+      projectType: input.projectType?.trim() || null,
+      requestFor: input.requestFor?.trim() || null,
+      websiteType: input.websiteType?.trim() || null,
+      services: input.services,
+      websiteFeatures: input.websiteFeatures,
+      webshopFeatures: input.webshopFeatures,
+      contentSupport: input.contentSupport?.trim() || null,
+      domainAndHosting: input.domainAndHosting?.trim() || null,
+      maintenanceAfterDelivery: input.maintenanceAfterDelivery?.trim() || null,
+      pageCount: input.pageCount?.trim() || null,
+      desiredUrl: input.desiredUrl?.trim() || null,
+      deadline: input.deadline.trim(),
+      projectDescription: input.projectDescription?.trim() || null,
+      uploadedFiles: input.uploadedFiles,
+      language: input.language,
+      source: input.source ?? 'quote-page',
+    },
+  });
+
+  if (emailError) {
+    console.warn('Quote email notification failed:', emailError.message);
+  }
 };
