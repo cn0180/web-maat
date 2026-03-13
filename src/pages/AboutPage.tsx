@@ -340,15 +340,15 @@ const AboutPage = () => {
               </motion.div>
             </div>
 
-            <motion.div className="mt-8 grid gap-4 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr]" variants={fadeInUp}>
+            <motion.div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr]" variants={fadeInUp}>
               {storySteps.map((step, index) => (
                 <div key={step.title} className="contents">
-                  <div className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-[0_12px_34px_rgba(15,23,42,0.08)]">
-                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary font-bold">
+                  <div className="rounded-xl md:rounded-[22px] border border-slate-200/70 bg-white/75 p-3 md:p-4 shadow-[0_8px_22px_rgba(15,23,42,0.08)] md:shadow-[0_12px_34px_rgba(15,23,42,0.08)]">
+                    <div className="mb-3 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-xl md:rounded-2xl bg-primary/10 text-primary font-bold text-sm">
                       0{index + 1}
                     </div>
-                    <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{step.title}</h3>
-                    <p className="text-sm leading-relaxed text-slate-600">{step.description}</p>
+                    <h3 className="font-display text-sm md:text-lg font-bold text-slate-900 mb-1.5">{step.title}</h3>
+                    <p className="text-[11px] md:text-sm leading-snug md:leading-relaxed text-slate-600 line-clamp-3">{step.description}</p>
                   </div>
                   {index < storySteps.length - 1 && (
                     <div className="hidden lg:flex items-center justify-center text-primary/60">

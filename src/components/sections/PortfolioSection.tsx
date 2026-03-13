@@ -30,54 +30,54 @@ const PortfolioSection = () => {
     if (!scrollContainer) return;
 
     let animationId: number;
-    const scrollSpeed = 0.55;
+    const scrollSpeed = 0.9;
 
-    const getLoopPoint = () => scrollContainer.scrollWidth / 2;
+    const getLoopPoint = () => Math.max(1, scrollContainer.scrollWidth / 2);
 
     const animate = () => {
       const loopPoint = getLoopPoint();
-      if (loopPoint <= 0) {
+      if (scrollContainer.scrollWidth <= scrollContainer.clientWidth) {
         animationId = requestAnimationFrame(animate);
         return;
       }
 
-      scrollContainer.scrollLeft += scrollSpeed;
-
-      // Seamless infinite loop: once we've crossed one full set, continue from the mirrored point.
-      if (scrollContainer.scrollLeft >= loopPoint) {
-        scrollContainer.scrollLeft -= loopPoint;
-      }
+      scrollContainer.scrollLeft = (scrollContainer.scrollLeft + scrollSpeed) % loopPoint;
 
       animationId = requestAnimationFrame(animate);
     };
 
-    const timeoutId = setTimeout(() => {
+    const start = () => {
+      cancelAnimationFrame(animationId);
       animationId = requestAnimationFrame(animate);
-    }, 1000);
+    };
 
-    const handleMouseEnter = () => {
+    const stop = () => {
       cancelAnimationFrame(animationId);
     };
 
-    const handleMouseLeave = () => {
-      animationId = requestAnimationFrame(animate);
+    const timeoutId = window.setTimeout(start, 600);
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        start();
+      }
     };
 
-    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('resize', start);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      clearTimeout(timeoutId);
-      cancelAnimationFrame(animationId);
-      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+      window.clearTimeout(timeoutId);
+      stop();
+      window.removeEventListener('resize', start);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#dbe3ec_0%,#eef3f8_42%,#d4dde8_100%)] py-7 md:py-8 lg:py-9">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.38),transparent_30%),radial-gradient(circle_at_82%_18%,rgba(148,163,184,0.14),transparent_22%),linear-gradient(120deg,rgba(255,255,255,0.14),transparent_40%,rgba(15,23,42,0.05)_100%)]" />
-      <div className="absolute inset-0 pointer-events-none opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.16)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] [background-size:60px_60px]" />
+    <section className="relative overflow-hidden bg-[#e7eaef] py-7 md:py-8 lg:py-9">
       <div className="section-divider absolute top-0 left-0 right-0 z-[1]" />
 
       <motion.div
@@ -100,7 +100,7 @@ const PortfolioSection = () => {
 
         <motion.div
           ref={scrollRef}
-          className="flex gap-3 md:gap-4 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4"
+          className="flex gap-3 md:gap-4 overflow-x-hidden pb-2 -mx-4 px-4"
           variants={fadeInUp}
         >
           {[...displayProjects, ...displayProjects].map((project, index) => (
@@ -109,7 +109,7 @@ const PortfolioSection = () => {
               to={`/portfolio/${project.id}`}
               className="group block flex-shrink-0 w-[calc(58vw-1rem)] min-w-[170px] md:w-[320px] lg:w-[360px] xl:w-[390px]"
             >
-              <Card className="h-full overflow-hidden border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.97)_0%,rgba(240,245,251,0.95)_100%)] shadow-[0_16px_44px_rgba(0,0,0,0.24)] transition-all duration-500 hover:border-primary/35 hover:shadow-[0_22px_54px_rgba(0,0,0,0.32)]">
+              <Card className="h-full overflow-hidden border border-white/60 bg-white shadow-[0_12px_32px_rgba(15,23,42,0.18)] transition-all duration-500 hover:border-primary/35 hover:shadow-[0_18px_44px_rgba(15,23,42,0.22)]">
                 <div className="relative overflow-hidden aspect-[16/9]">
                   <img
                     src={project.image}
@@ -167,10 +167,20 @@ const PortfolioSection = () => {
           <Button
             asChild
             size="lg"
-            className="h-11 px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
+            className="h-9 px-5 text-xs sm:h-11 sm:px-6 sm:text-sm bg-primary text-primary-foreground hover:bg-primary/90 shadow-md"
           >
             <Link to="/portfolio">
-              {language === 'nl' ? 'Bekijk Alle Projecten' : 'View All Projects'}
+              {language === 'nl' ? (
+                <>
+                  <span className="sm:hidden">Alle projecten</span>
+                  <span className="hidden sm:inline">Bekijk Alle Projecten</span>
+                </>
+              ) : (
+                <>
+                  <span className="sm:hidden">All projects</span>
+                  <span className="hidden sm:inline">View All Projects</span>
+                </>
+              )}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>

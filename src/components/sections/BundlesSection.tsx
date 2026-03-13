@@ -88,7 +88,7 @@ const BundlesSection = () => {
         initial="hidden"
         animate="visible"
       >
-        <motion.div className="section-header mb-10" variants={fadeInUp}>
+        <motion.div className="section-header mb-8 md:mb-10" variants={fadeInUp}>
           <span className="text-primary text-sm font-semibold tracking-[0.14em] uppercase mb-2 block">
             {copy.eyebrow}
           </span>
@@ -98,13 +98,13 @@ const BundlesSection = () => {
           <p className="text-slate-600 mt-3 max-w-xl mx-auto">{copy.subtitle}</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-4 overflow-x-auto md:overflow-visible -mx-4 px-4 md:px-0 md:max-w-5xl md:mx-auto snap-x snap-mandatory">
           {bundlesCopy.map((bundle, index) => {
             const isPopular = Boolean(bundle.popular);
             return (
-              <motion.div key={index} variants={fadeInUp}>
+              <motion.div key={index} variants={fadeInUp} className="min-w-[78%] sm:min-w-[60%] md:min-w-0 snap-center">
                 <Card
-                  className={`h-full min-h-[540px] relative overflow-visible rounded-[28px] transition-all duration-500 ${
+                  className={`h-full min-h-[430px] md:min-h-[540px] relative overflow-visible rounded-[24px] md:rounded-[28px] transition-all duration-500 ${
                     isPopular
                       ? 'md:-translate-y-3 md:scale-[1.03] border-primary/35 ring-1 ring-primary/20 shadow-[0_24px_70px_rgba(37,99,235,0.18)] bg-gradient-to-b from-sky-50 to-white text-slate-900'
                       : 'bg-white border-slate-200 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_22px_55px_rgba(15,23,42,0.10)] text-slate-900 shadow-[0_14px_38px_rgba(15,23,42,0.08)]'
@@ -124,29 +124,29 @@ const BundlesSection = () => {
                       </span>
                     </div>
                   )}
-                  <CardContent className="p-7 md:p-8 pt-16 relative h-full flex flex-col">
-                    <div className="mb-5 text-center">
-                      <h3 className="font-display text-[1.9rem] md:text-[2.15rem] font-extrabold text-slate-900 tracking-tight">
+                  <CardContent className="p-5 md:p-8 pt-12 md:pt-16 relative h-full flex flex-col">
+                    <div className="mb-4 md:mb-5 text-center">
+                      <h3 className="font-display text-[1.4rem] md:text-[2.15rem] font-extrabold text-slate-900 tracking-tight">
                         {bundle.name}
                       </h3>
-                      <p className="mt-5 font-display text-4xl md:text-5xl font-extrabold text-primary leading-none">
+                      <p className="mt-3 md:mt-5 font-display text-3xl md:text-5xl font-extrabold text-primary leading-none">
                         {bundle.price}
                       </p>
-                      <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-primary/70">
+                      <p className="mt-1.5 md:mt-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-primary/70">
                         {copy.from}
                       </p>
                     </div>
 
-                    <p className="text-sm leading-relaxed mb-6 text-slate-600 text-center">
+                    <p className="text-xs md:text-sm leading-relaxed mb-5 md:mb-6 text-slate-600 text-center line-clamp-3 md:line-clamp-none">
                       {bundle.description}
                     </p>
 
-                    <div className="h-px mb-6 bg-slate-200" />
+                    <div className="h-px mb-4 md:mb-6 bg-slate-200" />
 
-                    <div className="space-y-3.5 mb-7">
+                    <div className="space-y-2.5 md:space-y-3.5 mb-5 md:mb-7">
                       {bundle.features.map((feature, i) => (
-                        <div key={i} className="flex items-start gap-2.5 text-sm text-slate-700">
-                          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                        <div key={i} className={`items-start gap-2.5 text-xs md:text-sm text-slate-700 ${i > 2 ? 'hidden md:flex' : 'flex'}`}>
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 md:h-5 md:w-5 shrink-0 text-primary" />
                           <span>{feature}</span>
                         </div>
                       ))}
@@ -156,13 +156,13 @@ const BundlesSection = () => {
                       <Button
                         asChild
                         variant="outline"
-                        className="w-full h-11 rounded-xl border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 hover:text-primary"
+                        className="w-full h-9 md:h-11 rounded-xl border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 hover:text-primary text-xs md:text-sm"
                       >
                         <Link to="/contact">{copy.moreInfo}</Link>
                       </Button>
                       <Button
                         asChild
-                        className={`w-full h-11 rounded-xl ${
+                        className={`w-full h-9 md:h-11 rounded-xl text-xs md:text-sm ${
                           isPopular
                             ? 'bg-primary hover:bg-primary/90 text-primary-foreground'
                             : 'bg-primary/90 hover:bg-primary text-primary-foreground'

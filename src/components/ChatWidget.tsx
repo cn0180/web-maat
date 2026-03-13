@@ -36,7 +36,7 @@ const ChatWidget = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const whatsappNumber = '31612345678';
+  const whatsappNumber = '31645457394';
 
   useEffect(() => {
     setMessages([

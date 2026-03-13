@@ -81,6 +81,44 @@ const PremiumPositioningSection = () => {
           },
         ];
 
+  const mobileWebmaatBullets =
+    language === 'nl'
+      ? [
+          'Uniek, merkgebonden design',
+          'SEO geoptimaliseerd',
+          'Updates + SSL',
+          '24/7 support',
+          'Funnel op doelgroep',
+          'Meetbare groei',
+        ]
+      : [
+          'Brand-specific design',
+          'SEO optimized',
+          'Updates + SSL',
+          '24/7 support',
+          'Targeted funnel',
+          'Measurable growth',
+        ];
+
+  const mobileMarketBullets =
+    language === 'nl'
+      ? [
+          'Semi-template / generiek',
+          'Basis of geen SEO',
+          'Beperkte updates',
+          'Kantoortijden',
+          'Standaard flow',
+          'Minder KPI-sturing',
+        ]
+      : [
+          'Semi-template / generic',
+          'Basic or no SEO',
+          'Limited updates',
+          'Office hours',
+          'Standard flow',
+          'Less KPI-driven',
+        ];
+
   return (
     <section className="relative overflow-hidden py-10 md:py-12 bg-[#c8d0da]">
       <div className="glass-light absolute inset-0 pointer-events-none" />
@@ -95,12 +133,24 @@ const PremiumPositioningSection = () => {
       >
         <motion.div className="max-w-3xl mx-auto text-center" variants={fadeInUp}>
           <h2 className="font-display text-2xl md:text-3xl !font-bold !text-primary mb-2">
-            {language === 'nl' ? 'Waarom Maatwerk Websites Beter Presteren' : 'Why Tailored Websites Perform Better'}
+            {language === 'nl' ? 'waarom maatwerk beter presteert' : 'Why Tailored Websites Perform Better'}
           </h2>
           <p className="text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            {language === 'nl'
-              ? 'Vergelijk zelf de verschillen tussen onze maatwerk websites en standaard AI-sites/concurrent-oplossingen.'
-              : 'Compare the difference between our tailored websites and standard AI/competitor solutions.'}
+            {language === 'nl' ? (
+              <>
+                <span className="sm:hidden">Bekijk de verschillen tussen ons maatwerk en concurrenten.</span>
+                <span className="hidden sm:inline">
+                  Vergelijk zelf de verschillen tussen onze maatwerk websites en standaard AI-sites/concurrent-oplossingen.
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="sm:hidden">Compare our tailored sites with competitors.</span>
+                <span className="hidden sm:inline">
+                  Compare the difference between our tailored websites and standard AI/competitor solutions.
+                </span>
+              </>
+            )}
           </p>
         </motion.div>
 
@@ -130,7 +180,38 @@ const PremiumPositioningSection = () => {
             </p>
           </div>
 
-          <div className="space-y-2 md:space-y-0">
+          <div className="md:hidden">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-primary/20 bg-white/85 p-3 shadow-[0_10px_26px_rgba(15,23,42,0.08)]">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  Web-Maat
+                </div>
+                <ul className="space-y-2 text-[11px] text-slate-800">
+                  {mobileWebmaatBullets.map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white/85 p-3 shadow-[0_10px_26px_rgba(15,23,42,0.08)]">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-slate-300/60 bg-slate-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
+                  {language === 'nl' ? 'Concurrenten' : 'Competitors'}
+                </div>
+                <ul className="space-y-2 text-[11px] text-slate-800">
+                  {mobileMarketBullets.map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-slate-400" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden md:block">
             {comparisonRows.map((row) => (
               <div
                 key={row.feature}
@@ -153,8 +234,20 @@ const PremiumPositioningSection = () => {
         </motion.div>
 
         <motion.div className="mt-7 text-center" variants={fadeInUp}>
-          <Button asChild className="h-12 px-8 text-base">
-            <Link to="/contact">{language === 'nl' ? 'Plan gratis adviesgesprek' : 'Plan a free strategy call'}</Link>
+          <Button asChild className="h-9 px-5 text-xs sm:h-12 sm:px-8 sm:text-base">
+            <Link to="/contact">
+              {language === 'nl' ? (
+                <>
+                  <span className="sm:hidden">Plan gesprek</span>
+                  <span className="hidden sm:inline">Plan gratis adviesgesprek</span>
+                </>
+              ) : (
+                <>
+                  <span className="sm:hidden">Plan a call</span>
+                  <span className="hidden sm:inline">Plan a free strategy call</span>
+                </>
+              )}
+            </Link>
           </Button>
         </motion.div>
       </motion.div>

@@ -106,34 +106,46 @@ const overviewItemsByLanguage = {
     {
       slug: 'webdesign',
       title: 'Webdesign',
+      shortTitle: 'Webdesign',
       description: 'Professionele websites die vertrouwen opbouwen en klaar zijn voor aanvragen.',
+      shortDescription: 'Websites die vertrouwen wekken.',
     },
     {
       slug: 'webshop',
       title: 'Webshops',
+      shortTitle: 'Webshops',
       description: 'Slimme webshops met focus op snelheid, overzicht en meer online verkopen.',
+      shortDescription: 'Snelle webshops die verkopen.',
     },
     {
       slug: 'ai-implementatie',
       title: 'AI automatisering',
+      shortTitle: 'AI automatisering',
       description: 'Automatiseer support, opvolging en processen met slimme AI-oplossingen.',
+      shortDescription: 'AI voor support en opvolging.',
     },
   ],
   en: [
     {
       slug: 'webdesign',
       title: 'Web Design',
+      shortTitle: 'Web',
       description: 'Professional websites that build trust and are ready for new inquiries.',
+      shortDescription: 'Websites that build trust.',
     },
     {
       slug: 'webshop',
       title: 'Webshops',
+      shortTitle: 'Shop',
       description: 'Smart webshops focused on speed, clarity and more online sales.',
+      shortDescription: 'Fast webshops that sell.',
     },
     {
       slug: 'ai-implementatie',
       title: 'AI automation',
+      shortTitle: 'AI automation',
       description: 'Automate support, follow-ups and processes with smart AI solutions.',
+      shortDescription: 'AI for support and follow-up.',
     },
   ],
 } as const;
@@ -154,7 +166,13 @@ const ServiceSectionItem = ({
   const serviceStats = serviceStatsBySlug[language][service.slug] ?? defaultServiceStats[language];
   const shortTitle = shortTitleBySlug[language][service.slug] ?? serviceCopy.title;
   const highlightFeatures = serviceCopy.features.slice(0, 3);
+  const mobileHighlightFeatures =
+    language === 'nl'
+      ? ['Uniek maatwerk design', 'Responsive voor alle apparaten', 'Conversie-geoptimaliseerd']
+      : ['Custom design', 'Responsive on all devices', 'Conversion-optimized'];
   const extraFeatures = serviceCopy.features.slice(3, 6);
+  const mobileExtraFeatures = extraFeatures.slice(0, 3);
+  const mobileDetails = serviceCopy.details.slice(0, 3);
   const isReversed = index % 2 === 1;
 
   return (
@@ -188,7 +206,18 @@ const ServiceSectionItem = ({
               </div>
             ))}
           </div>
-          <div className="grid sm:grid-cols-3 gap-3 mb-5">
+          <div className="grid grid-cols-3 gap-2 mb-4 md:hidden">
+            {mobileHighlightFeatures.map((feature) => (
+              <div
+                key={`${service.slug}-${feature}-highlight-mobile`}
+                className="rounded-xl border border-slate-200 bg-white px-2.5 py-2.5 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
+              >
+                <CheckCircle2 className="h-4 w-4 text-primary mb-2" />
+                <p className="text-[10px] font-medium text-slate-900 leading-snug">{feature}</p>
+              </div>
+            ))}
+          </div>
+          <div className="hidden md:grid md:grid-cols-3 gap-3 mb-5">
             {highlightFeatures.map((feature) => (
               <div
                 key={`${service.slug}-${feature}-highlight`}
@@ -203,12 +232,20 @@ const ServiceSectionItem = ({
             {serviceCopy.description}
           </p>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_10px_25px_rgba(15,23,42,0.06)]">
+          <div className="grid md:grid-cols-2 gap-3 md:gap-4">
+            <div className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 shadow-[0_10px_25px_rgba(15,23,42,0.06)]">
               <p className="text-sm font-semibold text-slate-900 mb-2">
                 {language === 'nl' ? 'Wat u krijgt' : 'What you get'}
               </p>
-              <ul className="space-y-2.5 text-sm text-slate-700">
+              <ul className="space-y-2 text-[11px] text-slate-700 sm:hidden">
+                {mobileExtraFeatures.map((feature) => (
+                  <li key={`${service.slug}-${feature}-mobile`} className="flex items-start gap-2">
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="hidden sm:block space-y-2.5 text-sm text-slate-700">
                 {extraFeatures.map((feature) => (
                   <li key={`${service.slug}-${feature}`} className="flex items-start gap-2.5">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -217,11 +254,19 @@ const ServiceSectionItem = ({
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_10px_25px_rgba(15,23,42,0.06)]">
+            <div className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 shadow-[0_10px_25px_rgba(15,23,42,0.06)]">
               <p className="text-sm font-semibold text-slate-900 mb-2">
                 {language === 'nl' ? 'Aanpak & focus' : 'Approach & focus'}
               </p>
-              <ul className="space-y-2.5 text-sm text-slate-700">
+              <ul className="space-y-2 text-[11px] text-slate-700 sm:hidden">
+                {mobileDetails.map((detail) => (
+                  <li key={`${service.slug}-${detail}-mobile`} className="flex items-start gap-2">
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                    <span>{detail}</span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="hidden sm:block space-y-2.5 text-sm text-slate-700">
                 {serviceCopy.details.map((detail) => (
                   <li key={`${service.slug}-${detail}`} className="flex items-start gap-2.5">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -293,13 +338,25 @@ const ServicesPage = () => {
                 {language === 'nl' ? 'Wat wij voor bedrijven bouwen' : 'What we build for businesses'}
               </h2>
               <p className="text-slate-600 mt-3 max-w-3xl mx-auto">
-                {language === 'nl'
-                  ? 'Van snelle websites tot slimme automatisering. Alles gebouwd om meer vertrouwen, aanvragen en online groei te realiseren.'
-                  : 'From fast websites to smart automation. Built to drive trust, inquiries and online growth.'}
+                {language === 'nl' ? (
+                  <>
+                    <span className="sm:hidden">Van websites tot automatisering, gericht op groei.</span>
+                    <span className="hidden sm:inline">
+                      Van snelle websites tot slimme automatisering. Alles gebouwd om meer vertrouwen, aanvragen en online groei te realiseren.
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="sm:hidden">From websites to automation, built for growth.</span>
+                    <span className="hidden sm:inline">
+                      From fast websites to smart automation. Built to drive trust, inquiries and online growth.
+                    </span>
+                  </>
+                )}
               </p>
             </motion.div>
 
-            <div className="grid gap-4 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-slate-200/70 rounded-[28px] border border-slate-200 bg-white/80 p-2 md:p-3 shadow-[0_20px_50px_rgba(15,23,42,0.08)]">
+            <div className="grid grid-cols-3 gap-2 md:gap-4 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-slate-200/70 rounded-[22px] md:rounded-[28px] border border-slate-200/70 bg-white/70 p-2 md:p-3 shadow-[0_14px_36px_rgba(15,23,42,0.08)]">
               {overviewItems.map((item) => {
                 const service = services.find((entry) => entry.slug === item.slug);
                 if (!service) return null;
@@ -307,13 +364,33 @@ const ServicesPage = () => {
 
                 return (
                   <motion.div key={item.slug} variants={fadeInUp}>
-                    <div className="h-full rounded-[22px] bg-transparent p-5 md:p-6 transition-all duration-300 hover:bg-slate-50">
-                      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary shadow-lg">
-                        <OverviewIcon className="h-6 w-6 text-white" />
+                    <div className="h-full rounded-[18px] md:rounded-[22px] bg-transparent p-3 md:p-6 transition-all duration-300 hover:bg-white/80">
+                      <div className="mb-3 flex h-9 w-9 md:h-12 md:w-12 items-center justify-center rounded-xl md:rounded-2xl bg-primary shadow-lg">
+                        <OverviewIcon className="h-4 w-4 md:h-6 md:w-6 text-white" />
                       </div>
-                      <h3 className="font-display text-2xl font-bold text-slate-900">{item.title}</h3>
-                      <div className="mt-3 h-px w-14 bg-gradient-to-r from-primary via-primary/40 to-transparent" />
-                      <p className="mt-4 text-sm leading-relaxed text-slate-600">{item.description}</p>
+                      <h3
+                        className={`font-display ${item.slug === 'ai-implementatie' ? 'text-[11px]' : 'text-sm'} md:text-2xl font-bold text-slate-900 leading-tight`}
+                      >
+                        {'shortTitle' in item ? (
+                          <>
+                            <span className="sm:hidden">{item.shortTitle}</span>
+                            <span className="hidden sm:inline">{item.title}</span>
+                          </>
+                        ) : (
+                          item.title
+                        )}
+                      </h3>
+                      <div className="mt-2 md:mt-3 h-px w-8 md:w-14 bg-gradient-to-r from-primary via-primary/40 to-transparent" />
+                      <p className="mt-2 md:mt-4 text-[10px] md:text-sm leading-snug md:leading-relaxed text-slate-600 line-clamp-3">
+                        {'shortDescription' in item ? (
+                          <>
+                            <span className="sm:hidden">{item.shortDescription}</span>
+                            <span className="hidden sm:inline">{item.description}</span>
+                          </>
+                        ) : (
+                          item.description
+                        )}
+                      </p>
                     </div>
                   </motion.div>
                 );

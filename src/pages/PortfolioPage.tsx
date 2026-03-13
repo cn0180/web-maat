@@ -87,6 +87,11 @@ const PortfolioPage = () => {
       suffix: 'u',
       label: language === 'nl' ? 'Gem. responstijd' : 'Avg. response time',
     },
+    {
+      value: 24,
+      suffix: '/7',
+      label: language === 'nl' ? 'Bereikbaarheid' : 'Availability',
+    },
   ];
 
   const statsChunks = companyStats.reduce<typeof companyStats[]>((chunks, stat, index) => {
@@ -133,14 +138,14 @@ const PortfolioPage = () => {
           <div className="container mx-auto container-padding relative">
             <div className="max-w-3xl">
               <h1 className="font-sans text-3xl md:text-5xl font-extrabold text-blue-50 mb-3 tracking-tight drop-shadow-[0_10px_28px_rgba(2,6,23,0.52)]">{t.pages.portfolio.hero}</h1>
-              <p className="text-base md:text-xl text-sky-200 max-w-2xl drop-shadow-[0_6px_18px_rgba(2,6,23,0.42)]">{t.pages.portfolio.heroSubtitle}</p>
+              <p className="text-base md:text-xl text-white max-w-2xl drop-shadow-[0_6px_18px_rgba(2,6,23,0.42)]">{t.pages.portfolio.heroSubtitle}</p>
             </div>
           </div>
         </section>
 
         <div className="section-divider" />
 
-        <section className="section-padding bg-[#edf2f7]">
+        <section className="section-padding bg-[#edf2f7] pt-6 md:pt-8">
           <motion.div 
             className="container mx-auto container-padding"
             variants={staggerContainer}
@@ -152,31 +157,26 @@ const PortfolioPage = () => {
               <h2 className="section-title text-primary">
                 {language === 'nl' ? 'Door ons gemaakte websites met resultaat' : 'Websites we built with measurable results'}
               </h2>
-              <p className="max-w-2xl mx-auto text-slate-600">
-                {language === 'nl'
-                  ? 'Gepresenteerd als grotere showcases. Klik op een project voor cijfers, live website en een vergelijkbare oplossing.'
-                  : 'Presented as large showcases. Click a project for metrics, the live website, and a similar solution.'}
-              </p>
             </motion.div>
 
             <motion.div className="space-y-8 mb-12" variants={fadeInUp}>
               {showcaseRows.map((row, rowIndex) => {
                 if (row.type === 'projects') {
                   return (
-                    <div key={`projects-${rowIndex}`} className="grid gap-8 xl:grid-cols-2">
+                    <div key={`projects-${rowIndex}`} className="grid grid-cols-2 gap-4 md:gap-6 xl:gap-8">
                       {row.items.map((project, index) => (
                         <Link
                           key={project.id}
                           to={`/portfolio/${project.id}`}
                           className="group block w-full text-left"
                         >
-                          <div className="h-full overflow-hidden rounded-[34px] border border-slate-200/70 bg-transparent px-4 py-4 md:px-5 md:py-5 shadow-[0_18px_60px_rgba(15,23,42,0.12)] transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_26px_80px_rgba(15,23,42,0.14)]">
-                            <div className="relative px-1 py-3 md:px-2 md:py-4">
-                              <div className="relative mx-auto min-h-[200px] sm:min-h-[260px] md:min-h-[320px] w-full max-w-[740px]">
+                          <div className="py-2 md:py-3">
+                            <div className="relative px-1 py-2 md:px-2 md:py-4">
+                              <div className="relative mx-auto min-h-[160px] sm:min-h-[220px] md:min-h-[300px] w-full max-w-[740px]">
                                 <div className="mx-auto w-full max-w-[740px]">
-                                  <div className="rounded-[22px] bg-slate-950 p-2.5 shadow-[0_22px_56px_rgba(15,23,42,0.24)]">
-                                    <div className="rounded-[18px] bg-slate-800 p-1.5">
-                                      <div className="aspect-[16/10] overflow-hidden rounded-[14px] bg-white">
+                                  <div className="rounded-[18px] md:rounded-[22px] bg-slate-950 p-2 shadow-[0_22px_56px_rgba(15,23,42,0.24)]">
+                                    <div className="rounded-[14px] md:rounded-[18px] bg-slate-800 p-1.5">
+                                      <div className="aspect-[16/10] overflow-hidden rounded-[12px] md:rounded-[14px] bg-white">
                                         <img
                                           src={project.screenshot || project.image}
                                           alt={`${project.title} screenshot`}
@@ -191,12 +191,12 @@ const PortfolioPage = () => {
                                 </div>
 
                                 <div
-                                  className={`absolute bottom-0 ${index % 2 === 0 ? 'left-0 md:left-2' : 'right-0 md:right-2'} w-[96px] sm:w-[116px] md:w-[148px] rounded-[26px] bg-slate-950 p-1.5 shadow-[0_22px_48px_rgba(15,23,42,0.26)]`}
+                                  className={`absolute bottom-0 ${index % 2 === 0 ? 'left-0 md:left-2' : 'right-0 md:right-2'} w-[80px] sm:w-[104px] md:w-[140px] rounded-[22px] md:rounded-[26px] bg-slate-950 p-1.5 shadow-[0_22px_48px_rgba(15,23,42,0.26)]`}
                                 >
-                                  <div className="rounded-[20px] bg-slate-800 p-1">
-                                    <div className="aspect-[9/19] overflow-hidden rounded-[16px] bg-white">
+                                  <div className="rounded-[16px] md:rounded-[20px] bg-slate-800 p-1">
+                                    <div className="aspect-[9/19] overflow-hidden rounded-[12px] md:rounded-[16px] bg-white">
                                       <img
-                                        src={project.image}
+                                        src={project.mobileImage ?? project.image}
                                         alt={`${project.title} mobile preview`}
                                         className="w-full h-full object-cover"
                                       />
@@ -206,21 +206,7 @@ const PortfolioPage = () => {
                               </div>
                             </div>
 
-                            <div className="mt-3 flex flex-wrap items-center gap-2 sm:gap-4">
-                              <h3 className="flex-1 font-sans text-xl md:text-2xl font-bold leading-tight text-slate-900">
-                                {project.title}
-                              </h3>
-                              {project.kpis?.[0] && (
-                                <div className="flex flex-wrap items-center gap-2 text-[11px] md:text-xs text-slate-600">
-                                  <BarChart3 className="w-3.5 h-3.5 text-primary" />
-                                  <span className="uppercase tracking-[0.18em] text-[10px] text-slate-500">
-                                    {language === 'nl' ? 'Resultaat' : 'Outcome'}
-                                  </span>
-                                  <span className="font-semibold text-slate-900 text-sm">{project.kpis[0].value}</span>
-                                  <span className="text-slate-600">{project.kpis[0].label[language]}</span>
-                                </div>
-                              )}
-                            </div>
+                            <span className="sr-only">{project.title}</span>
                           </div>
                         </Link>
                       ))}
@@ -229,7 +215,7 @@ const PortfolioPage = () => {
                 }
 
                 return (
-                  <div key={`stats-${rowIndex}`} className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                  <div key={`stats-${rowIndex}`} className="grid grid-cols-3 gap-3 md:gap-4">
                     {row.items.map((stat) => (
                       <div
                         key={stat.label}

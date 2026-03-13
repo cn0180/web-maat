@@ -1,9 +1,13 @@
 import promotionCarsShowcase from '@/assets/promotioncars-showcase.jpg';
+import promotionCarsMobile from '@/assets/promotioncars-mobile.jpg';
 import phoneRecoveryShowcase from '@/assets/phone-recovery-showcase.jpg';
 import rijscholenAdviesShowcase from '@/assets/rijscholen-advies-showcase.jpg';
+import rijscholenAdviesMobile from '@/assets/rijscholen-advies-mobile.jpg';
 import amsterVastgoedShowcase from '@/assets/amster-vastgoed-showcase.jpg';
+import amersVastgoedMobile from '@/assets/amers-vastgoed-mobile.jpg';
 import careNexusShowcase from '@/assets/care-nexus-showcase.jpg';
 import vanDerBergenShowcase from '@/assets/van-der-bergen-showcase.jpg';
+import vanDerBergenMobile from '@/assets/van-der-bergen-mobile.jpg';
 import jesseVanezShowcase from '@/assets/jesse-vanez-showcase.jpg';
 
 export interface ProjectKpi {
@@ -24,6 +28,7 @@ export interface Project {
     en: string;
   };
   image: string;
+  mobileImage?: string;
   tags: string[];
   description: {
     nl: string;
@@ -235,6 +240,7 @@ const baseProjects: Project[] = [
       en: 'Business Website',
     },
     image: amsterVastgoedShowcase,
+    mobileImage: amersVastgoedMobile,
     tags: ['Vastgoed', 'Premium', 'Storytelling'],
     description: {
       nl: 'Een premium vastgoedwebsite voor verkoop- en aankoopadvies in regio Amersfoort.',
@@ -260,7 +266,7 @@ const baseProjects: Project[] = [
         en: ['Brand positioning', 'Lead routes for buy/sell', 'SEO foundation'],
       },
     },
-    websiteUrl: 'https://amersvatgoed.nl',
+    websiteUrl: 'https://amersvastgoed.nl',
     seo: {
       title: {
         nl: 'Amers Vastgoed | Premium vastgoedwebsite voor Amersfoort',
@@ -285,8 +291,8 @@ const baseProjects: Project[] = [
     image: careNexusShowcase,
     tags: ['Zorg', 'SEO', 'Conversie'],
     description: {
-      nl: 'Een moderne website voor zorginstellingen en zorgtechnologie met focus op vertrouwen, duidelijkheid en online vindbaarheid.',
-      en: 'A modern website for care organisations and care technology with a focus on trust, clarity and online visibility.',
+      nl: 'Een moderne website voor zorginstellingen en zorgtechnologie met focus op vertrouwen, duidelijkheid en online vindbaarheid. Gericht op #1 in Google Search.',
+      en: 'A modern website for care organisations and care technology with a focus on trust, clarity and online visibility. Aimed at #1 in Google Search.',
     },
     challenge: {
       nl: 'Care-Nexus wilde een professionele website die zorginstellingen direct vertrouwen geeft en complexe oplossingen helder uitlegt. Tegelijk moest de site inhoudelijk en technisch sterk genoeg zijn om op relevante zoekopdrachten hoger zichtbaar te worden.',
@@ -331,6 +337,7 @@ const baseProjects: Project[] = [
       en: 'Portfolio / Blog',
     },
     image: vanDerBergenShowcase,
+    mobileImage: vanDerBergenMobile,
     tags: ['Portfolio', 'Blog', 'SEO'],
     description: {
       nl: 'Een elegante portfolio- en blogwebsite voor een creatieve studio met focus op merkbeleving en organische groei.',
@@ -467,10 +474,11 @@ const baseProjects: Project[] = [
       en: 'Platform',
     },
     image: rijscholenAdviesShowcase,
+    mobileImage: rijscholenAdviesMobile,
     tags: ['Platform', 'SEO', 'Reviews'],
     description: {
-      nl: 'Een SEO-gericht platform dat mensen helpt om snel rijscholen te vergelijken en de beste keuze in hun regio te maken.',
-      en: 'An SEO-focused platform that helps people quickly compare driving schools and make the best choice in their area.',
+      nl: 'Rijscholen Advies biedt advies, helpt mensen de beste rijscholen in de buurt te vinden, te vergelijken en direct aan te melden. Gericht op #1 in Google Search.',
+      en: 'Rijscholen Advies helps people find, compare and sign up with the best local driving schools. Aimed at #1 in Google Search.',
     },
     challenge: {
       nl: 'Rijscholen Advies wilde een gebruiksvriendelijk platform creëren waar bezoekers eenvoudig rijscholen kunnen vergelijken op reviews, prijzen en beschikbaarheid, met een sterke basis voor branded en organische vindbaarheid.',
@@ -553,6 +561,7 @@ const baseProjects: Project[] = [
       en: 'Rental Platform',
     },
     image: promotionCarsShowcase,
+    mobileImage: promotionCarsMobile,
     tags: ['Verhuur', 'Luxe Auto\'s', 'Reserveringen'],
     description: {
       nl: 'Een premium verhuurplatform voor luxe auto\'s zoals Mercedes G-Wagon, Seat Cupra en Volvo.',
@@ -622,12 +631,12 @@ const baseProjects: Project[] = [
 ];
 
 export const featuredCaseStudyIds = [
-  'rijscholen-advies',
-  'phone-recovery',
-  'promotioncars',
   'amster-vastgoed',
-  'care-nexus',
   'van-der-bergen',
+  'promotioncars',
+  'rijscholen-advies',
+  'care-nexus',
+  'phone-recovery',
   'jesse-vanez',
 ] as const;
 

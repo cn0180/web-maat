@@ -70,8 +70,8 @@ const ContactPage = () => {
     }
   };
 
-  const whatsappNumber = '31612345678';
-  const phoneNumber = '+31 6 12345678';
+  const whatsappNumber = '31645457394';
+  const phoneNumber = '+31645457394';
   const emailAddress = 'info@web-maat.nl';
 
   const contactMethods = [

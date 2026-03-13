@@ -122,7 +122,7 @@ const QuoteSection = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="text-foreground">{t.quote.form.phone}</Label>
-                  <Input id="phone" type="tel" placeholder="+31 6 12345678" className="h-12 bg-background/50 border-border/50 focus:border-primary" />
+                  <Input id="phone" type="tel" placeholder="+31645457394" className="h-12 bg-background/50 border-border/50 focus:border-primary" />
                 </div>
               </div>
 

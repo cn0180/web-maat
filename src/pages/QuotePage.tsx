@@ -158,7 +158,7 @@ const QuotePage = () => {
               emailLabel: 'E-mailadres',
               emailPlaceholder: 'uw@email.nl',
               phoneLabel: 'Telefoonnummer',
-              phonePlaceholder: '06 12345678',
+              phonePlaceholder: '+31645457394',
               cityLabel: 'Plaats',
               cityPlaceholder: 'Uw woonplaats',
             },
@@ -332,7 +332,7 @@ const QuotePage = () => {
               emailLabel: 'Email address',
               emailPlaceholder: 'you@email.com',
               phoneLabel: 'Phone number',
-              phonePlaceholder: '+31 6 12345678',
+              phonePlaceholder: '+31645457394',
               cityLabel: 'City',
               cityPlaceholder: 'Your city',
             },
@@ -451,7 +451,7 @@ const QuotePage = () => {
     
     setIsSubmitting(true);
     try {
-      await submitQuoteSubmission({
+      const result = await submitQuoteSubmission({
         name: formData.naam,
         email: formData.email,
         phone: formData.telefoon,
@@ -485,6 +485,23 @@ const QuotePage = () => {
             ? 'Uw offerteaanvraag is succesvol opgeslagen.'
             : 'Your quote request was stored successfully.',
       });
+
+      if (!result.stored || !result.emailed) {
+        const details = [
+          result.storageError ? `Opslaan: ${result.storageError}` : null,
+          result.emailError ? `E-mail: ${result.emailError}` : null,
+        ]
+          .filter(Boolean)
+          .join(' • ');
+        toast({
+          variant: 'destructive',
+          title: language === 'nl' ? 'Let op: verzending niet volledig' : 'Attention: delivery incomplete',
+          description:
+            language === 'nl'
+              ? `We konden uw aanvraag niet volledig verwerken. ${details || ''} Mail ons op info@web-maat.nl.`
+              : `We could not fully process your request. ${details || ''} Email us at info@web-maat.nl.`,
+        });
+      }
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -501,7 +518,43 @@ const QuotePage = () => {
     }
   };
 
+  const isStepComplete = () => {
+    switch (currentStep) {
+      case 0:
+        return Boolean(formData.typeAanvraag && formData.aanvraagVoor);
+      case 1:
+        return Boolean(formData.naam && formData.email && formData.telefoon);
+      case 2:
+        return Boolean(formData.websiteOfWebshop);
+      case 3:
+        return formData.webdesignerVoor.length > 0;
+      case 4:
+        if (formData.websiteOfWebshop === 'webshop') {
+          return formData.webshopFuncties.length > 0;
+        }
+        if (formData.websiteOfWebshop === 'website') {
+          return formData.websiteFuncties.length > 0;
+        }
+        if (formData.websiteOfWebshop === 'beide') {
+          return formData.websiteFuncties.length > 0 && formData.webshopFuncties.length > 0;
+        }
+        return formData.websiteFuncties.length > 0 || formData.webshopFuncties.length > 0;
+      case 5:
+        return Boolean(
+          formData.hulpMetInhoud &&
+            formData.domeinnaamEnHosting &&
+            formData.onderhoudNaOplevering &&
+            formData.aantalPaginas
+        );
+      case 6:
+        return Boolean(formData.opleverdatum);
+      default:
+        return false;
+    }
+  };
+
   const nextStep = () => {
+    if (!isStepComplete()) return;
     if (currentStep < totalSteps - 1) {
       setCurrentStep(prev => prev + 1);
     }
@@ -528,11 +581,6 @@ const QuotePage = () => {
     
     // Step 0: Type aanvraag - auto advance when both fields are filled
     if (currentStep === 0 && formData.typeAanvraag && formData.aanvraagVoor) {
-      const timer = setTimeout(() => nextStep(), 400);
-      return () => clearTimeout(timer);
-    }
-    // Step 2: Website of webshop - auto advance
-    if (currentStep === 2 && formData.websiteOfWebshop) {
       const timer = setTimeout(() => nextStep(), 400);
       return () => clearTimeout(timer);
     }
@@ -1064,12 +1112,6 @@ const QuotePage = () => {
               <p className="text-sm text-muted-foreground text-center">
                 {copy.header.subtitle}
               </p>
-              <p className="text-sm text-muted-foreground text-center mt-2">
-                {copy.header.prompt}{' '}
-                <Link to="/contact" className="text-primary hover:underline font-medium">
-                  {copy.header.link}
-                </Link>
-              </p>
             </div>
           </div>
 
@@ -1119,6 +1161,7 @@ const QuotePage = () => {
                           <Button
                             type="button"
                             onClick={nextStep}
+                            disabled={!isStepComplete()}
                             className="bg-primary hover:bg-primary/90 gap-2 h-11 px-6 text-base"
                           >
                             {copy.buttons.next}
@@ -1127,7 +1170,7 @@ const QuotePage = () => {
                         ) : (
                           <Button
                             type="submit"
-                            disabled={isSubmitting || !formData.opleverdatum}
+                            disabled={isSubmitting || !isStepComplete()}
                             className="bg-primary hover:bg-primary/90 gap-2 h-11 px-6 text-base"
                           >
                             {isSubmitting ? (
@@ -1160,6 +1203,12 @@ const QuotePage = () => {
                     <span>{copy.trust[2]}</span>
                   </div>
                 </div>
+                <p className="mt-3 text-sm text-muted-foreground text-center">
+                  {copy.header.prompt}{' '}
+                  <Link to="/contact" className="text-primary hover:underline font-medium">
+                    {copy.header.link}
+                  </Link>
+                </p>
               </div>
             </div>
           </div>

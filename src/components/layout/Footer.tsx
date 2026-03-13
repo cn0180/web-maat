@@ -284,9 +284,9 @@ const Footer = () => {
 
           {/* Contact */}
           <div className="flex items-center gap-3 text-xs">
-            <a href="tel:+31612345678" className="flex items-center gap-1.5 text-background/70 hover:text-primary transition-colors">
+            <a href="tel:+31645457394" className="flex items-center gap-1.5 text-background/70 hover:text-primary transition-colors">
               <Phone className="w-3 h-3" />
-              <span>+31 6 12345678</span>
+              <span>+31645457394</span>
             </a>
             <a href="mailto:info@web-maat.nl" className="flex items-center gap-1.5 text-background/70 hover:text-primary transition-colors">
               <Mail className="w-3 h-3" />

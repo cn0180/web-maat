@@ -38,7 +38,7 @@ const HeroSection = () => {
 
   return (
     <section
-      className="relative isolate min-h-[36vh] sm:min-h-[40vh] md:min-h-[48vh] lg:min-h-[50vh] overflow-hidden bg-slate-900 pt-12 pb-4 sm:pt-14 sm:pb-5 md:pt-16 md:pb-6 lg:pt-20 lg:pb-8"
+      className="relative isolate min-h-[36vh] sm:min-h-[40vh] md:min-h-[48vh] lg:min-h-[50vh] overflow-hidden bg-slate-900 pt-24 pb-5 sm:pt-16 sm:pb-6 md:pt-20 md:pb-6 lg:pt-20 lg:pb-8"
       style={{ backgroundColor: '#0f172a' }}
       data-hero-version="dark-v5-sync"
     >
@@ -110,7 +110,7 @@ const HeroSection = () => {
             </motion.p>
 
             <motion.div
-              className="grid gap-2.5 sm:grid-cols-3 mb-6 max-w-3xl mx-auto md:mx-0"
+              className="hidden md:grid gap-2.5 sm:grid-cols-3 mb-6 max-w-3xl mx-auto md:mx-0"
               variants={fadeInUp}
             >
               {heroPoints.map((point) => {
@@ -153,6 +153,26 @@ const HeroSection = () => {
                   <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
               </Button>
+            </motion.div>
+
+            <motion.div
+              className="mt-4 grid grid-cols-3 gap-2 md:hidden"
+              variants={fadeInUp}
+            >
+              {heroPoints.map((point) => {
+                const Icon = point.icon;
+                return (
+                  <div
+                    key={point.label}
+                    className="flex flex-col items-start gap-2 rounded-xl border border-white/10 bg-slate-900/45 px-2.5 py-2 shadow-[0_10px_24px_rgba(2,6,23,0.2)] backdrop-blur-sm"
+                  >
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/18 text-white">
+                      <Icon className="h-3.5 w-3.5" />
+                    </span>
+                    <span className="text-[10px] font-medium leading-snug text-white">{point.label}</span>
+                  </div>
+                );
+              })}
             </motion.div>
           </div>
 

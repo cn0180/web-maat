@@ -10,8 +10,8 @@ const ContactSection = () => {
   const { t, language } = useLanguage();
   const { ref, controls } = useScrollAnimation();
 
-  const whatsappNumber = '31612345678';
-  const phoneNumber = '+31 6 12345678';
+  const whatsappNumber = '31645457394';
+  const phoneNumber = '+31645457394';
   const emailAddress = 'info@web-maat.nl';
 
   const contactMethods = [
@@ -56,21 +56,21 @@ const ContactSection = () => {
         </motion.div>
 
         {/* Contact Cards */}
-        <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-6 max-w-4xl mx-auto mb-8">
           {contactMethods.map((method, index) => (
             <motion.div key={index} variants={fadeInUp}>
-              <Card className="bg-card hover:bg-card transition-all duration-500 border-border/50 hover:border-primary/30 hover:shadow-xl group h-full">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                    <method.icon className="w-6 h-6 text-white" />
+              <Card className="bg-white/80 hover:bg-white transition-all duration-500 border-border/50 hover:border-primary/30 hover:shadow-lg group h-full">
+                <CardContent className="p-4 md:p-6 text-center">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:scale-105 transition-transform">
+                    <method.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
                   </div>
-                  <h3 className="font-display font-semibold text-foreground mb-1">
+                  <h3 className="font-display font-semibold text-foreground mb-1 text-sm md:text-base">
                     {method.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm mb-4">
+                  <p className="text-muted-foreground text-xs md:text-sm mb-3">
                     {method.value}
                   </p>
-                  <Button asChild variant="outline" size="sm" className="w-full border-primary/30 hover:bg-primary/5">
+                  <Button asChild variant="outline" size="sm" className="w-full border-primary/30 hover:bg-primary/5 h-8 text-xs md:h-10 md:text-sm">
                     <a
                       href={method.href}
                       target={method.external ? '_blank' : undefined}
@@ -86,6 +86,32 @@ const ContactSection = () => {
           ))}
         </div>
 
+        {/* Quick start */}
+        <motion.div
+          className="mx-auto max-w-4xl mb-8 rounded-2xl border border-slate-200/70 bg-white/70 p-4 md:p-5 shadow-[0_12px_30px_rgba(15,23,42,0.08)]"
+          variants={fadeInUp}
+        >
+          <div className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+              {language === 'nl' ? 'Snelle start' : 'Fast start'}
+            </p>
+            <h3 className="mt-1 text-lg md:text-xl font-bold text-slate-900">
+              {language === 'nl' ? 'Binnen 48 uur helderheid' : 'Clarity within 48 hours'}
+            </h3>
+          </div>
+          <div className="mt-4 grid grid-cols-3 gap-2 md:gap-4 text-center text-xs md:text-sm text-slate-700">
+            <div className="rounded-xl border border-slate-200/70 bg-white/80 px-2.5 py-3">
+              {language === 'nl' ? 'Gratis intake' : 'Free intake'}
+            </div>
+            <div className="rounded-xl border border-slate-200/70 bg-white/80 px-2.5 py-3">
+              {language === 'nl' ? 'Conceptvoorstel' : 'Concept proposal'}
+            </div>
+            <div className="rounded-xl border border-slate-200/70 bg-white/80 px-2.5 py-3">
+              {language === 'nl' ? 'Snelle planning' : 'Fast planning'}
+            </div>
+          </div>
+        </motion.div>
+
         {/* WhatsApp availability */}
         <motion.div 
           className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground"
@@ -98,8 +124,8 @@ const ContactSection = () => {
         </motion.div>
 
         {/* CTA */}
-        <motion.div className="text-center mt-10" variants={fadeInUp}>
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg h-12 px-6">
+        <motion.div className="text-center mt-8" variants={fadeInUp}>
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg h-9 px-5 text-xs sm:h-12 sm:px-6 sm:text-sm">
             <Link to="/quote">
               {t.hero.cta}
               <ArrowRight className="ml-2 w-4 h-4" />

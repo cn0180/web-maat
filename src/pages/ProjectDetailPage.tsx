@@ -7,24 +7,21 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { getProjectById, getNextProject, getPrevProject } from '@/data/projects';
 import { usePageSeo } from '@/hooks/usePageSeo';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { submitContactSubmission } from '@/lib/form-submissions';
 import {
   ArrowLeft,
   ArrowRight,
   ExternalLink,
-  ChevronLeft,
-  ChevronRight,
-  Laptop,
-  Smartphone,
-  Tablet,
   Target,
   Sparkles,
   BarChart3,
-  Globe,
   CheckCircle2,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
-type PreviewDevice = 'desktop' | 'tablet' | 'mobile';
 type BundleKey = 'starter' | 'growth' | 'custom';
 
 const splitProjectCopy = (text: string) => {
@@ -35,16 +32,6 @@ const splitProjectCopy = (text: string) => {
     lead: parts[0] ?? text,
     supporting: parts.slice(1, 3),
   };
-};
-
-const getHostnameLabel = (url?: string) => {
-  if (!url) return '';
-
-  try {
-    return new URL(url).hostname.replace(/^www\./, '');
-  } catch {
-    return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
-  }
 };
 
 const bundleCopy = {
@@ -99,12 +86,19 @@ const bundleCopy = {
 const ProjectDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const { t, language } = useLanguage();
+  const { toast } = useToast();
   const project = getProjectById(id || '');
   const nextProject = getNextProject(id || '');
   const prevProject = getPrevProject(id || '');
   const heroImage = project?.screenshot || project?.gallery[0] || project?.image;
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [previewDevice, setPreviewDevice] = useState<PreviewDevice>('desktop');
+  const [similarForm, setSimilarForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+  const [isSimilarSubmitting, setIsSimilarSubmitting] = useState(false);
+  const [isSimilarSubmitted, setIsSimilarSubmitted] = useState(false);
 
   const seoTitle = project
     ? project.seo?.title[language] ??
@@ -132,6 +126,93 @@ const ProjectDetailPage = () => {
       }
     : undefined;
 
+  const similarCopy =
+    language === 'nl'
+      ? {
+          label: 'Vergelijkbare website',
+          title: 'Een vergelijkbare website laten maken?',
+          subtitle: 'Vraag een offerte aan en ontvang binnen 24 uur een reactie.',
+          nameLabel: 'Naam',
+          namePlaceholder: 'Uw naam',
+          phoneLabel: 'Telefoon',
+          phonePlaceholder: '+31645457394',
+          emailLabel: 'E-mail',
+          emailPlaceholder: 'uw@email.nl',
+          messageLabel: 'Bericht',
+          messagePlaceholder: 'Vertel kort wat u nodig heeft...',
+          submitLabel: 'Verstuur aanvraag',
+          submittingLabel: 'Versturen...',
+          successTitle: 'Aanvraag ontvangen',
+          successBody: 'We nemen binnen 24 uur contact met u op.',
+          viewSite: 'Bekijk deze website',
+        }
+      : {
+          label: 'Similar website',
+          title: 'Need a similar website?',
+          subtitle: 'Request a quote and receive a response within 24 hours.',
+          nameLabel: 'Name',
+          namePlaceholder: 'Your name',
+          phoneLabel: 'Phone',
+          phonePlaceholder: '+31645457394',
+          emailLabel: 'Email',
+          emailPlaceholder: 'you@email.com',
+          messageLabel: 'Message',
+          messagePlaceholder: 'Tell us briefly what you need...',
+          submitLabel: 'Send request',
+          submittingLabel: 'Sending...',
+          successTitle: 'Request received',
+          successBody: 'We will contact you within 24 hours.',
+          viewSite: 'View this website',
+        };
+
+  const handleSimilarSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!project) return;
+    setIsSimilarSubmitting(true);
+
+    const messageLines = [
+      `Project: ${project.title}`,
+      similarForm.phone ? `Telefoon: ${similarForm.phone}` : null,
+      similarForm.message.trim(),
+    ].filter(Boolean);
+
+    try {
+      await submitContactSubmission({
+        name: similarForm.name.trim(),
+        email: similarForm.email.trim(),
+        message: messageLines.join('\n'),
+        language,
+        source: `project-detail:${project.id}`,
+      });
+
+      setIsSimilarSubmitted(true);
+      toast({
+        title: language === 'nl' ? 'Aanvraag verzonden' : 'Request sent',
+        description:
+          language === 'nl'
+            ? 'Uw aanvraag is opgeslagen en doorgestuurd.'
+            : 'Your request was saved and forwarded.',
+      });
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: language === 'nl' ? 'Verzenden mislukt' : 'Sending failed',
+        description:
+          error instanceof Error
+            ? error.message
+            : language === 'nl'
+              ? 'Er ging iets mis. Probeer opnieuw.'
+              : 'Something went wrong. Please try again.',
+      });
+    } finally {
+      setIsSimilarSubmitting(false);
+    }
+  };
+
+  const isSimilarValid = Boolean(
+    similarForm.name.trim() && similarForm.email.trim() && similarForm.message.trim()
+  );
+
   usePageSeo({
     title: seoTitle,
     description: seoDescription,
@@ -149,33 +230,6 @@ const ProjectDetailPage = () => {
     );
   }
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % project.gallery.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + project.gallery.length) % project.gallery.length);
-  };
-
-  const previewModes = [
-    { id: 'desktop' as const, label: language === 'nl' ? 'Laptop' : 'Laptop', icon: Laptop },
-    { id: 'tablet' as const, label: language === 'nl' ? 'Tablet' : 'Tablet', icon: Tablet },
-    { id: 'mobile' as const, label: language === 'nl' ? 'Telefoon' : 'Phone', icon: Smartphone },
-  ];
-
-  const frameClass =
-    previewDevice === 'desktop'
-      ? 'max-w-full rounded-xl p-2'
-      : previewDevice === 'tablet'
-        ? 'max-w-[520px] rounded-[1.6rem] p-2.5'
-        : 'max-w-[320px] rounded-[2rem] p-2.5';
-  const viewportClass =
-    previewDevice === 'desktop'
-      ? 'aspect-[4/3] rounded-lg'
-      : previewDevice === 'tablet'
-        ? 'aspect-[4/3] rounded-[1.3rem]'
-        : 'aspect-[9/19] rounded-[1.6rem]';
-  const websiteHost = getHostnameLabel(project.websiteUrl);
   const categoryMatch = `${project.category.nl} ${project.category.en} ${project.tags.join(' ')}`.toLowerCase();
   const recommendedBundleKey: BundleKey = (() => {
     if (categoryMatch.includes('platform') || categoryMatch.includes('ai')) return 'custom';
@@ -252,132 +306,143 @@ const ProjectDetailPage = () => {
 
         <section className="py-8">
           <div className="container mx-auto container-padding">
-            <div className="grid lg:grid-cols-2 gap-8 items-start">
-              {/* Image Gallery */}
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
               <div className="relative">
-                <div className="mb-3 flex flex-wrap gap-2">
-                  {previewModes.map((mode) => {
-                    const Icon = mode.icon;
-                    return (
-                      <button
-                        key={mode.id}
-                        type="button"
-                        onClick={() => setPreviewDevice(mode.id)}
-                        className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
-                          previewDevice === mode.id
-                            ? 'border-primary bg-primary text-primary-foreground'
-                            : 'border-border bg-background text-foreground hover:border-primary/30 hover:bg-primary/5'
-                        }`}
-                      >
-                        <Icon className="w-4 h-4" />
-                        {mode.label}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className={`mx-auto border border-slate-700 bg-slate-950 shadow-xl ${frameClass}`}>
-                  <div className="mb-2 flex items-center gap-2 rounded-lg bg-slate-900 px-3 py-2 text-xs text-slate-300">
-                    <span className="w-2 h-2 rounded-full bg-rose-500" />
-                    <span className="w-2 h-2 rounded-full bg-amber-400" />
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span className="ml-2 truncate">{project.websiteUrl || project.title}</span>
+                <div className="relative mx-auto max-w-[560px]">
+                  <div className="rounded-[30px] bg-slate-950 p-3 shadow-[0_26px_80px_rgba(15,23,42,0.22)]">
+                    <div className="rounded-[24px] bg-slate-900 p-2">
+                      <div className="aspect-[16/10] overflow-hidden rounded-[20px] bg-slate-800">
+                        <img
+                          src={project.gallery[0] ?? project.image}
+                          alt={`${project.title} preview`}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </div>
                   </div>
-
-                  <div className={`relative overflow-hidden border border-slate-700 bg-slate-800 ${viewportClass}`}>
-                    <AnimatePresence mode="wait">
-                      <motion.img
-                        key={currentImageIndex}
-                        src={project.gallery[currentImageIndex]}
-                        alt={`${project.title} - ${currentImageIndex + 1}`}
-                        className="w-full h-full object-cover"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        onError={(event) => {
-                          event.currentTarget.src = project.image;
-                        }}
-                      />
-                    </AnimatePresence>
-
-                    {/* Gallery Navigation */}
-                    {project.gallery.length > 1 && (
-                      <>
-                        <button
-                          onClick={prevImage}
-                          className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-background transition-colors"
-                        >
-                          <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                          onClick={nextImage}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-background transition-colors"
-                        >
-                          <ChevronRight className="w-5 h-5" />
-                        </button>
-
-                        {/* Image Indicators */}
-                        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
-                          {project.gallery.map((_, index) => (
-                            <button
-                              key={index}
-                              onClick={() => setCurrentImageIndex(index)}
-                              className={`w-2 h-2 rounded-full transition-all ${
-                                index === currentImageIndex
-                                  ? 'bg-white w-6'
-                                  : 'bg-white/50 hover:bg-white/75'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      </>
-                    )}
+                  <div className="absolute -bottom-8 left-0 w-[120px] sm:w-[140px] rounded-[28px] bg-slate-950 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.28)]">
+                    <div className="rounded-[22px] bg-slate-900 p-1.5">
+                      <div className="aspect-[9/19] overflow-hidden rounded-[18px] bg-slate-800">
+                        <img
+                          src={project.mobileImage ?? project.image}
+                          alt={`${project.title} mobile preview`}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Thumbnail Strip */}
-                {project.gallery.length > 1 && (
-                  <div className="flex gap-2 mt-3 overflow-x-auto pb-2">
-                    {project.gallery.map((img, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 transition-all ${
-                          index === currentImageIndex 
-                            ? 'border-primary' 
-                            : 'border-transparent opacity-60 hover:opacity-100'
-                        }`}
-                      >
-                        <img src={img} alt="" className="w-full h-full object-cover" />
-                      </button>
-                    ))}
+                {project.websiteUrl && (
+                  <div className="mt-10 flex justify-center">
+                    <Button asChild variant="outline" className="rounded-full border-primary/30 text-primary">
+                      <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer">
+                        {similarCopy.viewSite}
+                        <ExternalLink className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
                   </div>
                 )}
+              </div>
 
-                <div className="mt-6 rounded-[26px] border border-slate-200 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.08)]">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                        {bundleLocale.label}
-                      </p>
-                      <p className="mt-1 text-xs text-slate-500">{bundleLocale.hint}</p>
-                    </div>
-                    <div className="rounded-2xl border border-primary/15 bg-primary/5 px-3 py-2 text-right">
-                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                        {bundle.name}
-                      </p>
-                      <p className="mt-1 font-display text-xl font-bold text-slate-900">
-                        {bundle.price}
-                      </p>
-                    </div>
-                  </div>
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  {similarCopy.label}
+                </p>
+                <h3 className="mt-2 font-display text-2xl md:text-3xl font-bold text-slate-900">
+                  {similarCopy.title}
+                </h3>
+                <p className="mt-2 text-sm md:text-base text-slate-600">
+                  {similarCopy.subtitle}
+                </p>
 
-                  <p className="mt-4 text-sm leading-relaxed text-slate-600">
-                    {bundle.description}
+                <div className="mt-6">
+                  {isSimilarSubmitted ? (
+                    <div className="text-sm text-slate-600">
+                      <p className="font-semibold text-slate-900">{similarCopy.successTitle}</p>
+                      <p className="mt-2">{similarCopy.successBody}</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSimilarSubmit} className="space-y-4">
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="space-y-2">
+                          <Label htmlFor="similar-name">{similarCopy.nameLabel}</Label>
+                          <Input
+                            id="similar-name"
+                            value={similarForm.name}
+                            onChange={(event) =>
+                              setSimilarForm((prev) => ({ ...prev, name: event.target.value }))
+                            }
+                            placeholder={similarCopy.namePlaceholder}
+                            className="h-11"
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="similar-phone">{similarCopy.phoneLabel}</Label>
+                          <Input
+                            id="similar-phone"
+                            value={similarForm.phone}
+                            onChange={(event) =>
+                              setSimilarForm((prev) => ({ ...prev, phone: event.target.value }))
+                            }
+                            placeholder={similarCopy.phonePlaceholder}
+                            className="h-11"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="similar-email">{similarCopy.emailLabel}</Label>
+                        <Input
+                          id="similar-email"
+                          type="email"
+                          value={similarForm.email}
+                          onChange={(event) =>
+                            setSimilarForm((prev) => ({ ...prev, email: event.target.value }))
+                          }
+                          placeholder={similarCopy.emailPlaceholder}
+                          className="h-11"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="similar-message">{similarCopy.messageLabel}</Label>
+                        <Textarea
+                          id="similar-message"
+                          value={similarForm.message}
+                          onChange={(event) =>
+                            setSimilarForm((prev) => ({ ...prev, message: event.target.value }))
+                          }
+                          placeholder={similarCopy.messagePlaceholder}
+                          rows={4}
+                          className="resize-none"
+                          required
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        disabled={!isSimilarValid || isSimilarSubmitting}
+                        className="h-11 w-full rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90"
+                      >
+                        {isSimilarSubmitting ? similarCopy.submittingLabel : similarCopy.submitLabel}
+                      </Button>
+                    </form>
+                  )}
+                </div>
+
+                <div className="mt-6 border-t border-slate-200 pt-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                    {bundleLocale.label}
                   </p>
-
-                  <ul className="mt-4 space-y-2 text-sm text-slate-700">
+                  <div className="mt-2 flex flex-wrap items-center gap-3">
+                    <span className="text-sm font-semibold text-slate-900">{bundle.name}</span>
+                    <span className="text-sm font-semibold text-primary">{bundle.price}</span>
+                    <span className="text-sm text-slate-600">{bundle.description}</span>
+                  </div>
+                  <ul className="mt-3 grid gap-2 text-sm text-slate-600">
                     {bundleFeatures.map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -385,167 +450,102 @@ const ProjectDetailPage = () => {
                       </li>
                     ))}
                   </ul>
-
-                  <Button asChild className="mt-5 h-11 w-full rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90">
-                    <Link to="/quote">{bundleLocale.cta}</Link>
-                  </Button>
                 </div>
               </div>
+            </div>
 
-              {/* Project Details - Always visible */}
-              <div className="space-y-6">
-                <div>
-                  <div className="rounded-[28px] border border-primary/12 bg-[radial-gradient(circle_at_top_right,_rgba(37,99,235,0.12),_transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.98)_100%)] p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)] md:p-6">
-                    <div className="flex flex-wrap items-start justify-between gap-4">
-                      <div className="max-w-2xl">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                          {language === 'nl' ? 'Projectoverzicht' : 'Project overview'}
-                        </p>
-                        <p className="mt-3 text-[15px] leading-relaxed text-slate-700 md:text-lg">
-                          {project.description[language]}
-                        </p>
-                      </div>
-
-                      <div className="rounded-2xl border border-white/70 bg-white/90 px-4 py-3 shadow-sm">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                          {language === 'nl' ? 'Type project' : 'Project type'}
-                        </p>
-                        <p className="mt-1 text-sm font-semibold text-slate-900">
-                          {project.category[language]}
-                        </p>
-                      </div>
+            <div className="mt-10 space-y-6">
+              {project.kpis && project.kpis.length > 0 && (
+                <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)] md:p-6">
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                        {language === 'nl' ? 'Snel overzicht' : 'Quick snapshot'}
+                      </p>
+                      <h3 className="mt-1 font-sans text-xl font-bold text-slate-900">
+                        {language === 'nl' ? 'Resultaten in cijfers' : 'Results in numbers'}
+                      </h3>
                     </div>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={`${project.id}-${tag}`}
-                          className="inline-flex items-center rounded-full border border-primary/10 bg-white/75 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    <div className="hidden h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary sm:flex">
+                      <BarChart3 className="h-5 w-5" />
                     </div>
+                  </div>
 
-                    {project.websiteUrl && (
-                      <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
-                        <Button
-                          asChild
-                          size="lg"
-                          className="h-14 w-full justify-center rounded-2xl bg-primary text-base font-semibold text-primary-foreground shadow-[0_16px_35px_rgba(37,99,235,0.28)] hover:bg-primary/90"
-                        >
-                          <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer">
-                            {language === 'nl' ? 'Bezoek live website' : 'Visit live website'}
-                            <ExternalLink className="ml-2 h-5 w-5" />
-                          </a>
-                        </Button>
-
-                        <a
-                          href={project.websiteUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:border-primary/25 hover:text-primary"
-                        >
-                          <Globe className="h-4 w-4" />
-                          {websiteHost}
-                        </a>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    {project.kpis.map((kpi) => (
+                      <div
+                        key={`${project.id}-${kpi.value}`}
+                        className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 text-left shadow-sm"
+                      >
+                        <p className="font-display text-3xl font-bold leading-tight text-primary">
+                          {kpi.value}
+                        </p>
+                        <p className="mt-1 text-sm leading-snug text-slate-600">
+                          {kpi.label[language]}
+                        </p>
                       </div>
-                    )}
+                    ))}
                   </div>
                 </div>
+              )}
 
-                {project.kpis && project.kpis.length > 0 && (
-                  <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)] md:p-6">
-                    <div className="mb-4 flex items-center justify-between gap-3">
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                          {language === 'nl' ? 'Snel overzicht' : 'Quick snapshot'}
-                        </p>
-                        <h3 className="mt-1 font-sans text-xl font-bold text-slate-900">
-                          {language === 'nl' ? 'Resultaten in cijfers' : 'Results in numbers'}
-                        </h3>
-                      </div>
+              <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
+                <div className="border-b border-slate-200 bg-slate-50/80 px-5 py-4 md:px-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                    {language === 'nl' ? 'Van briefing naar resultaat' : 'From brief to result'}
+                  </p>
+                  <h3 className="mt-1 font-sans text-xl font-bold text-slate-900">
+                    {language === 'nl' ? 'Compact projectverhaal' : 'Compact project story'}
+                  </h3>
+                </div>
 
-                      <div className="hidden h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary sm:flex">
-                        <BarChart3 className="h-5 w-5" />
-                      </div>
-                    </div>
+                <div className="divide-y divide-slate-200">
+                  {storySections.map((section) => {
+                    const Icon = section.icon;
+                    const copy = splitProjectCopy(section.body);
 
-                    <div className="grid gap-3 sm:grid-cols-3">
-                      {project.kpis.map((kpi) => (
-                        <div
-                          key={`${project.id}-${kpi.value}`}
-                          className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 text-left shadow-sm"
-                        >
-                          <p className="font-display text-3xl font-bold leading-tight text-primary">
-                            {kpi.value}
-                          </p>
-                          <p className="mt-1 text-sm leading-snug text-slate-600">
-                            {kpi.label[language]}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
-                  <div className="border-b border-slate-200 bg-slate-50/80 px-5 py-4 md:px-6">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                      {language === 'nl' ? 'Van briefing naar resultaat' : 'From brief to result'}
-                    </p>
-                    <h3 className="mt-1 font-sans text-xl font-bold text-slate-900">
-                      {language === 'nl' ? 'Compact projectverhaal' : 'Compact project story'}
-                    </h3>
-                  </div>
-
-                  <div className="divide-y divide-slate-200">
-                    {storySections.map((section) => {
-                      const Icon = section.icon;
-                      const copy = splitProjectCopy(section.body);
-
-                      return (
-                        <article key={section.id} className="p-5 md:p-6">
-                          <div className="flex items-start gap-4">
-                            <div
-                              className={`mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border ${section.iconClassName}`}
-                            >
-                              <Icon className="h-5 w-5" />
-                            </div>
-
-                            <div className="min-w-0">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <h4 className="font-sans text-lg font-bold text-slate-900">
-                                  {section.title}
-                                </h4>
-                                <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                                  {section.eyebrow}
-                                </span>
-                              </div>
-
-                              <p className="mt-3 text-[15px] leading-7 text-slate-700">
-                                {copy.lead}
-                              </p>
-
-                              {copy.supporting.length > 0 && (
-                                <div className="mt-3 space-y-2">
-                                  {copy.supporting.map((item) => (
-                                    <div
-                                      key={`${section.id}-${item}`}
-                                      className="flex items-start gap-2 text-sm leading-6 text-slate-600"
-                                    >
-                                      <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" />
-                                      <span>{item}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
+                    return (
+                      <article key={section.id} className="p-5 md:p-6">
+                        <div className="flex items-start gap-4">
+                          <div
+                            className={`mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border ${section.iconClassName}`}
+                          >
+                            <Icon className="h-5 w-5" />
                           </div>
-                        </article>
-                      );
-                    })}
-                  </div>
+
+                          <div className="min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h4 className="font-sans text-lg font-bold text-slate-900">
+                                {section.title}
+                              </h4>
+                              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                                {section.eyebrow}
+                              </span>
+                            </div>
+
+                            <p className="mt-3 text-[15px] leading-7 text-slate-700">
+                              {copy.lead}
+                            </p>
+
+                            {copy.supporting.length > 0 && (
+                              <div className="mt-3 space-y-2">
+                                {copy.supporting.map((item) => (
+                                  <div
+                                    key={`${section.id}-${item}`}
+                                    className="flex items-start gap-2 text-sm leading-6 text-slate-600"
+                                  >
+                                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                                    <span>{item}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
               </div>
             </div>

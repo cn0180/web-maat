@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollAnimation, fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
+import { useEffect, useRef } from 'react';
 
 const TestimonialsSection = () => {
   const { t, language } = useLanguage();
   const { ref, controls } = useScrollAnimation();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const testimonials =
     language === 'nl'
@@ -73,6 +75,56 @@ const TestimonialsSection = () => {
     }
   };
 
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let animationId: number;
+    const scrollSpeed = 0.7;
+
+    const getLoopPoint = () => Math.max(1, scrollContainer.scrollWidth / 2);
+
+    const animate = () => {
+      const loopPoint = getLoopPoint();
+      if (scrollContainer.scrollWidth <= scrollContainer.clientWidth) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+
+      scrollContainer.scrollLeft = (scrollContainer.scrollLeft + scrollSpeed) % loopPoint;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    const start = () => {
+      cancelAnimationFrame(animationId);
+      animationId = requestAnimationFrame(animate);
+    };
+
+    const stop = () => {
+      cancelAnimationFrame(animationId);
+    };
+
+    const timeoutId = window.setTimeout(start, 600);
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        start();
+      }
+    };
+
+    window.addEventListener('resize', start);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      stop();
+      window.removeEventListener('resize', start);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   return (
     <section className="section-padding relative overflow-hidden bg-soft">
       <motion.div 
@@ -87,12 +139,16 @@ const TestimonialsSection = () => {
           <h2 className="section-title">{t.testimonials.title}</h2>
         </motion.div>
 
-        {/* Testimonials Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <motion.div key={index} variants={fadeInUp}>
-              <Card className="bg-card hover:bg-card transition-all duration-500 border-border/50 hover:border-primary/30 hover:shadow-xl h-full">
-                <CardContent className="p-6">
+        {/* Testimonials Auto Scroll */}
+        <motion.div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-hidden -mx-4 px-4"
+          variants={fadeInUp}
+        >
+          {[...testimonials, ...testimonials].map((testimonial, index) => (
+            <motion.div key={`${testimonial.name}-${index}`} variants={fadeInUp} className="flex-shrink-0 w-[78vw] sm:w-[320px] md:w-[360px] lg:w-[380px]">
+              <Card className="bg-white/90 hover:bg-white transition-all duration-500 border-border/50 hover:border-primary/30 hover:shadow-lg h-full">
+                <CardContent className="p-5">
                   <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                     <Quote className="w-5 h-5 text-primary" />
                   </div>
@@ -103,7 +159,7 @@ const TestimonialsSection = () => {
                     ))}
                   </div>
 
-                  <div className="space-y-2 text-foreground leading-relaxed mb-6 text-sm">
+                  <div className="space-y-2 text-foreground leading-relaxed mb-5 text-sm">
                     {testimonial.text.split(/(?<=\.)\s+/).map((line) => (
                       <p key={line}>"{line}"</p>
                     ))}
@@ -132,13 +188,23 @@ const TestimonialsSection = () => {
               </Card>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* View All Button */}
-        <motion.div className="text-center mt-10" variants={fadeInUp}>
-          <Button asChild size="lg" variant="outline" className="h-12 px-6 border-primary/30 hover:bg-primary/5">
+        <motion.div className="text-center mt-8" variants={fadeInUp}>
+          <Button asChild size="lg" variant="outline" className="h-9 px-5 text-xs sm:h-12 sm:px-6 sm:text-sm border-primary/30 hover:bg-primary/5">
             <Link to="/testimonials">
-              {t.testimonials.readMore}
+              {language === 'nl' ? (
+                <>
+                  <span className="sm:hidden">Meer reviews</span>
+                  <span className="hidden sm:inline">{t.testimonials.readMore}</span>
+                </>
+              ) : (
+                <>
+                  <span className="sm:hidden">More reviews</span>
+                  <span className="hidden sm:inline">{t.testimonials.readMore}</span>
+                </>
+              )}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>

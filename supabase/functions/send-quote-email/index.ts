@@ -24,8 +24,12 @@ type QuotePayload = {
 };
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const TO_EMAIL = Deno.env.get("QUOTE_NOTIFICATION_EMAIL") ?? "masrorkamal08@gmail.com";
+const TO_EMAIL = Deno.env.get("QUOTE_NOTIFICATION_EMAIL") ?? "info@web-maat.nl";
 const FROM_EMAIL = Deno.env.get("RESEND_FROM_EMAIL") ?? "Web-Maat <no-reply@web-maat.nl>";
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
 
 const label = (value?: string | null) => (value && value.trim().length > 0 ? value.trim() : "-");
 
@@ -42,19 +46,22 @@ const formatFiles = (files?: QuotePayload["uploadedFiles"]) => {
 };
 
 serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
   if (req.method !== "POST") {
-    return new Response("Method Not Allowed", { status: 405 });
+    return new Response("Method Not Allowed", { status: 405, headers: corsHeaders });
   }
 
   if (!RESEND_API_KEY) {
-    return new Response("Missing RESEND_API_KEY", { status: 500 });
+    return new Response("Missing RESEND_API_KEY", { status: 500, headers: corsHeaders });
   }
 
   let payload: QuotePayload;
   try {
     payload = (await req.json()) as QuotePayload;
   } catch (error) {
-    return new Response(`Invalid JSON: ${String(error)}`, { status: 400 });
+    return new Response(`Invalid JSON: ${String(error)}`, { status: 400, headers: corsHeaders });
   }
 
   const subjectName = payload?.name ? payload.name : "Nieuwe aanvraag";
@@ -138,10 +145,10 @@ Bron: ${label(payload.source)}
 
   if (!resendResponse.ok) {
     const errorText = await resendResponse.text();
-    return new Response(`Resend error: ${errorText}`, { status: 500 });
+    return new Response(`Resend error: ${errorText}`, { status: 500, headers: corsHeaders });
   }
 
   return new Response(JSON.stringify({ ok: true }), {
-    headers: { "Content-Type": "application/json" },
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 });
