@@ -439,7 +439,6 @@ const ProjectDetailPage = () => {
                   </p>
                   <div className="mt-2 flex flex-wrap items-center gap-3">
                     <span className="text-sm font-semibold text-slate-900">{bundle.name}</span>
-                    <span className="text-sm font-semibold text-primary">{bundle.price}</span>
                     <span className="text-sm text-slate-600">{bundle.description}</span>
                   </div>
                   <ul className="mt-3 grid gap-2 text-sm text-slate-600">

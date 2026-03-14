@@ -16,7 +16,6 @@ const BundlesSection = () => {
           title: 'Kies het pakket dat past bij uw bedrijf',
           subtitle: 'Van snel online tot volledig maatwerk.',
           popular: 'Meest gekozen',
-          from: 'vanaf',
           moreInfo: 'Meer informatie',
           requestQuote: 'Offerte aanvragen',
           footerText: 'Niet zeker welk pakket past?',
@@ -27,7 +26,6 @@ const BundlesSection = () => {
           title: 'Choose the package that fits your business',
           subtitle: 'From fast online to fully custom.',
           popular: 'Most popular',
-          from: 'from',
           moreInfo: 'More info',
           requestQuote: 'Request quote',
           footerText: 'Not sure which package fits?',
@@ -129,15 +127,9 @@ const BundlesSection = () => {
                       <h3 className="font-display text-[1.4rem] md:text-[2.15rem] font-extrabold text-slate-900 tracking-tight">
                         {bundle.name}
                       </h3>
-                      <p className="mt-3 md:mt-5 font-display text-3xl md:text-5xl font-extrabold text-primary leading-none">
-                        {bundle.price}
-                      </p>
-                      <p className="mt-1.5 md:mt-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-primary/70">
-                        {copy.from}
-                      </p>
                     </div>
 
-                    <p className="text-xs md:text-sm leading-relaxed mb-5 md:mb-6 text-slate-600 text-center line-clamp-3 md:line-clamp-none">
+                    <p className="mt-1 text-xs md:text-sm leading-relaxed mb-5 md:mb-6 text-slate-600 text-center line-clamp-3 md:line-clamp-none">
                       {bundle.description}
                     </p>
 

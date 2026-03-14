@@ -182,101 +182,116 @@ const ServiceSectionItem = ({
           {shortTitle}
         </h3>
       </div>
-      <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.12)] md:p-6 lg:p-7">
-        <div className="grid lg:grid-cols-[minmax(0,1.14fr)_minmax(340px,0.86fr)] gap-8 lg:gap-14 items-center">
-          <figure className={`relative ${isReversed ? 'lg:order-2' : 'lg:order-1'}`}>
-          <img
-            src={service.image}
-            alt={serviceCopy.title}
-            className="w-full h-[280px] sm:h-[340px] md:h-[420px] lg:h-[470px] object-cover rounded-[24px] shadow-[0_22px_55px_rgba(15,23,42,0.22)]"
-          />
-          <div className="absolute inset-0 rounded-[24px] bg-gradient-to-t from-slate-950/35 via-slate-900/8 to-transparent" />
-          <div className="absolute left-5 top-5 w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
-            <Icon className="w-6 h-6 text-white" />
-          </div>
-        </figure>
+      <div className="relative">
+        <div className="pointer-events-none absolute -left-14 top-10 h-44 w-44 rounded-full bg-primary/15 blur-3xl" />
+        <div className="pointer-events-none absolute -right-10 -bottom-12 h-48 w-48 rounded-full bg-sky-300/15 blur-3xl" />
+        <div className="relative overflow-hidden rounded-[32px] border border-slate-200/70 bg-white/95 p-5 md:p-8 lg:p-10 shadow-[0_28px_70px_rgba(15,23,42,0.2)] transition-transform duration-500 hover:-translate-y-1">
+          <div className="grid lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] gap-8 lg:gap-12 items-center">
+            <figure className={`relative ${isReversed ? 'lg:order-2' : 'lg:order-1'}`}>
+              <div className="absolute -inset-2 rounded-[32px] bg-gradient-to-br from-primary/25 via-slate-100/40 to-white/5 blur-2xl opacity-80" />
+              <div className="relative overflow-hidden rounded-[28px] border border-white/70 shadow-[0_22px_55px_rgba(15,23,42,0.24)]">
+                <img
+                  src={service.image}
+                  alt={serviceCopy.title}
+                  className="w-full h-[280px] sm:h-[340px] md:h-[420px] lg:h-[470px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-slate-900/20 to-transparent" />
+              </div>
+              <div className="absolute -left-3 -top-3 w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-xl">
+                <Icon className="w-6 h-6 text-white" />
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2 lg:absolute lg:bottom-4 lg:left-4 lg:right-4 lg:mt-0">
+                {serviceStats.map((stat) => (
+                  <div
+                    key={`${service.slug}-${stat.label}`}
+                    className="flex-1 min-w-[110px] rounded-full border border-white/70 bg-white/85 px-4 py-2 shadow-sm backdrop-blur"
+                  >
+                    <p className="text-sm md:text-base font-semibold text-slate-900 leading-none">{stat.value}</p>
+                    <p className="text-[11px] md:text-xs text-slate-600 mt-1">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </figure>
 
-          <div className={`flex flex-col lg:max-w-[470px] ${isReversed ? 'lg:order-1' : 'lg:order-2 lg:ml-auto'}`}>
-          <p className="text-base md:text-lg text-slate-800 mb-4">{serviceCopy.subtitle}</p>
-          <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4">
-            {serviceStats.map((stat) => (
-              <div key={`${service.slug}-${stat.label}`} className="rounded-2xl border border-slate-200 bg-white px-3 py-3 md:px-3.5 md:py-3.5 shadow-[0_10px_25px_rgba(15,23,42,0.06)]">
-                <p className="text-sm md:text-base font-bold text-slate-900 leading-none">{stat.value}</p>
-                <p className="text-[11px] md:text-xs text-slate-600 mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-3 gap-2 mb-4 md:hidden">
-            {mobileHighlightFeatures.map((feature) => (
-              <div
-                key={`${service.slug}-${feature}-highlight-mobile`}
-                className="rounded-xl border border-slate-200 bg-white px-2.5 py-2.5 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
-              >
-                <CheckCircle2 className="h-4 w-4 text-primary mb-2" />
-                <p className="text-[10px] font-medium text-slate-900 leading-snug">{feature}</p>
-              </div>
-            ))}
-          </div>
-          <div className="hidden md:grid md:grid-cols-3 gap-3 mb-5">
-            {highlightFeatures.map((feature) => (
-              <div
-                key={`${service.slug}-${feature}-highlight`}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-[0_10px_25px_rgba(15,23,42,0.06)]"
-              >
-                <CheckCircle2 className="h-5 w-5 text-primary mb-3" />
-                <p className="text-sm font-medium text-slate-900 leading-snug">{feature}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-sm md:text-base text-slate-700 leading-relaxed mb-4">
-            {serviceCopy.description}
-          </p>
+            <div className={`flex flex-col lg:max-w-[480px] ${isReversed ? 'lg:order-1' : 'lg:order-2 lg:ml-auto'}`}>
+              <p className="text-lg md:text-xl font-semibold text-slate-900 mb-2">{serviceCopy.subtitle}</p>
+              <div className="h-px w-16 bg-gradient-to-r from-primary via-primary/40 to-transparent mb-4" />
 
-          <div className="grid md:grid-cols-2 gap-3 md:gap-4">
-            <div className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 shadow-[0_10px_25px_rgba(15,23,42,0.06)]">
-              <p className="text-sm font-semibold text-slate-900 mb-2">
-                {language === 'nl' ? 'Wat u krijgt' : 'What you get'}
+              <div className="flex flex-wrap gap-2 mb-4 md:hidden">
+                {mobileHighlightFeatures.map((feature) => (
+                  <span
+                    key={`${service.slug}-${feature}-highlight-mobile`}
+                    className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-slate-50 px-3 py-2 text-[11px] font-semibold text-slate-900 shadow-sm"
+                  >
+                    <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                    {feature}
+                  </span>
+                ))}
+              </div>
+              <div className="hidden md:flex flex-wrap gap-2 mb-5">
+                {highlightFeatures.map((feature) => (
+                  <span
+                    key={`${service.slug}-${feature}-highlight`}
+                    className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm"
+                  >
+                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                    {feature}
+                  </span>
+                ))}
+              </div>
+
+              <p className="text-sm md:text-base text-slate-700 leading-relaxed mb-5">
+                {serviceCopy.description}
               </p>
-              <ul className="space-y-2 text-[11px] text-slate-700 sm:hidden">
-                {mobileExtraFeatures.map((feature) => (
-                  <li key={`${service.slug}-${feature}-mobile`} className="flex items-start gap-2">
-                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <ul className="hidden sm:block space-y-2.5 text-sm text-slate-700">
-                {extraFeatures.map((feature) => (
-                  <li key={`${service.slug}-${feature}`} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 shadow-[0_10px_25px_rgba(15,23,42,0.06)]">
-              <p className="text-sm font-semibold text-slate-900 mb-2">
-                {language === 'nl' ? 'Aanpak & focus' : 'Approach & focus'}
-              </p>
-              <ul className="space-y-2 text-[11px] text-slate-700 sm:hidden">
-                {mobileDetails.map((detail) => (
-                  <li key={`${service.slug}-${detail}-mobile`} className="flex items-start gap-2">
-                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                    <span>{detail}</span>
-                  </li>
-                ))}
-              </ul>
-              <ul className="hidden sm:block space-y-2.5 text-sm text-slate-700">
-                {serviceCopy.details.map((detail) => (
-                  <li key={`${service.slug}-${detail}`} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span>{detail}</span>
-                  </li>
-                ))}
-              </ul>
+
+              <div className="rounded-[26px] border border-slate-200/80 bg-gradient-to-br from-white via-slate-50 to-blue-50/40 p-4 md:p-5">
+                <div className="grid md:grid-cols-2 gap-5 md:gap-6">
+                  <div>
+                    <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600 shadow-sm">
+                      {language === 'nl' ? 'Wat u krijgt' : 'What you get'}
+                    </span>
+                    <ul className="mt-3 space-y-2 text-[11px] text-slate-700 sm:hidden">
+                      {mobileExtraFeatures.map((feature) => (
+                        <li key={`${service.slug}-${feature}-mobile`} className="flex items-start gap-2">
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="mt-3 hidden sm:block space-y-2.5 text-sm text-slate-700">
+                      {extraFeatures.map((feature) => (
+                        <li key={`${service.slug}-${feature}`} className="flex items-start gap-2.5">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="md:border-l md:border-slate-200/70 md:pl-6">
+                    <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600 shadow-sm">
+                      {language === 'nl' ? 'Aanpak & focus' : 'Approach & focus'}
+                    </span>
+                    <ul className="mt-3 space-y-2 text-[11px] text-slate-700 sm:hidden">
+                      {mobileDetails.map((detail) => (
+                        <li key={`${service.slug}-${detail}-mobile`} className="flex items-start gap-2">
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="mt-3 hidden sm:block space-y-2.5 text-sm text-slate-700">
+                      {serviceCopy.details.map((detail) => (
+                        <li key={`${service.slug}-${detail}`} className="flex items-start gap-2.5">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                          <span>{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </article>
