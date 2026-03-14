@@ -3,6 +3,7 @@ import { Star, Quote, ArrowRight, ExternalLink } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { projects } from '@/data/projects';
 import { motion } from 'framer-motion';
 import { useScrollAnimation, fadeInUp, staggerContainer } from '@/hooks/useScrollAnimation';
 import { useEffect, useRef } from 'react';
@@ -12,60 +13,85 @@ const TestimonialsSection = () => {
   const { ref, controls } = useScrollAnimation();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const testimonials =
-    language === 'nl'
-      ? [
-          {
-            name: 'Sarah de Jong',
-            company: 'TechFlow Solutions',
-            role: 'CEO',
-            text: 'Fantastische samenwerking en duidelijke communicatie. We kregen precies wat we nodig hadden.',
-            rating: 5,
-            websiteUrl: 'https://rijscholenadvies.nl',
-          },
-          {
-            name: 'Mark van der Berg',
-            company: 'ModaStyle Boutique',
-            role: 'Eigenaar',
-            text: 'De webshop is professioneel, snel en gebruiksvriendelijk. Precies wat we zochten.',
-            rating: 5,
-            websiteUrl: 'https://promotioncars.nl',
-          },
-          {
-            name: 'Lisa Bakker',
-            company: 'GreenLeaf Catering',
-            role: 'Marketing Manager',
-            text: 'Van eerste contact tot oplevering verliep alles soepel. De website past perfect bij ons merk.',
-            rating: 5,
-            websiteUrl: 'https://vanderbergen.nl',
-          },
-        ]
-      : [
-          {
-            name: 'Sarah de Jong',
-            company: 'TechFlow Solutions',
-            role: 'CEO',
-            text: 'Fantastic collaboration and clear communication. We got exactly what we needed.',
-            rating: 5,
-            websiteUrl: 'https://rijscholenadvies.nl',
-          },
-          {
-            name: 'Mark van der Berg',
-            company: 'ModaStyle Boutique',
-            role: 'Owner',
-            text: 'The webshop is professional, fast and easy to use. Exactly what we wanted.',
-            rating: 5,
-            websiteUrl: 'https://promotioncars.nl',
-          },
-          {
-            name: 'Lisa Bakker',
-            company: 'GreenLeaf Catering',
-            role: 'Marketing Manager',
-            text: 'From first contact to delivery everything ran smoothly. The website fits our brand perfectly.',
-            rating: 5,
-            websiteUrl: 'https://vanderbergen.nl',
-          },
-        ];
+  const testimonialBase = [
+    {
+      id: 'rijscholen-advies',
+      name: 'Team Rijscholen Advies',
+      role: language === 'nl' ? 'Platform' : 'Platform',
+      text: {
+        nl: 'Het platform is helder en levert ons dagelijks nieuwe aanmeldingen.',
+        en: 'The platform is clear and brings in new sign-ups daily.',
+      },
+    },
+    {
+      id: 'promotioncars',
+      name: 'PromotionCars',
+      role: language === 'nl' ? 'Verhuur' : 'Rental',
+      text: {
+        nl: 'Klanten boeken sneller door de duidelijke flow en luxe uitstraling.',
+        en: 'Customers book faster thanks to the clean flow and premium feel.',
+      },
+    },
+    {
+      id: 'amster-vastgoed',
+      name: 'Amers Vastgoed',
+      role: language === 'nl' ? 'Vastgoed' : 'Real estate',
+      text: {
+        nl: 'De presentatie straalt vertrouwen uit en levert meer kwalitatieve leads.',
+        en: 'The presentation builds trust and delivers higher-quality leads.',
+      },
+    },
+    {
+      id: 'care-nexus',
+      name: 'Care-Nexus',
+      role: language === 'nl' ? 'Zorg' : 'Healthcare',
+      text: {
+        nl: 'De structuur is overzichtelijk en helpt ons beter gevonden te worden.',
+        en: 'The structure is clear and helps us get found more easily.',
+      },
+    },
+    {
+      id: 'van-der-bergen',
+      name: 'Studio van der Bergen',
+      role: language === 'nl' ? 'Studio' : 'Studio',
+      text: {
+        nl: 'De portfolio en blog ogen premium en trekken organisch verkeer.',
+        en: 'The portfolio and blog feel premium and attract organic traffic.',
+      },
+    },
+    {
+      id: 'jesse-vanez',
+      name: 'Jesse Vanez',
+      role: language === 'nl' ? 'Portfolio' : 'Portfolio',
+      text: {
+        nl: 'De site vangt de sfeer perfect en geeft het werk alle ruimte.',
+        en: 'The site captures the mood perfectly and gives the work space.',
+      },
+    },
+    {
+      id: 'learn-buddy',
+      name: 'Learn-Buddy',
+      role: language === 'nl' ? 'AI platform' : 'AI platform',
+      text: {
+        nl: 'Ons AI-platform is nu duidelijker en conversiegericht gepositioneerd.',
+        en: 'Our AI platform is now clearer and positioned for conversion.',
+      },
+    },
+  ];
+
+  const testimonials = testimonialBase
+    .map((item) => {
+      const project = projects.find((entry) => entry.id === item.id);
+      return {
+        name: item.name,
+        company: project?.title ?? item.name,
+        role: item.role,
+        text: item.text[language],
+        rating: 5,
+        websiteUrl: project?.websiteUrl ?? '#',
+      };
+    })
+    .filter((item) => item.websiteUrl && item.websiteUrl !== '#');
 
   const getHostnameLabel = (url: string) => {
     try {
@@ -159,10 +185,8 @@ const TestimonialsSection = () => {
                     ))}
                   </div>
 
-                  <div className="space-y-2 text-foreground leading-relaxed mb-5 text-sm">
-                    {testimonial.text.split(/(?<=\.)\s+/).map((line) => (
-                      <p key={line}>"{line}"</p>
-                    ))}
+                  <div className="text-foreground leading-relaxed mb-5 text-sm">
+                    <p>"{testimonial.text}"</p>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-3">

@@ -1,6 +1,5 @@
 import promotionCarsShowcase from '@/assets/promotioncars-showcase.jpg';
 import promotionCarsMobile from '@/assets/promotioncars-mobile.jpg';
-import phoneRecoveryShowcase from '@/assets/phone-recovery-showcase.jpg';
 import rijscholenAdviesShowcase from '@/assets/rijscholen-advies-showcase.jpg';
 import rijscholenAdviesMobile from '@/assets/rijscholen-advies-mobile.jpg';
 import amsterVastgoedShowcase from '@/assets/amster-vastgoed-showcase.jpg';
@@ -516,44 +515,6 @@ const baseProjects: Project[] = [
     ],
   },
   {
-    id: 'phone-recovery',
-    title: 'Phone Recovery',
-    category: {
-      nl: 'Webshop',
-      en: 'E-commerce',
-    },
-    image: phoneRecoveryShowcase,
-    tags: ['E-commerce', 'Refurbished', 'Tech'],
-    description: {
-      nl: 'Een webshop voor refurbished telefoons met optionele encrypted systemen.',
-      en: 'A webshop for refurbished phones with optional encrypted systems.',
-    },
-    challenge: {
-      nl: 'Phone Recovery wilde een betrouwbare webshop opzetten waar klanten met vertrouwen refurbished telefoons kunnen kopen, inclusief opties voor privacy-bewuste klanten die geïnteresseerd zijn in encrypted systemen.',
-      en: 'Phone Recovery wanted to set up a reliable webshop where customers can confidently buy refurbished phones, including options for privacy-conscious customers interested in encrypted systems.',
-    },
-    solution: {
-      nl: 'Een overzichtelijke webshop met duidelijke productcategorieën, uitgebreide garantie-informatie en een speciale sectie voor encrypted toestellen. Transparante prijzen en kwaliteitsgaranties zorgen voor vertrouwen.',
-      en: 'A clear webshop with clear product categories, extensive warranty information and a special section for encrypted devices. Transparent prices and quality guarantees ensure trust.',
-    },
-    results: {
-      nl: 'Omzetstijging van 150% binnen 8 maanden. Encrypted telefoons werden een bestseller met 40% van de totale verkoop.',
-      en: 'Revenue increase of 150% within 8 months. Encrypted phones became a bestseller with 40% of total sales.',
-    },
-    technologies: ['WooCommerce', 'WordPress', 'Stripe', 'Custom Plugin', 'Mailchimp'],
-    package: {
-      bundle: 'growth',
-      features: {
-        nl: ['Productcategorieën', 'Garantie & vertrouwen', 'Veilige checkout'],
-        en: ['Product categories', 'Warranty & trust', 'Secure checkout'],
-      },
-    },
-    websiteUrl: 'https://phone-recovery.nl',
-    gallery: [
-      phoneRecoveryShowcase,
-    ],
-  },
-  {
     id: 'promotioncars',
     title: 'PromotionCars',
     category: {
@@ -636,7 +597,6 @@ export const featuredCaseStudyIds = [
   'promotioncars',
   'rijscholen-advies',
   'care-nexus',
-  'phone-recovery',
   'jesse-vanez',
 ] as const;
 
@@ -655,23 +615,6 @@ const caseStudyData: Record<string, { screenshot: string; kpis: ProjectKpi[] }> 
       {
         value: '85%',
         label: { nl: 'Gebruikers bevelen aan', en: 'Users recommend platform' },
-      },
-    ],
-  },
-  'phone-recovery': {
-    screenshot: phoneRecoveryShowcase,
-    kpis: [
-      {
-        value: '+150%',
-        label: { nl: 'Omzetgroei', en: 'Revenue growth' },
-      },
-      {
-        value: '40%',
-        label: { nl: 'Verkoop encrypted toestellen', en: 'Encrypted device sales' },
-      },
-      {
-        value: '8 mnd',
-        label: { nl: 'Tijd tot resultaat', en: 'Time to result' },
       },
     ],
   },

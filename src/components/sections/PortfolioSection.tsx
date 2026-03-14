@@ -16,7 +16,6 @@ const PortfolioSection = () => {
 
   const recentProjectIds = [
     'rijscholen-advies',
-    'phone-recovery',
     'promotioncars',
     'amster-vastgoed',
     'care-nexus',
@@ -29,24 +28,19 @@ const PortfolioSection = () => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    let animationId: number;
+    let animationId = 0;
     const scrollSpeed = 0.9;
 
     const getLoopPoint = () => Math.max(1, scrollContainer.scrollWidth / 2);
 
     const animate = () => {
       const loopPoint = getLoopPoint();
-      if (scrollContainer.scrollWidth <= scrollContainer.clientWidth) {
-        animationId = requestAnimationFrame(animate);
-        return;
-      }
-
       scrollContainer.scrollLeft = (scrollContainer.scrollLeft + scrollSpeed) % loopPoint;
-
       animationId = requestAnimationFrame(animate);
     };
 
     const start = () => {
+      if (!scrollContainer) return;
       cancelAnimationFrame(animationId);
       animationId = requestAnimationFrame(animate);
     };
@@ -55,7 +49,7 @@ const PortfolioSection = () => {
       cancelAnimationFrame(animationId);
     };
 
-    const timeoutId = window.setTimeout(start, 600);
+    const timeoutId = window.setTimeout(start, 300);
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
@@ -100,7 +94,7 @@ const PortfolioSection = () => {
 
         <motion.div
           ref={scrollRef}
-          className="flex gap-3 md:gap-4 overflow-x-hidden pb-2 -mx-4 px-4"
+          className="flex gap-3 md:gap-4 overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4 cursor-grab active:cursor-grabbing touch-pan-x"
           variants={fadeInUp}
         >
           {[...displayProjects, ...displayProjects].map((project, index) => (
@@ -172,13 +166,13 @@ const PortfolioSection = () => {
             <Link to="/portfolio">
               {language === 'nl' ? (
                 <>
-                  <span className="sm:hidden">Alle projecten</span>
-                  <span className="hidden sm:inline">Bekijk Alle Projecten</span>
+                  <span className="sm:hidden">Recente projecten</span>
+                  <span className="hidden sm:inline">Bekijk Recente Projecten</span>
                 </>
               ) : (
                 <>
-                  <span className="sm:hidden">All projects</span>
-                  <span className="hidden sm:inline">View All Projects</span>
+                  <span className="sm:hidden">Recent projects</span>
+                  <span className="hidden sm:inline">View Recent Projects</span>
                 </>
               )}
               <ArrowRight className="ml-2 w-4 h-4" />
