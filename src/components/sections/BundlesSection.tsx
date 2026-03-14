@@ -143,10 +143,10 @@ const BundlesSection = () => {
 
                     <div className="h-px mb-4 md:mb-6 bg-slate-200" />
 
-                    <div className="space-y-2.5 md:space-y-3.5 mb-5 md:mb-7">
+                    <div className="space-y-2 md:space-y-3.5 mb-5 md:mb-7">
                       {bundle.features.map((feature, i) => (
-                        <div key={i} className={`items-start gap-2.5 text-xs md:text-sm text-slate-700 ${i > 2 ? 'hidden md:flex' : 'flex'}`}>
-                          <CheckCircle2 className="mt-0.5 h-4 w-4 md:h-5 md:w-5 shrink-0 text-primary" />
+                        <div key={i} className={`items-start gap-2 text-[11px] md:text-sm text-slate-700 ${i > 2 ? 'hidden md:flex' : 'flex'}`}>
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 md:h-5 md:w-5 shrink-0 text-primary" />
                           <span>{feature}</span>
                         </div>
                       ))}
