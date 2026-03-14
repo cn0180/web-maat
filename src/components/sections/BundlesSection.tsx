@@ -42,7 +42,7 @@ const BundlesSection = () => {
             name: 'Starter',
             price: '€395',
             description:
-              'Get online fast with a strong foundation. You supply the copy and images, we build a professional website within a proven structure.',
+              'Get online fast with a strong foundation. We build a professional site within a proven structure.',
             features: [
               'Proven website structure',
               'Fits most industries',
@@ -54,7 +54,7 @@ const BundlesSection = () => {
             name: 'Growth',
             price: '€1150',
             description:
-              'More influence on content, structure and look. We advise on design and layout so the website aligns with your business.',
+              'More influence on content and look. We advise on design and layout for a better fit.',
             features: [
               'Personal advice',
               'Flexible page layout',

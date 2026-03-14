@@ -301,7 +301,7 @@ export const bundles: BundleItem[] = [
   {
     name: 'Starter',
     price: '€395',
-    description: 'Snel professioneel online met een sterke basis. U levert teksten en afbeeldingen aan, wij bouwen een professionele website binnen een bewezen structuur.',
+    description: 'Snel professioneel online met een sterke basis. Wij bouwen een professionele website in een bewezen structuur.',
     features: [
       'Beproefde website structuur',
       'Geschikt voor bijna elke branche',
@@ -312,7 +312,7 @@ export const bundles: BundleItem[] = [
   {
     name: 'Groei',
     price: '€1150',
-    description: 'Meer invloed op inhoud, structuur en uitstraling van uw website. Wij adviseren over design en opbouw zodat de website beter aansluit bij uw bedrijf.',
+    description: 'Meer invloed op inhoud en uitstraling. Wij adviseren over design en opbouw voor een betere aansluiting.',
     features: [
       'Persoonlijk advies',
       'Flexibele pagina-indeling',
