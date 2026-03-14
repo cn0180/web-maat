@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone } from 'lucide-react';
+import { Instagram, Mail, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import {
   Dialog,
@@ -292,6 +292,33 @@ const Footer = () => {
               <Mail className="w-3 h-3" />
               <span>info@web-maat.nl</span>
             </a>
+            <div className="flex items-center gap-2">
+              <a
+                href="https://www.instagram.com/web-maat"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-background/15 text-background/70 hover:text-primary hover:border-primary/40 transition-colors"
+              >
+                <Instagram className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href="https://www.tiktok.com/@webmaat"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-background/15 text-background/70 hover:text-primary hover:border-primary/40 transition-colors"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5"
+                  fill="currentColor"
+                >
+                  <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.77V1h-3.132v13.24c0 1.8-1.46 3.26-3.26 3.26a3.26 3.26 0 0 1 0-6.52c.287 0 .565.038.83.107V7.05a6.365 6.365 0 0 0-.83-.056C6.116 6.994 3 10.11 3 13.934s3.116 6.94 6.94 6.94c3.824 0 6.94-3.116 6.94-6.94V9.217a7.936 7.936 0 0 0 4.12 1.2V7.278c-.5 0-.987-.08-1.41-.592Z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
 
