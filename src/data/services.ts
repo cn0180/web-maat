@@ -291,7 +291,15 @@ const allServices: ServiceItem[] = [
   },
 ];
 
-const coreServiceOrder = ['webdesign', 'webshop', 'ai-implementatie', 'website-onderhoud', 'seo'] as const;
+const coreServiceOrder = [
+  'webdesign',
+  'webshop',
+  'ai-implementatie',
+  'website-onderhoud',
+  'seo',
+  'social-media',
+  'ads-beheer',
+] as const;
 
 export const services: ServiceItem[] = coreServiceOrder
   .map((slug) => allServices.find((service) => service.slug === slug))
